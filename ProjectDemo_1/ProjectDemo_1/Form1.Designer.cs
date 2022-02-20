@@ -29,10 +29,16 @@ namespace ProjectDemo_1
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.labelMousePositionX = new System.Windows.Forms.Label();
             this.labelMousePositionY = new System.Windows.Forms.Label();
             this.buttonRestart = new System.Windows.Forms.Button();
             this.labelState = new System.Windows.Forms.Label();
+            this.labelTest = new System.Windows.Forms.Label();
+            this.labelTest2 = new System.Windows.Forms.Label();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.labelTest3 = new System.Windows.Forms.Label();
+            this.labelTest4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // labelMousePositionX
@@ -73,13 +79,60 @@ namespace ProjectDemo_1
             this.labelState.TabIndex = 3;
             this.labelState.Text = "labelState";
             // 
+            // labelTest
+            // 
+            this.labelTest.AutoSize = true;
+            this.labelTest.Location = new System.Drawing.Point(704, 105);
+            this.labelTest.Name = "labelTest";
+            this.labelTest.Size = new System.Drawing.Size(58, 15);
+            this.labelTest.TabIndex = 5;
+            this.labelTest.Text = "labelTest";
+            // 
+            // labelTest2
+            // 
+            this.labelTest2.AutoSize = true;
+            this.labelTest2.Font = new System.Drawing.Font("Microsoft JhengHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelTest2.Location = new System.Drawing.Point(704, 291);
+            this.labelTest2.Name = "labelTest2";
+            this.labelTest2.Size = new System.Drawing.Size(65, 15);
+            this.labelTest2.TabIndex = 6;
+            this.labelTest2.Text = "labelTest2";
+            // 
+            // imageList1
+            // 
+            this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            // 
+            // labelTest3
+            // 
+            this.labelTest3.AutoSize = true;
+            this.labelTest3.Location = new System.Drawing.Point(704, 477);
+            this.labelTest3.Name = "labelTest3";
+            this.labelTest3.Size = new System.Drawing.Size(65, 15);
+            this.labelTest3.TabIndex = 7;
+            this.labelTest3.Text = "labelTest3";
+            // 
+            // labelTest4
+            // 
+            this.labelTest4.AutoSize = true;
+            this.labelTest4.Location = new System.Drawing.Point(953, 477);
+            this.labelTest4.Name = "labelTest4";
+            this.labelTest4.Size = new System.Drawing.Size(65, 15);
+            this.labelTest4.TabIndex = 8;
+            this.labelTest4.Text = "labelTest4";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(684, 661);
+            this.ClientSize = new System.Drawing.Size(1384, 661);
+            this.Controls.Add(this.labelTest4);
+            this.Controls.Add(this.labelTest3);
+            this.Controls.Add(this.labelTest2);
+            this.Controls.Add(this.labelTest);
             this.Controls.Add(this.labelState);
             this.Controls.Add(this.buttonRestart);
             this.Controls.Add(this.labelMousePositionY);
@@ -90,7 +143,6 @@ namespace ProjectDemo_1
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Project Demo 1";
             this.Load += new System.EventHandler(this.Form1_Load);
-            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMove);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -101,6 +153,11 @@ namespace ProjectDemo_1
         private System.Windows.Forms.Label labelMousePositionY;
         private System.Windows.Forms.Button buttonRestart;
         private System.Windows.Forms.Label labelState;
+        private System.Windows.Forms.Label labelTest;
+        private System.Windows.Forms.Label labelTest2;
+        private System.Windows.Forms.ImageList imageList1;
+        private System.Windows.Forms.Label labelTest3;
+        private System.Windows.Forms.Label labelTest4;
     }
 }
 

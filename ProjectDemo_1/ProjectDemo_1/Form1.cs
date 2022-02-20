@@ -17,11 +17,13 @@ namespace ProjectDemo_1
         private const int ROW = 6, COLUME = 5;
         private const int WIDTH = 100, HEIGHT = 100;
         private const int TRIGGER_NUMBER = 50;
+        
         private PictureBox[,] pictureBoxeGrid = new PictureBox[ROW, COLUME];
         private Label[,] labelGridNumber = new Label[ROW, COLUME];
         private Panel panelGrid;
-        private int[,] beadLocationX = new int[ROW, COLUME];
-        private int[,] beadLocationY = new int[ROW, COLUME];
+        private PictureBox[,] numberGrid = new PictureBox[ROW, COLUME];
+        private int[,] groupGrid = new int[ROW, COLUME];
+        bool[,] beadFlag = new bool[ROW, COLUME];
 
         public Form1()
         {
@@ -31,46 +33,37 @@ namespace ProjectDemo_1
         private void Form1_Load(object sender, EventArgs e)
         {
             InitializeGrid();
+            OutputPBGInfo();
         }
 
-        private void InitializeGrid() 
+        private void InitializeGrid()
         {
-            this.panelGrid = new Panel();
-            this.panelGrid.Name = "panelGrid";
-            this.panelGrid.Size = new Size(660, 550);
-            this.panelGrid.Location = new Point(15, 100);
+            panelGrid = new Panel();
+            panelGrid.Name = "panelGrid";
+            panelGrid.Size = new Size(660, 550);
+            panelGrid.Location = new Point(15, 100);
 
             int beadNumber = 0;
 
-            for (int i = 0; i < ROW; i++) 
+            for (int i = 0; i < ROW; i++)
             {
-                for (int j = 0; j < COLUME; j++) 
+                for (int j = 0; j < COLUME; j++)
                 {
-                    this.pictureBoxeGrid[i, j] = new PictureBox();
-                    this.pictureBoxeGrid[i, j].Location = new Point(0 + i * WIDTH, 0 + j * HEIGHT);
-                    this.pictureBoxeGrid[i, j].Size = new Size(WIDTH, HEIGHT);
-                    this.pictureBoxeGrid[i, j].SizeMode = PictureBoxSizeMode.Zoom;
-                    this.pictureBoxeGrid[i, j].Name = "pictureBoxeGrid" + beadNumber.ToString();
+                    pictureBoxeGrid[i, j] = new PictureBox();
+                    pictureBoxeGrid[i, j].Location = new Point(0 + i * WIDTH, 0 + j * HEIGHT);
+                    pictureBoxeGrid[i, j].Size = new Size(WIDTH, HEIGHT);
+                    pictureBoxeGrid[i, j].SizeMode = PictureBoxSizeMode.Zoom;
+                    pictureBoxeGrid[i, j].Name = "pictureBoxeGrid" + beadNumber.ToString();
 
                     beadNumber++;
 
-                    RandomBead(this.pictureBoxeGrid[i, j]);
+                    RandomBead(pictureBoxeGrid[i, j]);
 
-                    this.pictureBoxeGrid[i, j].MouseUp += new MouseEventHandler(this.pictureBoxeGrid_MouseUp);
-                    this.pictureBoxeGrid[i, j].MouseDown += new MouseEventHandler(this.pictureBoxeGrid_MouseDown);
-                    this.pictureBoxeGrid[i, j].MouseMove += new MouseEventHandler(this.pictureBoxeGrid_MouseMove);
+                    pictureBoxeGrid[i, j].MouseUp += new MouseEventHandler(this.pictureBoxeGrid_MouseUp);
+                    pictureBoxeGrid[i, j].MouseDown += new MouseEventHandler(this.pictureBoxeGrid_MouseDown);
+                    pictureBoxeGrid[i, j].MouseMove += new MouseEventHandler(this.pictureBoxeGrid_MouseMove);
 
-                    //this.labelGridNumber[i, j] = new Label();
-                    //this.labelGridNumber[i, j].Name = "labelGridNumber" + i.ToString() + j.ToString();
-                    //this.labelGridNumber[i, j].Text = i.ToString() + j.ToString();
-                    //this.labelGridNumber[i, j].Location = new Point(40 + i * width, 40 + j * height);
-                    //this.labelGridNumber[i, j].Size = new Size(30, 30);
-
-                    //this.panelGrid.Controls.Add(this.labelGridNumber[i, j]);
-                    this.panelGrid.Controls.Add(this.pictureBoxeGrid[i, j]);
-
-                    beadLocationX[i, j] = i * WIDTH;
-                    beadLocationY[i, j] = j * HEIGHT;
+                    panelGrid.Controls.Add(pictureBoxeGrid[i, j]);
 
                 }
             }
@@ -78,7 +71,7 @@ namespace ProjectDemo_1
             this.Controls.Add(panelGrid);
         }
 
-        private void RandomBead(PictureBox p) 
+        private void RandomBead(PictureBox p)
         {
             Random myRandom = new Random();
 
@@ -88,18 +81,23 @@ namespace ProjectDemo_1
             {
                 case 0:
                     p.Image = Resources.red_bead;
+                    p.Image.Tag = "1";
                     break;
                 case 1:
                     p.Image = Resources.orange_bead;
+                    p.Image.Tag = "2";
                     break;
                 case 2:
                     p.Image = Resources.green_bead;
+                    p.Image.Tag = "3";
                     break;
                 case 3:
                     p.Image = Resources.blue_bead;
+                    p.Image.Tag = "4";
                     break;
                 case 4:
                     p.Image = Resources.purple_bead;
+                    p.Image.Tag = "5";
                     break;
             }
 
@@ -110,12 +108,7 @@ namespace ProjectDemo_1
             this.panelGrid.Dispose();
 
             InitializeGrid();
-        }
-
-        private void Form1_MouseMove(object sender, MouseEventArgs e)
-        {
-            //this.labelMousePositionX.Text = "X:" + e.Location.X.ToString();
-            //this.labelMousePositionY.Text = "Y:" + e.Location.Y.ToString();
+            OutputPBGInfo();
         }
 
         bool moveFlag = false;
@@ -129,13 +122,15 @@ namespace ProjectDemo_1
             {
                 for (int j = 0; j < COLUME; j++)
                 {
-                    if (p.Name == this.pictureBoxeGrid[i, j].Name)
+                    if (p.Name == pictureBoxeGrid[i, j].Name)
                     {
-                        startX = this.pictureBoxeGrid[i, j].Location.X;
-                        startY = this.pictureBoxeGrid[i, j].Location.Y;
+                        startX = pictureBoxeGrid[i, j].Location.X;
+                        startY = pictureBoxeGrid[i, j].Location.Y;
 
-                        this.labelMousePositionX.Text = startX.ToString();
-                        this.labelMousePositionY.Text = startY.ToString();
+                        labelMousePositionX.Text = startX.ToString();
+                        labelMousePositionY.Text = startY.ToString();
+
+                        labelState.Text = "Down";
 
                         moveFlag = true;
                     }
@@ -153,20 +148,26 @@ namespace ProjectDemo_1
             {
                 for (int j = 0; j < COLUME; j++)
                 {
-                    if ((nowX >= this.pictureBoxeGrid[i, j].Location.X - TRIGGER_NUMBER && nowX <= this.pictureBoxeGrid[i, j].Location.X + TRIGGER_NUMBER) &&
-                        (nowY >= this.pictureBoxeGrid[i, j].Location.Y - TRIGGER_NUMBER && nowY <= this.pictureBoxeGrid[i, j].Location.Y + TRIGGER_NUMBER))
+                    if ((nowX >= pictureBoxeGrid[i, j].Location.X - TRIGGER_NUMBER && nowX <= pictureBoxeGrid[i, j].Location.X + TRIGGER_NUMBER) &&
+                        (nowY >= pictureBoxeGrid[i, j].Location.Y - TRIGGER_NUMBER && nowY <= pictureBoxeGrid[i, j].Location.Y + TRIGGER_NUMBER))
                     {
-                        this.labelMousePositionX.Text = p.Name;
-                        this.labelMousePositionY.Text = this.pictureBoxeGrid[i, j].Name;
+                        labelMousePositionX.Text = p.Name;
+                        labelMousePositionY.Text = pictureBoxeGrid[i, j].Name;
 
-                        if (p.Name == this.pictureBoxeGrid[i, j].Name)
+                        labelState.Text = "Up";
+
+                        if (p.Name == pictureBoxeGrid[i, j].Name)
                         {
                             p.Location = new Point(startX, startY);
                         }
-                        else 
+                        else
                         {
-                            p.Location = this.pictureBoxeGrid[i, j].Location;
+                            p.Location = pictureBoxeGrid[i, j].Location;
                         }
+
+                        OutputPBGInfo();
+                        //CalculateGroup();
+                        CalculateGroup2();
                     }
                 }
             }
@@ -181,13 +182,13 @@ namespace ProjectDemo_1
 
                 Int32 LocationX = Form1.MousePosition.X, LocationY = Form1.MousePosition.Y;
 
-                nowX = LocationX - this.Location.X - this.panelGrid.Location.X - 60;
-                nowY = LocationY - this.Location.Y - this.panelGrid.Location.Y - 60;
+                nowX = LocationX - this.Location.X - panelGrid.Location.X - 60;
+                nowY = LocationY - this.Location.Y - panelGrid.Location.Y - 60;
 
                 p.Location = new Point(nowX, nowY);
 
-                this.labelMousePositionX.Text = "X:" + p.Location.X.ToString();
-                this.labelMousePositionY.Text = "Y:" + p.Location.Y.ToString();
+                labelMousePositionX.Text = "X:" + p.Location.X.ToString();
+                labelMousePositionY.Text = "Y:" + p.Location.Y.ToString();
 
                 for (int i = 0; i < ROW; i++)
                 {
@@ -195,14 +196,14 @@ namespace ProjectDemo_1
                     {
                         if (p.Name != this.pictureBoxeGrid[i, j].Name)
                         {
-                            if ((nowX >= this.pictureBoxeGrid[i, j].Location.X - TRIGGER_NUMBER && nowX <= this.pictureBoxeGrid[i, j].Location.X + TRIGGER_NUMBER) &&
-                                (nowY >= this.pictureBoxeGrid[i, j].Location.Y - TRIGGER_NUMBER && nowY <= this.pictureBoxeGrid[i, j].Location.Y + TRIGGER_NUMBER))
+                            if ((nowX >= pictureBoxeGrid[i, j].Location.X - TRIGGER_NUMBER && nowX <= pictureBoxeGrid[i, j].Location.X + TRIGGER_NUMBER) &&
+                                (nowY >= pictureBoxeGrid[i, j].Location.Y - TRIGGER_NUMBER && nowY <= pictureBoxeGrid[i, j].Location.Y + TRIGGER_NUMBER))
                             {
-                                this.labelState.Text = "";
+                                labelState.Text = "Change";
 
-                                int tempX = this.pictureBoxeGrid[i, j].Location.X;
-                                int tempY = this.pictureBoxeGrid[i, j].Location.Y;
-                                this.pictureBoxeGrid[i, j].Location = new Point(startX, startY);
+                                int tempX = pictureBoxeGrid[i, j].Location.X;
+                                int tempY = pictureBoxeGrid[i, j].Location.Y;
+                                pictureBoxeGrid[i, j].Location = new Point(startX, startY);
                                 startX = tempX;
                                 startY = tempY;
                             }
@@ -212,6 +213,192 @@ namespace ProjectDemo_1
             }
         }
 
+        private void OutputPBGInfo()
+        {
+            labelTest.Text = "";
+            labelTest2.Text = "";
+            labelTest3.Text = "";
 
+            for (int i = 0; i < COLUME; i++)
+            {
+                for (int j = 0; j < ROW; j++)
+                {
+                    labelTest.Text += pictureBoxeGrid[j, i].Name + " ";
+                    labelTest2.Text += pictureBoxeGrid[j, i].Location + " ";
+                }
+                labelTest.Text += "\n";
+                labelTest2.Text += "\n";
+            }
+
+            for (int y = 0, k = 0; y <= 400; y += 100, k++)
+            {
+                for (int x = 0, r = 0; x <= 500; x += 100, r++)
+                {
+                    for (int i = 0; i < ROW; i++)
+                    {
+                        for (int j = 0; j < COLUME; j++)
+                        {
+                            if (pictureBoxeGrid[i, j].Location.X == x && pictureBoxeGrid[i, j].Location.Y == y)
+                            {
+                                numberGrid[r, k] = pictureBoxeGrid[i, j];
+                            }
+                        }
+                        
+                    }
+                }
+            }
+
+            for (int i = 0; i < COLUME; i++)
+            {
+                for (int j = 0; j < ROW; j++)
+                {
+                    labelTest3.Text += numberGrid[j, i].Image.Tag + " ";
+                }
+                labelTest3.Text += "\n";
+            }
+        }
+
+        private void CalculateGroup()
+        {
+            int count = 1;
+
+            for (int i = 0; i < COLUME; i++)
+            {
+                for (int j = 0; j < ROW; j++)
+                {
+                    beadFlag[j, i] = false;
+                    groupGrid[j, i] = 0;
+                }
+            }
+
+            for (int i = 0; i < COLUME; i++)
+            {
+                for (int j = 0; j < ROW; j++)
+                {
+                    if (groupGrid[j, i] == 0)
+                    {
+                        string tempStr = numberGrid[j, i].Image.Tag.ToString();
+                        int tempI = i;
+                        int tempJ = j;
+                        beadFlag[j, i] = true;
+                        groupGrid[j, i] = count;
+
+                        if (tempJ - 1 >= 0)
+                        {
+                            int N = tempJ - 1;
+                            while (!beadFlag[N, tempI])
+                            {
+                                if (numberGrid[N, tempI].Image.Tag.ToString() != tempStr) break;
+                                else
+                                {
+                                    beadFlag[N, tempI] = true;
+                                    groupGrid[N, tempI] = count;
+                                }
+
+                                if (N - 1 < 0) break;
+                                else N -= 1;
+                            }
+                        }
+
+                        if (tempJ + 1 < ROW)
+                        {
+                            int S = tempJ + 1;
+                            while (!beadFlag[S, tempI])
+                            {
+                                if (numberGrid[S, tempI].Image.Tag.ToString() != tempStr) break;
+                                else
+                                {
+                                    beadFlag[S, tempI] = true;
+                                    groupGrid[S, tempI] = count;
+                                }
+
+                                if (S + 1 >= ROW) break;
+                                else S += 1;
+                            }
+                        }
+
+                        if (tempI - 1 >= 0)
+                        {
+                            int W = tempI - 1;
+                            while (!beadFlag[tempJ, W])
+                            {
+                                if (numberGrid[tempJ, W].Image.Tag.ToString() != tempStr) break;
+                                else
+                                {
+                                    beadFlag[tempJ, W] = true;
+                                    groupGrid[tempJ, W] = count;
+                                }
+
+                                if (W - 1 < 0) break;
+                                else W -= 1;
+                            }
+                        }
+
+                        if (tempI + 1 < COLUME)
+                        {
+                            int E = tempI + 1;
+                            while (!beadFlag[tempJ, E])
+                            {
+                                if (numberGrid[tempJ, E].Image.Tag.ToString() != tempStr) break;
+                                else
+                                {
+                                    beadFlag[tempJ, E] = true;
+                                    groupGrid[tempJ, E] = count;
+                                }
+
+                                if (E + 1 >= COLUME) break;
+                                else E += 1;
+                            }
+                        }
+
+                        count++;
+                    }
+                }
+            }
+
+            labelTest4.Text = "";
+
+            for (int i = 0; i < COLUME; i++)
+            {
+                for (int j = 0; j < ROW; j++)
+                {
+                    labelTest4.Text += groupGrid[j, i] + " " + beadFlag[j, i] + " ";
+                }
+                labelTest4.Text += "\n";
+            }
+        }
+
+        private void CalculateGroup2()
+        {
+            int groupNumber = 1;
+
+            for (int i = 0; i < COLUME; i++)
+            {
+                for (int j = 0; j < ROW; j++)
+                {
+                    beadFlag[j, i] = false;
+                    groupGrid[j, i] = 0;
+                }
+            }
+
+            for (int i = 0; i < COLUME; i++)
+            {
+                for (int j = 0; j < ROW; j++)
+                {
+                    
+                }
+            }
+
+            labelTest4.Text = "";
+
+            for (int i = 0; i < COLUME; i++)
+            {
+                for (int j = 0; j < ROW; j++)
+                {
+                    labelTest4.Text += groupGrid[j, i] + " " + beadFlag[j, i] + " ";
+                }
+                labelTest4.Text += "\n";
+            }
+        }
     }
 }
