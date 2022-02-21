@@ -19,11 +19,11 @@ namespace ProjectDemo_1
         private const int TRIGGER_NUMBER = 50;
         
         private PictureBox[,] pictureBoxeGrid = new PictureBox[ROW, COLUME];
-        private Label[,] labelGridNumber = new Label[ROW, COLUME];
         private Panel panelGrid;
         private PictureBox[,] numberGrid = new PictureBox[ROW, COLUME];
         private int[,] groupGrid = new int[ROW, COLUME];
         bool[,] beadFlag = new bool[ROW, COLUME];
+        private PictureBox fingerPictureBox;
 
         public Form1()
         {
@@ -40,7 +40,7 @@ namespace ProjectDemo_1
         {
             panelGrid = new Panel();
             panelGrid.Name = "panelGrid";
-            panelGrid.Size = new Size(660, 550);
+            panelGrid.Size = new Size(600, 500);
             panelGrid.Location = new Point(15, 100);
 
             int beadNumber = 0;
@@ -54,6 +54,11 @@ namespace ProjectDemo_1
                     pictureBoxeGrid[i, j].Size = new Size(WIDTH, HEIGHT);
                     pictureBoxeGrid[i, j].SizeMode = PictureBoxSizeMode.Zoom;
                     pictureBoxeGrid[i, j].Name = "pictureBoxeGrid" + beadNumber.ToString();
+
+                    System.Drawing.Drawing2D.GraphicsPath path = new System.Drawing.Drawing2D.GraphicsPath();
+                    path.AddEllipse(pictureBoxeGrid[i, j].ClientRectangle);
+                    Region reg = new Region(path);
+                    pictureBoxeGrid[i, j].Region = reg;
 
                     beadNumber++;
 
@@ -118,6 +123,22 @@ namespace ProjectDemo_1
         {
             PictureBox p = (PictureBox)sender;
 
+            p.Visible = false;
+
+            fingerPictureBox = new PictureBox();
+            fingerPictureBox.Image = p.Image;
+            fingerPictureBox.Size = new Size(WIDTH, HEIGHT);
+            fingerPictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+            
+            panelGrid.Controls.Add(fingerPictureBox);
+
+            System.Drawing.Drawing2D.GraphicsPath path = new System.Drawing.Drawing2D.GraphicsPath();
+            path.AddEllipse(fingerPictureBox.ClientRectangle);
+            Region reg = new Region(path);
+            fingerPictureBox.Region = reg;
+
+            fingerPictureBox.BringToFront();
+
             for (int i = 0; i < ROW; i++)
             {
                 for (int j = 0; j < COLUME; j++)
@@ -129,6 +150,8 @@ namespace ProjectDemo_1
 
                         labelMousePositionX.Text = startX.ToString();
                         labelMousePositionY.Text = startY.ToString();
+
+                        fingerPictureBox.Location = new Point(startX, startY);
 
                         labelState.Text = "Down";
 
@@ -143,6 +166,10 @@ namespace ProjectDemo_1
             moveFlag = false;
 
             PictureBox p = (PictureBox)sender;
+
+            p.Visible = true;
+
+            fingerPictureBox.Dispose();
 
             for (int i = 0; i < ROW; i++)
             {
@@ -186,6 +213,8 @@ namespace ProjectDemo_1
                 nowY = LocationY - this.Location.Y - panelGrid.Location.Y - 60;
 
                 p.Location = new Point(nowX, nowY);
+
+                fingerPictureBox.Location = new Point(nowX, nowY);
 
                 labelMousePositionX.Text = "X:" + p.Location.X.ToString();
                 labelMousePositionY.Text = "Y:" + p.Location.Y.ToString();
