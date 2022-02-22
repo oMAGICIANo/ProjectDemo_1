@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ProjectDemo_1.Properties;
+using System.Threading;
 
 namespace ProjectDemo_1
 {
@@ -572,6 +573,7 @@ namespace ProjectDemo_1
 
         private void CalculateCombo()
         {
+            labelTest3.Text = "Combo: ";
             combo = 0;
 
             for (int i = 0; i < COLUME; i++)
@@ -584,6 +586,8 @@ namespace ProjectDemo_1
 
             for (int n = 1; n <= 30; n++)
             {
+                bool flag = false;
+
                 for (int i = 0; i < COLUME; i++)
                 {
                     for (int j = 1; j < ROW - 1; j++)
@@ -593,6 +597,8 @@ namespace ProjectDemo_1
                             tempNumberGrid[j - 1, i].Dispose();
                             tempNumberGrid[j, i].Dispose();
                             tempNumberGrid[j + 1, i].Dispose();
+
+                            flag = true;
                         }
                     }
                 }
@@ -606,9 +612,19 @@ namespace ProjectDemo_1
                             tempNumberGrid[j, i - 1].Dispose();
                             tempNumberGrid[j, i].Dispose();
                             tempNumberGrid[j, i + 1].Dispose();
+
+                            flag = true;
                         }
                     }
                 }
+
+                if (flag)
+                { 
+                    combo++;
+                    labelTest3.Text = "Combo: " + combo.ToString();
+
+                    Thread.Sleep(300);
+                } 
             }
         }
     }

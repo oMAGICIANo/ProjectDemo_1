@@ -108,16 +108,17 @@ namespace ProjectDemo_1
             // labelTest3
             // 
             this.labelTest3.AutoSize = true;
+            this.labelTest3.Font = new System.Drawing.Font("Microsoft JhengHei UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelTest3.Location = new System.Drawing.Point(704, 359);
             this.labelTest3.Name = "labelTest3";
-            this.labelTest3.Size = new System.Drawing.Size(65, 15);
+            this.labelTest3.Size = new System.Drawing.Size(102, 24);
             this.labelTest3.TabIndex = 7;
             this.labelTest3.Text = "labelTest3";
             // 
             // labelTest4
             // 
             this.labelTest4.AutoSize = true;
-            this.labelTest4.Location = new System.Drawing.Point(843, 359);
+            this.labelTest4.Location = new System.Drawing.Point(1000, 359);
             this.labelTest4.Name = "labelTest4";
             this.labelTest4.Size = new System.Drawing.Size(65, 15);
             this.labelTest4.TabIndex = 8;
