@@ -82,19 +82,20 @@ namespace ProjectDemo_1
             // labelTest
             // 
             this.labelTest.AutoSize = true;
+            this.labelTest.Font = new System.Drawing.Font("Microsoft JhengHei UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelTest.Location = new System.Drawing.Point(704, 105);
             this.labelTest.Name = "labelTest";
-            this.labelTest.Size = new System.Drawing.Size(58, 15);
+            this.labelTest.Size = new System.Drawing.Size(91, 24);
             this.labelTest.TabIndex = 5;
             this.labelTest.Text = "labelTest";
             // 
             // labelTest2
             // 
             this.labelTest2.AutoSize = true;
-            this.labelTest2.Font = new System.Drawing.Font("Microsoft JhengHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelTest2.Location = new System.Drawing.Point(704, 291);
+            this.labelTest2.Font = new System.Drawing.Font("Microsoft JhengHei UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelTest2.Location = new System.Drawing.Point(1000, 105);
             this.labelTest2.Name = "labelTest2";
-            this.labelTest2.Size = new System.Drawing.Size(65, 15);
+            this.labelTest2.Size = new System.Drawing.Size(102, 24);
             this.labelTest2.TabIndex = 6;
             this.labelTest2.Text = "labelTest2";
             // 
@@ -107,7 +108,7 @@ namespace ProjectDemo_1
             // labelTest3
             // 
             this.labelTest3.AutoSize = true;
-            this.labelTest3.Location = new System.Drawing.Point(704, 477);
+            this.labelTest3.Location = new System.Drawing.Point(704, 359);
             this.labelTest3.Name = "labelTest3";
             this.labelTest3.Size = new System.Drawing.Size(65, 15);
             this.labelTest3.TabIndex = 7;
@@ -116,7 +117,7 @@ namespace ProjectDemo_1
             // labelTest4
             // 
             this.labelTest4.AutoSize = true;
-            this.labelTest4.Location = new System.Drawing.Point(953, 477);
+            this.labelTest4.Location = new System.Drawing.Point(843, 359);
             this.labelTest4.Name = "labelTest4";
             this.labelTest4.Size = new System.Drawing.Size(65, 15);
             this.labelTest4.TabIndex = 8;

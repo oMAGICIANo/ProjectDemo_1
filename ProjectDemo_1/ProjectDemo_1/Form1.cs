@@ -22,8 +22,12 @@ namespace ProjectDemo_1
         private Panel panelGrid;
         private PictureBox[,] numberGrid = new PictureBox[ROW, COLUME];
         private int[,] groupGrid = new int[ROW, COLUME];
-        bool[,] beadFlag = new bool[ROW, COLUME];
+        private bool[,] beadFlag = new bool[ROW, COLUME];
         private PictureBox fingerPictureBox;
+        private string[,] pathGrid = new string[ROW, COLUME];
+        private int[,] countGrid = new int[ROW, COLUME];
+        private int combo, red, orange, green, blue, purple;
+        private PictureBox[,] tempNumberGrid = new PictureBox[ROW, COLUME];
 
         public Form1()
         {
@@ -193,8 +197,9 @@ namespace ProjectDemo_1
                         }
 
                         OutputPBGInfo();
-                        //CalculateGroup();
-                        CalculateGroup2();
+                        CalculateGroup();
+                        //CalculateGroup2();
+                        CalculateCombo();
                     }
                 }
             }
@@ -245,19 +250,6 @@ namespace ProjectDemo_1
         private void OutputPBGInfo()
         {
             labelTest.Text = "";
-            labelTest2.Text = "";
-            labelTest3.Text = "";
-
-            for (int i = 0; i < COLUME; i++)
-            {
-                for (int j = 0; j < ROW; j++)
-                {
-                    labelTest.Text += pictureBoxeGrid[j, i].Name + " ";
-                    labelTest2.Text += pictureBoxeGrid[j, i].Location + " ";
-                }
-                labelTest.Text += "\n";
-                labelTest2.Text += "\n";
-            }
 
             for (int y = 0, k = 0; y <= 400; y += 100, k++)
             {
@@ -281,9 +273,9 @@ namespace ProjectDemo_1
             {
                 for (int j = 0; j < ROW; j++)
                 {
-                    labelTest3.Text += numberGrid[j, i].Image.Tag + " ";
+                    labelTest.Text += numberGrid[j, i].Image.Tag + " ";
                 }
-                labelTest3.Text += "\n";
+                labelTest.Text += "\n";
             }
         }
 
@@ -385,28 +377,102 @@ namespace ProjectDemo_1
                 }
             }
 
-            labelTest4.Text = "";
+            for (int i = 0; i < COLUME; i++)
+            {
+                for (int j = 0; j < ROW; j++)
+                {
+                    if (j - 1 >= 0)
+                    {
+                        if (numberGrid[j - 1, i].Image.Tag == numberGrid[j, i].Image.Tag && groupGrid[j - 1, i] != groupGrid[j, i])
+                        {
+                            for (int k = 0; k < COLUME; k++)
+                            {
+                                for (int r = 0; r < ROW; r++)
+                                {
+                                    if (groupGrid[r, k] == groupGrid[j, i])
+                                    {
+                                        groupGrid[r, k] = groupGrid[j - 1, i];
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    if (j + 1 < ROW)
+                    {
+                        if (numberGrid[j + 1, i].Image.Tag == numberGrid[j, i].Image.Tag && groupGrid[j + 1, i] != groupGrid[j, i])
+                        {
+                            for (int k = 0; k < COLUME; k++)
+                            {
+                                for (int r = 0; r < ROW; r++)
+                                {
+                                    if (groupGrid[r, k] == groupGrid[j, i])
+                                    {
+                                        groupGrid[r, k] = groupGrid[j + 1, i];
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    if (i - 1 >= 0)
+                    {
+                        if (numberGrid[j, i - 1].Image.Tag == numberGrid[j, i].Image.Tag && groupGrid[j, i - 1] != groupGrid[j, i])
+                        {
+                            for (int k = 0; k < COLUME; k++)
+                            {
+                                for (int r = 0; r < ROW; r++)
+                                {
+                                    if (groupGrid[r, k] == groupGrid[j, i])
+                                    {
+                                        groupGrid[r, k] = groupGrid[j, i - 1];
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    if (i + 1 < COLUME)
+                    {
+                        if (numberGrid[j, i + 1].Image.Tag == numberGrid[j, i].Image.Tag && groupGrid[j, i + 1] != groupGrid[j, i])
+                        {
+                            for (int k = 0; k < COLUME; k++)
+                            {
+                                for (int r = 0; r < ROW; r++)
+                                {
+                                    if (groupGrid[r, k] == groupGrid[j, i])
+                                    {
+                                        groupGrid[r, k] = groupGrid[j, i + 1];
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            labelTest2.Text = "";
 
             for (int i = 0; i < COLUME; i++)
             {
                 for (int j = 0; j < ROW; j++)
                 {
-                    labelTest4.Text += groupGrid[j, i] + " " + beadFlag[j, i] + " ";
+                    labelTest2.Text += groupGrid[j, i] + " ";
                 }
-                labelTest4.Text += "\n";
+                labelTest2.Text += "\n";
             }
         }
 
         private void CalculateGroup2()
         {
-            int groupNumber = 1;
-
             for (int i = 0; i < COLUME; i++)
             {
                 for (int j = 0; j < ROW; j++)
                 {
                     beadFlag[j, i] = false;
                     groupGrid[j, i] = 0;
+                    pathGrid[j, i] = "";
+                    countGrid[j, i] = 0;
                 }
             }
 
@@ -414,19 +480,135 @@ namespace ProjectDemo_1
             {
                 for (int j = 0; j < ROW; j++)
                 {
-                    
+                    string tempStr = numberGrid[j, i].Image.Tag.ToString();
+
+                    pathGrid[j, i] = "";
+
+                    if (j - 1 >= 0)
+                    {
+                        if (numberGrid[j - 1, i].Image.Tag.ToString() == tempStr)
+                        {
+                            pathGrid[j, i] += "W";
+                        }
+                    }
+
+                    if (j + 1 < ROW)
+                    {
+                        if (numberGrid[j + 1, i].Image.Tag.ToString() == tempStr)
+                        {
+                            pathGrid[j, i] += "E";
+                        }
+                    }
+
+                    if (i - 1 >= 0)
+                    {
+                        if (numberGrid[j, i - 1].Image.Tag.ToString() == tempStr)
+                        {
+                            pathGrid[j, i] += "N";
+                        }
+                    }
+
+                    if (i + 1 < COLUME)
+                    {
+                        if (numberGrid[j, i + 1].Image.Tag.ToString() == tempStr)
+                        {
+                            pathGrid[j, i] += "S";
+                        }
+                    }
+
+                    if (pathGrid[j, i] == "")
+                    {
+                        pathGrid[j, i] += "None";
+                    }
                 }
             }
 
-            labelTest4.Text = "";
+            int groupNumber = 1;
 
             for (int i = 0; i < COLUME; i++)
             {
                 for (int j = 0; j < ROW; j++)
                 {
-                    labelTest4.Text += groupGrid[j, i] + " " + beadFlag[j, i] + " ";
+                    if (pathGrid[j, i] == "None")
+                    {
+                        groupGrid[j, i] = groupNumber;
+                        groupNumber++;
+                    }
+                    else if (groupGrid[j, i] == 0)
+                    {
+                        int pathI, pathJ;
+
+                        pathI = i;
+                        pathJ = j;
+
+                        while (true)
+                        {
+                            bool pathFlag = true;
+                            int pathNameLength = pathGrid[pathJ, pathI].Length;
+
+                            
+
+                            if (pathFlag) break;
+                        }
+                    }
+                    else
+                    { 
+                        
+                    }
                 }
-                labelTest4.Text += "\n";
+            }
+
+            labelTest2.Text = "";
+
+            for (int i = 0; i < COLUME; i++)
+            {
+                for (int j = 0; j < ROW; j++)
+                {
+                    labelTest2.Text += groupGrid[j, i] + " " + pathGrid[j, i] + " ";
+                }
+                labelTest2.Text += "\n";
+            }
+        }
+
+        private void CalculateCombo()
+        {
+            combo = 0;
+
+            for (int i = 0; i < COLUME; i++)
+            {
+                for (int j = 0; j < ROW; j++)
+                {
+                    tempNumberGrid[j, i] = numberGrid[j, i];
+                }
+            }
+
+            for (int n = 1; n <= 30; n++)
+            {
+                for (int i = 0; i < COLUME; i++)
+                {
+                    for (int j = 1; j < ROW - 1; j++)
+                    {
+                        if (groupGrid[j - 1, i] == n && groupGrid[j, i] == n && groupGrid[j + 1, i] == n)
+                        {
+                            tempNumberGrid[j - 1, i].Dispose();
+                            tempNumberGrid[j, i].Dispose();
+                            tempNumberGrid[j + 1, i].Dispose();
+                        }
+                    }
+                }
+
+                for (int i = 1; i < COLUME - 1; i++)
+                {
+                    for (int j = 0; j < ROW; j++)
+                    {
+                        if (groupGrid[j, i - 1] == n && groupGrid[j, i] == n && groupGrid[j, i + 1] == n)
+                        {
+                            tempNumberGrid[j, i - 1].Dispose();
+                            tempNumberGrid[j, i].Dispose();
+                            tempNumberGrid[j, i + 1].Dispose();
+                        }
+                    }
+                }
             }
         }
     }
