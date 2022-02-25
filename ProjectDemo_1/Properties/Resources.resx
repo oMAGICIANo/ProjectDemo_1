@@ -136,4 +136,25 @@
   <data name="background" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\background1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="white_bead" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\white_bead.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="blue_bead1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\blue_bead.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="green_bead1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\green_bead.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="orange_bead1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\orange_bead.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="purple_bead1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\purple_bead.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="red_bead1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\red_bead.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="white_bead1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\white_bead.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>
