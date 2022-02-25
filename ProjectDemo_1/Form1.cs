@@ -34,6 +34,8 @@ namespace ProjectDemo_1
         private int moveCount = 0;
         // 記錄消除珠子數量、種類
         private int combo, red, orange, green, blue, purple;
+        // 是否有新增 combo
+        private bool addComboFlag = false;
 
         public Form1()
         {
@@ -70,18 +72,20 @@ namespace ProjectDemo_1
                     }
                 }
 
-                DisplayBeadInfo();
+                //DisplayBeadInfo();
                 FindBeadPoint();
-                DisplayBeadInfo2();
+                //DisplayBeadInfo2();
                 BeadGroup();
-                DisplayBeadInfo3();
+                //DisplayBeadInfo3();
+                ResetComboCount();
 
-                if (RemoveBead())
+                while (RemoveBead())
                 {
+                    //DisplayBeadInfo4();
                     DropBead();
-                }
-
-                DisplayBeadInfo4();
+                    BeadGroup();
+                    //DisplayBeadInfo3();
+                }  
             }
         }
 
@@ -273,16 +277,16 @@ namespace ProjectDemo_1
         // 顯示珠子資訊 4
         private void DisplayBeadInfo4()
         {
-            labelTest6.Text = "";
+            //labelTest6.Text = "";
 
-            for (int i = 0; i < COLUMN; i++)
-            {
-                for (int j = 0; j < ROW; j++)
-                {
-                    labelTest6.Text += numberGrid[i, j].Visible.ToString() + " ";
-                }
-                labelTest6.Text += "\n";
-            }
+            //for (int i = 0; i < COLUMN; i++)
+            //{
+            //    for (int j = 0; j < ROW; j++)
+            //    {
+            //        labelTest6.Text += numberGrid[i, j].Visible.ToString() + " ";
+            //    }
+            //    labelTest6.Text += "\n";
+            //}
 
             labelTest7.Text = "Combo: " + combo + "\n\n" + 
                                "Red: " + red + "\n" +
@@ -413,9 +417,8 @@ namespace ProjectDemo_1
         // 消除珠子
         private bool RemoveBead()
         {
-            combo = 0;
-            red = 0; orange = 0; green = 0; blue = 0; purple = 0;
-
+            addComboFlag = false;
+            
             for (int n = 1; n <= 30; n++)
             {
                 bool comboAddFlag = false;
@@ -456,6 +459,7 @@ namespace ProjectDemo_1
                 if (comboAddFlag) 
                 {
                     combo++;
+                    addComboFlag = true;
 
                     switch (tempP.Image.Tag)
                     {
@@ -476,24 +480,73 @@ namespace ProjectDemo_1
                             break;
                     }
 
-                    Thread.Sleep(200);
+                    Thread.Sleep(300);
                 }
             }
 
-            if (combo == 0)
+            if (addComboFlag)
             {
-                return false;
+                return true;
             }
             else
             {
-                return true;
+                return false;
             }
         }
 
         // 補滿被消除的珠子
         private void DropBead()
-        { 
-            
+        {
+            for (int j = 0; j < ROW; j++)
+            {
+                for (int i = COLUMN - 2; i >= 0; i--)
+                {
+                    if (numberGrid[i, j].Visible)
+                    {
+                        for (int k = i; k < COLUMN - 1; k++)
+                        {
+                            if (numberGrid[k + 1, j].Visible == false)
+                            {
+                                Point tempP = numberGrid[k, j].Location;
+                                numberGrid[k, j].Location = numberGrid[k + 1, j].Location;
+                                numberGrid[k + 1, j].Location = tempP;
+
+                                //Thread.Sleep(75);
+                            }
+                            else 
+                            {
+                                break;
+                            }
+
+                            FindBeadPoint();
+                            //DisplayBeadInfo4();
+                        }
+                    }
+                }
+            }
+
+            //Thread.Sleep(300);
+
+            for (int i = 0; i < COLUMN; i++)
+            {
+                for (int j = 0; j < ROW; j++)
+                {
+                    if (!numberGrid[i, j].Visible)
+                    {
+                        RandomBead(numberGrid[i, j]);
+
+                        numberGrid[i, j].Visible = true;
+                    }
+                }
+            }
+
+            DisplayBeadInfo4();
+        }
+
+        private void ResetComboCount()
+        {
+            combo = 0;
+            red = 0; orange = 0; green = 0; blue = 0; purple = 0;
         }
     }
 }
