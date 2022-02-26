@@ -45,6 +45,7 @@ namespace ProjectDemo_1
         private void Form1_Load(object sender, EventArgs e)
         {
             InitGrid();
+            DisplayBeadInfo();
         }
 
         private void pictureBox_MouseUp(object sender, MouseEventArgs e)
@@ -55,8 +56,6 @@ namespace ProjectDemo_1
 
             moveFlag = false;
             fingerPictureBox.Dispose();
-
-            labelTest2.Text = "Up";
 
             if (moveCount != 0)
             {
@@ -72,20 +71,17 @@ namespace ProjectDemo_1
                     }
                 }
 
-                //DisplayBeadInfo();
                 FindBeadPoint();
-                //DisplayBeadInfo2();
                 BeadGroup();
-                //DisplayBeadInfo3();
                 ResetComboCount();
 
                 while (RemoveBead())
                 {
-                    //DisplayBeadInfo4();
                     DropBead();
                     BeadGroup();
-                    //DisplayBeadInfo3();
-                }  
+                }
+
+                DisplayBeadInfo();
             }
         }
 
@@ -98,8 +94,6 @@ namespace ProjectDemo_1
                 int mouseLocationX = Form1.MousePosition.X - this.Location.X - panelGrid.Location.X - 60;
                 int mouseLocationY = Form1.MousePosition.Y - this.Location.Y - panelGrid.Location.Y - 60;
 
-                labelTest.Text = "X: " + mouseLocationX + ", Y: " + mouseLocationY;
-
                 fingerPictureBox.Location = new Point(mouseLocationX, mouseLocationY);
 
                 for (int i = 0; i < COLUMN; i++)
@@ -111,8 +105,6 @@ namespace ProjectDemo_1
                         {
                             if (beadGrid[i, j].Name != p.Name)
                             { 
-                                labelTest2.Text = "Change " + beadGrid[i, j].Name + " " + p.Name;
-
                                 Point tempPoint = p.Location;
                                 p.Location = beadGrid[i, j].Location;
                                 beadGrid[i, j].Location = tempPoint;
@@ -148,12 +140,8 @@ namespace ProjectDemo_1
             int mouseLocationX = Form1.MousePosition.X - this.Location.X - panelGrid.Location.X - 60;
             int mouseLocationY = Form1.MousePosition.Y - this.Location.Y - panelGrid.Location.Y - 60;
 
-            labelTest.Text = "X: " + mouseLocationX + ", Y: " + mouseLocationY;
-
             fingerPictureBox.Location = new Point(mouseLocationX, mouseLocationY);
             fingerPictureBox.BringToFront();
-
-            labelTest2.Text = "Down";
 
             moveFlag = true;
             moveCount = 0;
@@ -232,63 +220,7 @@ namespace ProjectDemo_1
         // 顯示珠子資訊
         private void DisplayBeadInfo()
         {
-            labelTest3.Text = "";
-
-            for (int i = 0; i < COLUMN; i++)
-            {
-                for (int j = 0; j < ROW; j++)
-                {
-                    labelTest3.Text += beadGrid[i, j].Location;
-                }
-                labelTest3.Text += "\n";
-            }
-        }
-
-        // 顯示珠子資訊 2
-        private void DisplayBeadInfo2()
-        {
-            labelTest4.Text = "";
-
-            for (int i = 0; i < COLUMN; i++)
-            {
-                for (int j = 0; j < ROW; j++)
-                {
-                    labelTest4.Text += numberGrid[i, j].Image.Tag.ToString() + " ";
-                }
-                labelTest4.Text += "\n";
-            }
-        }
-
-        // 顯示珠子資訊 3
-        private void DisplayBeadInfo3()
-        {
-            labelTest5.Text = "";
-
-            for (int i = 0; i < COLUMN; i++)
-            {
-                for (int j = 0; j < ROW; j++)
-                {
-                    labelTest5.Text += beadGroup[i, j].ToString() + " ";
-                }
-                labelTest5.Text += "\n";
-            }
-        }
-
-        // 顯示珠子資訊 4
-        private void DisplayBeadInfo4()
-        {
-            //labelTest6.Text = "";
-
-            //for (int i = 0; i < COLUMN; i++)
-            //{
-            //    for (int j = 0; j < ROW; j++)
-            //    {
-            //        labelTest6.Text += numberGrid[i, j].Visible.ToString() + " ";
-            //    }
-            //    labelTest6.Text += "\n";
-            //}
-
-            labelTest7.Text = "Combo: " + combo + "\n\n" + 
+            labelCombo.Text = "Combo: " + combo + "\n\n" + 
                                "Red: " + red + "\n" +
                                "Orange: " + orange + "\n" +
                                "Green: " + green + "\n" +
@@ -539,8 +471,6 @@ namespace ProjectDemo_1
                     }
                 }
             }
-
-            DisplayBeadInfo4();
         }
 
         private void ResetComboCount()
