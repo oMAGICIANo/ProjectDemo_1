@@ -15,17 +15,17 @@ namespace ProjectDemo_1
     public partial class Form1 : Form
     {
         // 設定珠子行數、列數
-        private const int COLUMN = 5, ROW = 6;
+        private const int ROW = 5, COLUMN = 6;
         // 設定珠子寬度、高度
         private const int WIDTH = 100, HEIGHT = 100;
         // 換珠子感應範圍
         private const int RANGE = 30;
         // 初始化珠子
-        private PictureBox[,] beadGrid = new PictureBox[COLUMN, ROW];
+        private PictureBox[,] beadGrid = new PictureBox[ROW, COLUMN];
         // 校正珠子位置
-        private PictureBox[,] numberGrid = new PictureBox[COLUMN, ROW];
+        private PictureBox[,] numberGrid = new PictureBox[ROW, COLUMN];
         // 分組編號
-        private int[,] beadGroup = new int[COLUMN, ROW];
+        private int[,] beadGroup = new int[ROW, COLUMN];
         // 暫存移動珠子物件
         private PictureBox fingerPictureBox;
         // 控制珠子是否移動
@@ -36,7 +36,7 @@ namespace ProjectDemo_1
         private int combo, red, orange, green, blue, purple;
         // 是否有新增 combo
         private bool addComboFlag = false;
-
+      
         public Form1()
         {
             InitializeComponent();
@@ -59,9 +59,9 @@ namespace ProjectDemo_1
 
             if (moveCount != 0)
             {
-                for (int i = 0; i < COLUMN; i++)
+                for (int i = 0; i < ROW; i++)
                 {
-                    for (int j = 0; j < ROW; j++)
+                    for (int j = 0; j < COLUMN; j++)
                     {
                         if ((beadGrid[i, j].Location.X - RANGE <= fingerPictureBox.Location.X && beadGrid[i, j].Location.X + RANGE >= fingerPictureBox.Location.X) &&
                             (beadGrid[i, j].Location.Y - RANGE <= fingerPictureBox.Location.Y && beadGrid[i, j].Location.Y + RANGE >= fingerPictureBox.Location.Y))
@@ -79,6 +79,8 @@ namespace ProjectDemo_1
                 {
                     DropBead();
                     BeadGroup();
+
+                    Thread.Sleep(300);
                 }
 
                 DisplayBeadInfo();
@@ -96,9 +98,9 @@ namespace ProjectDemo_1
 
                 fingerPictureBox.Location = new Point(mouseLocationX, mouseLocationY);
 
-                for (int i = 0; i < COLUMN; i++)
+                for (int i = 0; i < ROW; i++)
                 {
-                    for (int j = 0; j < ROW; j++)
+                    for (int j = 0; j < COLUMN; j++)
                     {
                         if ((beadGrid[i, j].Location.X - RANGE <= fingerPictureBox.Location.X && beadGrid[i, j].Location.X + RANGE >= fingerPictureBox.Location.X) &&
                             (beadGrid[i, j].Location.Y - RANGE <= fingerPictureBox.Location.Y && beadGrid[i, j].Location.Y + RANGE >= fingerPictureBox.Location.Y))
@@ -158,9 +160,9 @@ namespace ProjectDemo_1
         // 初始化版面
         private void InitGrid()
         {
-            for (int i = 0; i < COLUMN; i++)
+            for (int i = 0; i < ROW; i++)
             {
-                for (int j = 0; j < ROW; j++)
+                for (int j = 0; j < COLUMN; j++)
                 {
                     beadGrid[i, j] = new PictureBox();
                     beadGrid[i, j].Location = new Point(0 + j * HEIGHT, 0 + i * WIDTH);
@@ -183,6 +185,12 @@ namespace ProjectDemo_1
                     panelGrid.Controls.Add(beadGrid[i, j]);
                 }
             }
+        }
+
+        // Form1 關閉事件
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            
         }
 
         // 隨機珠子顏色
@@ -235,9 +243,9 @@ namespace ProjectDemo_1
             {
                 for (int x = 0, r = 0; x <= 500; x += 100, r++)
                 {
-                    for (int i = 0; i < COLUMN; i++)
+                    for (int i = 0; i < ROW; i++)
                     {
-                        for (int j = 0; j < ROW; j++)
+                        for (int j = 0; j < COLUMN; j++)
                         {
                             if (beadGrid[i, j].Location.X == x && beadGrid[i, j].Location.Y == y)
                             {
@@ -253,9 +261,9 @@ namespace ProjectDemo_1
         private void BeadGroup()
         {
             // Reset
-            for (int i = 0; i < COLUMN; i++)
+            for (int i = 0; i < ROW; i++)
             {
-                for (int j = 0; j < ROW; j++)
+                for (int j = 0; j < COLUMN; j++)
                 {
                     beadGroup[i, j] = 0;
                 }
@@ -263,18 +271,18 @@ namespace ProjectDemo_1
 
             int groupNumber = 1;
 
-            for (int i = 0; i < COLUMN; i++)
+            for (int i = 0; i < ROW; i++)
             {
-                for (int j = 0; j < ROW; j++)
+                for (int j = 0; j < COLUMN; j++)
                 {
                     // 上
                     if (i - 1 >= 0)
                     {
                         if ((beadGroup[i - 1, j] != 0) && (numberGrid[i - 1, j].Image.Tag == numberGrid[i, j].Image.Tag))
                         {
-                            for (int k = 0; k < COLUMN; k++)
+                            for (int k = 0; k < ROW; k++)
                             {
-                                for (int r = 0; r < ROW; r++)
+                                for (int r = 0; r < COLUMN; r++)
                                 {
                                     if (beadGroup[i, j] == beadGroup[k, r])
                                     { 
@@ -289,9 +297,9 @@ namespace ProjectDemo_1
                     {
                         if ((beadGroup[i, j - 1] != 0) && (numberGrid[i, j - 1].Image.Tag == numberGrid[i, j].Image.Tag))
                         {
-                            for (int k = 0; k < COLUMN; k++)
+                            for (int k = 0; k < ROW; k++)
                             {
-                                for (int r = 0; r < ROW; r++)
+                                for (int r = 0; r < COLUMN; r++)
                                 {
                                     if (beadGroup[i, j] == beadGroup[k, r])
                                     {
@@ -302,13 +310,13 @@ namespace ProjectDemo_1
                         }
                     }
                     // 下
-                    if (i + 1 < COLUMN)
+                    if (i + 1 < ROW)
                     {
                         if ((beadGroup[i + 1, j] != 0) && (numberGrid[i + 1, j].Image.Tag == numberGrid[i, j].Image.Tag))
                         {
-                            for (int k = 0; k < COLUMN; k++)
+                            for (int k = 0; k < ROW; k++)
                             {
-                                for (int r = 0; r < ROW; r++)
+                                for (int r = 0; r < COLUMN; r++)
                                 {
                                     if (beadGroup[i, j] == beadGroup[k, r])
                                     {
@@ -319,13 +327,13 @@ namespace ProjectDemo_1
                         }
                     }
                     // 右
-                    if (j + 1 < ROW)
+                    if (j + 1 < COLUMN)
                     {
                         if ((beadGroup[i, j + 1] != 0) && (numberGrid[i, j + 1].Image.Tag == numberGrid[i, j].Image.Tag))
                         {
-                            for (int k = 0; k < COLUMN; k++)
+                            for (int k = 0; k < ROW; k++)
                             {
-                                for (int r = 0; r < ROW; r++)
+                                for (int r = 0; r < COLUMN; r++)
                                 {
                                     if (beadGroup[i, j] == beadGroup[k, r])
                                     {
@@ -356,9 +364,9 @@ namespace ProjectDemo_1
                 bool comboAddFlag = false;
                 PictureBox tempP = new PictureBox();
 
-                for (int i = 0; i < COLUMN; i++)
+                for (int i = 0; i < ROW; i++)
                 {
-                    for (int j = 0; j < ROW - 2; j++)
+                    for (int j = 0; j < COLUMN - 2; j++)
                     {
                         if (beadGroup[i, j] == n && beadGroup[i, j + 1] == n && beadGroup[i, j + 2] == n)
                         {
@@ -372,9 +380,9 @@ namespace ProjectDemo_1
                     }
                 }
 
-                for (int i = 0; i < COLUMN - 2; i++)
+                for (int i = 0; i < ROW - 2; i++)
                 {
-                    for (int j = 0; j < ROW; j++)
+                    for (int j = 0; j < COLUMN; j++)
                     {
                         if (beadGroup[i, j] == n && beadGroup[i + 1, j] == n && beadGroup[i + 2, j] == n)
                         {
@@ -429,13 +437,13 @@ namespace ProjectDemo_1
         // 補滿被消除的珠子
         private void DropBead()
         {
-            for (int j = 0; j < ROW; j++)
+            for (int j = 0; j < COLUMN; j++)
             {
-                for (int i = COLUMN - 2; i >= 0; i--)
+                for (int i = ROW - 2; i >= 0; i--)
                 {
                     if (numberGrid[i, j].Visible)
                     {
-                        for (int k = i; k < COLUMN - 1; k++)
+                        for (int k = i; k < ROW - 1; k++)
                         {
                             if (numberGrid[k + 1, j].Visible == false)
                             {
@@ -457,11 +465,9 @@ namespace ProjectDemo_1
                 }
             }
 
-            //Thread.Sleep(300);
-
-            for (int i = 0; i < COLUMN; i++)
+            for (int i = 0; i < ROW; i++)
             {
-                for (int j = 0; j < ROW; j++)
+                for (int j = 0; j < COLUMN; j++)
                 {
                     if (!numberGrid[i, j].Visible)
                     {
@@ -478,5 +484,6 @@ namespace ProjectDemo_1
             combo = 0;
             red = 0; orange = 0; green = 0; blue = 0; purple = 0;
         }
+
     }
 }
