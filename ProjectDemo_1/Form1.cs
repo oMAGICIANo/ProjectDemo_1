@@ -19,7 +19,7 @@ namespace ProjectDemo_1
         // 設定珠子寬度、高度
         private const int WIDTH = 100, HEIGHT = 100;
         // 換珠子感應範圍
-        private const int RANGE = 30;
+        private const int RANGE = 35;
         // 初始化珠子
         private PictureBox[,] beadGrid = new PictureBox[ROW, COLUMN];
         // 校正珠子位置
@@ -79,6 +79,7 @@ namespace ProjectDemo_1
                 {
                     DropBead();
                     BeadGroup();
+                    /// 新增函式 ///
 
                     Thread.Sleep(300);
                 }
@@ -420,6 +421,7 @@ namespace ProjectDemo_1
                             break;
                     }
 
+                    GC.Collect();
                     Thread.Sleep(300);
                 }
             }
@@ -459,7 +461,6 @@ namespace ProjectDemo_1
                             }
 
                             FindBeadPoint();
-                            //DisplayBeadInfo4();
                         }
                     }
                 }
@@ -477,8 +478,11 @@ namespace ProjectDemo_1
                     }
                 }
             }
+
+            GC.Collect();
         }
 
+        // 重置 combo 
         private void ResetComboCount()
         {
             combo = 0;
