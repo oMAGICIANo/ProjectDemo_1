@@ -29,9 +29,15 @@ namespace ProjectDemo_1
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.panelGrid = new System.Windows.Forms.Panel();
             this.buttonReset = new System.Windows.Forms.Button();
             this.labelCombo = new System.Windows.Forms.Label();
+            this.panelFight = new System.Windows.Forms.Panel();
+            this.labelTimer = new System.Windows.Forms.Label();
+            this.timerMain = new System.Windows.Forms.Timer(this.components);
+            this.labelHP = new System.Windows.Forms.Label();
+            this.buttonStart = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // panelGrid
@@ -61,13 +67,60 @@ namespace ProjectDemo_1
             this.labelCombo.TabIndex = 3;
             this.labelCombo.Text = "labelCombo";
             // 
+            // panelFight
+            // 
+            this.panelFight.BackColor = System.Drawing.Color.Silver;
+            this.panelFight.Location = new System.Drawing.Point(628, 150);
+            this.panelFight.Name = "panelFight";
+            this.panelFight.Size = new System.Drawing.Size(940, 500);
+            this.panelFight.TabIndex = 4;
+            // 
+            // labelTimer
+            // 
+            this.labelTimer.AutoSize = true;
+            this.labelTimer.Font = new System.Drawing.Font("Microsoft JhengHei UI", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelTimer.Location = new System.Drawing.Point(628, 17);
+            this.labelTimer.Name = "labelTimer";
+            this.labelTimer.Size = new System.Drawing.Size(205, 47);
+            this.labelTimer.TabIndex = 5;
+            this.labelTimer.Text = "關卡剩餘：";
+            // 
+            // timerMain
+            // 
+            this.timerMain.Interval = 10;
+            this.timerMain.Tick += new System.EventHandler(this.timerMain_Tick);
+            // 
+            // labelHP
+            // 
+            this.labelHP.AutoSize = true;
+            this.labelHP.Font = new System.Drawing.Font("Microsoft JhengHei UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelHP.Location = new System.Drawing.Point(628, 93);
+            this.labelHP.Name = "labelHP";
+            this.labelHP.Size = new System.Drawing.Size(71, 30);
+            this.labelHP.TabIndex = 7;
+            this.labelHP.Text = "HP: 0";
+            // 
+            // buttonStart
+            // 
+            this.buttonStart.Location = new System.Drawing.Point(535, 46);
+            this.buttonStart.Name = "buttonStart";
+            this.buttonStart.Size = new System.Drawing.Size(75, 23);
+            this.buttonStart.TabIndex = 8;
+            this.buttonStart.Text = "開　始";
+            this.buttonStart.UseVisualStyleBackColor = true;
+            this.buttonStart.Click += new System.EventHandler(this.buttonStart_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1384, 661);
+            this.ClientSize = new System.Drawing.Size(1584, 661);
+            this.Controls.Add(this.buttonStart);
+            this.Controls.Add(this.labelHP);
+            this.Controls.Add(this.labelTimer);
+            this.Controls.Add(this.panelFight);
             this.Controls.Add(this.labelCombo);
             this.Controls.Add(this.buttonReset);
             this.Controls.Add(this.panelGrid);
@@ -87,6 +140,11 @@ namespace ProjectDemo_1
         private System.Windows.Forms.Panel panelGrid;
         private System.Windows.Forms.Button buttonReset;
         private System.Windows.Forms.Label labelCombo;
+        private System.Windows.Forms.Panel panelFight;
+        private System.Windows.Forms.Label labelTimer;
+        private System.Windows.Forms.Timer timerMain;
+        private System.Windows.Forms.Label labelHP;
+        private System.Windows.Forms.Button buttonStart;
     }
 }
 

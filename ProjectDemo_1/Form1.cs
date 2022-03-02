@@ -36,6 +36,19 @@ namespace ProjectDemo_1
         private int combo, red, orange, green, blue, purple;
         // 是否有新增 combo
         private bool addComboFlag = false;
+        // 多執行緒
+        Thread myThread;
+        // 關卡秒數
+        private const int LEVEL_TIME = 180;
+        private int time = LEVEL_TIME;
+        private int timeCount;
+        // 設定玩家、怪物物件
+        private Player myPlayer;
+        private Monster myMonster;
+        private const int MONSTER_MAX = 200;
+        private int monsterCount;
+        // 怪
+        private PictureBox[] monster = new PictureBox[MONSTER_MAX];
       
         public Form1()
         {
@@ -46,6 +59,8 @@ namespace ProjectDemo_1
         {
             InitGrid();
             DisplayBeadInfo();
+
+            SetObject();
         }
 
         private void pictureBox_MouseUp(object sender, MouseEventArgs e)
@@ -79,12 +94,12 @@ namespace ProjectDemo_1
                 {
                     DropBead();
                     BeadGroup();
-                    /// 新增函式 ///
 
                     Thread.Sleep(300);
                 }
 
                 DisplayBeadInfo();
+                RemoveMonster();
             }
         }
 
@@ -186,12 +201,204 @@ namespace ProjectDemo_1
                     panelGrid.Controls.Add(beadGrid[i, j]);
                 }
             }
+
+            GC.Collect();
         }
 
         // Form1 關閉事件
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             
+        }
+
+        // 攻擊怪
+        private void RemoveMonster()
+        {
+            int redCount = 0;
+            int orangeCount = 0;
+            int greenCount = 0;
+            int blueCount = 0;
+            int purpleCount = 0;
+
+            for (int i = 0; i < monster.Length; i++)
+            {
+                if (red > redCount && red > 0 && monster[i].Visible && monster[i].Image.Tag.ToString() == "1")
+                {
+                    monster[i].Visible = false;
+                    monster[i].Dispose();
+                    redCount++;
+                }
+
+                if (orange > orangeCount && orange > 0 && monster[i].Visible && monster[i].Image.Tag.ToString() == "2")
+                {
+                    monster[i].Visible = false;
+                    monster[i].Dispose();
+                    orangeCount++;
+                }
+
+                if (green > greenCount && green > 0 && monster[i].Visible && monster[i].Image.Tag.ToString() == "3")
+                {
+                    monster[i].Visible = false;
+                    monster[i].Dispose();
+                    greenCount++;
+                }
+
+                if (blue > blueCount && blue > 0 && monster[i].Visible && monster[i].Image.Tag.ToString() == "4")
+                {
+                    monster[i].Visible = false;
+                    monster[i].Dispose();
+                    blueCount++;
+                }
+
+                if (purple > purpleCount && purple > 0 && monster[i].Visible && monster[i].Image.Tag.ToString() == "5")
+                {
+                    monster[i].Visible = false;
+                    monster[i].Dispose();
+                    purpleCount++;
+                }
+            }
+        }
+
+        // 計時器
+        private void timerMain_Tick(object sender, EventArgs e)
+        {
+            if (time == LEVEL_TIME)
+            {
+                monsterCount = 0;
+
+                labelTimer.Text = "關卡時間：" + time;
+                labelHP.Text = "HP: " + myPlayer.HP;
+
+                time--;
+            }
+            else if (time < 0)
+            {
+                labelTimer.Text = "時間到！, 你贏了！";
+
+                timerMain.Stop();
+            }
+            else
+            {
+                labelTimer.Text = "關卡時間：" + time;
+
+                if (timeCount >= 100)
+                { 
+                    timeCount = 0;
+
+                    Level_1(monsterCount);
+
+                    time--;
+                } 
+
+                for (int i = 0; i < monster.Length; i++)
+                {
+                    if (monster[i].Visible)
+                    {
+                        monster[i].Location = new Point(monster[i].Location.X - 1,
+                                                        monster[i].Location.Y);
+                    }
+
+                    if (monster[i].Location.X < 10 && monster[i].Visible)
+                    {
+                        monster[i].Visible = false;
+                        monster[i].Dispose();
+
+                        myPlayer.HP -= 100;
+
+                        if (myPlayer.HP <= 0)
+                        {
+                            labelTimer.Text = "你輸了！";
+
+                            timerMain.Stop();
+                        }
+
+                        labelHP.Text = "HP: " + myPlayer.HP;
+                    }
+                }
+            }
+
+            timeCount++;
+        }
+
+        // 關卡 1
+        private void Level_1(int number)
+        {
+            if (monsterCount < MONSTER_MAX)
+            {
+                monster[number].Visible = true;
+                monster[number].BringToFront();
+                panelFight.Controls.Add(monster[number]);
+
+                monsterCount++;
+            }
+        }
+
+        // 設定物件
+        private void SetObject()
+        {
+            buttonReset.Enabled = false;
+
+            //Form.CheckForIllegalCrossThreadCalls = false;
+
+            timeCount = 0;
+
+            myPlayer = new Player("Hsu", 10000);
+
+            for (int i = 0; i < monster.Length; i++)
+            {
+                monster[i] = new PictureBox();
+                monster[i].Name = "M" + i.ToString();
+
+                Random myRandom = new Random();
+                int randomPoint = myRandom.Next(1, 5);
+
+                monster[i].Location = new Point(900, randomPoint * 100);
+                monster[i].Size = new Size(50, 50);
+                monster[i].SizeMode = PictureBoxSizeMode.Zoom;
+
+                System.Drawing.Drawing2D.GraphicsPath path = new System.Drawing.Drawing2D.GraphicsPath();
+                path.AddEllipse(monster[i].ClientRectangle);
+                Region reg = new Region(path);
+                monster[i].Region = reg;
+
+                int randomImage = myRandom.Next(0, 5);
+
+                switch (randomImage)
+                {
+                    case 0:
+                        monster[i].Image = Resources.red_bead;
+                        monster[i].Image.Tag = "1";
+                        break;
+                    case 1:
+                        monster[i].Image = Resources.orange_bead;
+                        monster[i].Image.Tag = "2";
+                        break;
+                    case 2:
+                        monster[i].Image = Resources.green_bead;
+                        monster[i].Image.Tag = "3";
+                        break;
+                    case 3:
+                        monster[i].Image = Resources.blue_bead;
+                        monster[i].Image.Tag = "4";
+                        break;
+                    case 4:
+                        monster[i].Image = Resources.purple_bead;
+                        monster[i].Image.Tag = "5";
+                        break;
+                }
+
+                monster[i].Visible = false;
+            }
+
+            GC.Collect();
+        }
+
+        // 開始遊戲
+        private void buttonStart_Click(object sender, EventArgs e)
+        {
+            timerMain.Start();
+
+            buttonStart.Enabled = false;
         }
 
         // 隨機珠子顏色
@@ -488,6 +695,6 @@ namespace ProjectDemo_1
             combo = 0;
             red = 0; orange = 0; green = 0; blue = 0; purple = 0;
         }
-
+        
     }
 }
