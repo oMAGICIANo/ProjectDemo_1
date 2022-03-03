@@ -38,6 +38,8 @@ namespace ProjectDemo_1
             this.timerMain = new System.Windows.Forms.Timer(this.components);
             this.labelHP = new System.Windows.Forms.Label();
             this.buttonStart = new System.Windows.Forms.Button();
+            this.buttonStop = new System.Windows.Forms.Button();
+            this.buttonRestart = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // panelGrid
@@ -110,6 +112,26 @@ namespace ProjectDemo_1
             this.buttonStart.UseVisualStyleBackColor = true;
             this.buttonStart.Click += new System.EventHandler(this.buttonStart_Click);
             // 
+            // buttonStop
+            // 
+            this.buttonStop.Location = new System.Drawing.Point(535, 75);
+            this.buttonStop.Name = "buttonStop";
+            this.buttonStop.Size = new System.Drawing.Size(75, 23);
+            this.buttonStop.TabIndex = 9;
+            this.buttonStop.Text = "暫　停";
+            this.buttonStop.UseVisualStyleBackColor = true;
+            this.buttonStop.Click += new System.EventHandler(this.buttonStop_Click);
+            // 
+            // buttonRestart
+            // 
+            this.buttonRestart.Location = new System.Drawing.Point(535, 104);
+            this.buttonRestart.Name = "buttonRestart";
+            this.buttonRestart.Size = new System.Drawing.Size(75, 23);
+            this.buttonRestart.TabIndex = 9;
+            this.buttonRestart.Text = "重新開始";
+            this.buttonRestart.UseVisualStyleBackColor = true;
+            this.buttonRestart.Click += new System.EventHandler(this.buttonRestart_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -117,6 +139,8 @@ namespace ProjectDemo_1
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1584, 661);
+            this.Controls.Add(this.buttonRestart);
+            this.Controls.Add(this.buttonStop);
             this.Controls.Add(this.buttonStart);
             this.Controls.Add(this.labelHP);
             this.Controls.Add(this.labelTimer);
@@ -145,6 +169,8 @@ namespace ProjectDemo_1
         private System.Windows.Forms.Timer timerMain;
         private System.Windows.Forms.Label labelHP;
         private System.Windows.Forms.Button buttonStart;
+        private System.Windows.Forms.Button buttonStop;
+        private System.Windows.Forms.Button buttonRestart;
     }
 }
 

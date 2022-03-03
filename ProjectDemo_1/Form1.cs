@@ -47,7 +47,6 @@ namespace ProjectDemo_1
         private Monster myMonster;
         private const int MONSTER_MAX = 200;
         private int monsterCount;
-        // 怪
         private PictureBox[] monster = new PictureBox[MONSTER_MAX];
       
         public Form1()
@@ -337,12 +336,17 @@ namespace ProjectDemo_1
         private void SetObject()
         {
             buttonReset.Enabled = false;
+            buttonStop.Enabled = false;
+            buttonRestart.Enabled = false;
 
             //Form.CheckForIllegalCrossThreadCalls = false;
 
             timeCount = 0;
+            time = LEVEL_TIME;
 
             myPlayer = new Player("Hsu", 10000);
+
+            labelHP.Text = "HP: " + myPlayer.HP;
 
             for (int i = 0; i < monster.Length; i++)
             {
@@ -396,9 +400,37 @@ namespace ProjectDemo_1
         // 開始遊戲
         private void buttonStart_Click(object sender, EventArgs e)
         {
+            buttonStart.Enabled = false;
+            buttonStop.Enabled = true;
+            buttonRestart.Enabled = false;
+
             timerMain.Start();
+        }
+
+        private void buttonStop_Click(object sender, EventArgs e)
+        {
+            buttonStart.Enabled = true;
+            buttonStop.Enabled = false;
+            buttonRestart.Enabled = true;
+
+            timerMain.Stop();
+        }
+
+        private void buttonRestart_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < monster.Length; i++)
+            {
+                monster[i].Dispose();
+            }
+
+            SetObject();
 
             buttonStart.Enabled = false;
+            buttonStop.Enabled = true;
+            buttonRestart.Enabled = false;
+
+            timerMain.Start();
+
         }
 
         // 隨機珠子顏色
