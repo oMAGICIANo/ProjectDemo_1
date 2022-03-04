@@ -40,6 +40,7 @@ namespace ProjectDemo_1
             this.buttonStart = new System.Windows.Forms.Button();
             this.buttonStop = new System.Windows.Forms.Button();
             this.buttonRestart = new System.Windows.Forms.Button();
+            this.labelColorCombo = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // panelGrid
@@ -63,9 +64,10 @@ namespace ProjectDemo_1
             // labelCombo
             // 
             this.labelCombo.AutoSize = true;
-            this.labelCombo.Location = new System.Drawing.Point(12, 21);
+            this.labelCombo.Font = new System.Drawing.Font("Microsoft JhengHei UI", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelCombo.Location = new System.Drawing.Point(297, 75);
             this.labelCombo.Name = "labelCombo";
-            this.labelCombo.Size = new System.Drawing.Size(78, 15);
+            this.labelCombo.Size = new System.Drawing.Size(232, 47);
             this.labelCombo.TabIndex = 3;
             this.labelCombo.Text = "labelCombo";
             // 
@@ -132,6 +134,16 @@ namespace ProjectDemo_1
             this.buttonRestart.UseVisualStyleBackColor = true;
             this.buttonRestart.Click += new System.EventHandler(this.buttonRestart_Click);
             // 
+            // labelColorCombo
+            // 
+            this.labelColorCombo.AutoSize = true;
+            this.labelColorCombo.Font = new System.Drawing.Font("Microsoft JhengHei UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelColorCombo.Location = new System.Drawing.Point(12, 9);
+            this.labelColorCombo.Name = "labelColorCombo";
+            this.labelColorCombo.Size = new System.Drawing.Size(169, 24);
+            this.labelColorCombo.TabIndex = 10;
+            this.labelColorCombo.Text = "labelColorCombo";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -139,6 +151,7 @@ namespace ProjectDemo_1
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1584, 661);
+            this.Controls.Add(this.labelColorCombo);
             this.Controls.Add(this.buttonRestart);
             this.Controls.Add(this.buttonStop);
             this.Controls.Add(this.buttonStart);
@@ -171,6 +184,7 @@ namespace ProjectDemo_1
         private System.Windows.Forms.Button buttonStart;
         private System.Windows.Forms.Button buttonStop;
         private System.Windows.Forms.Button buttonRestart;
+        private System.Windows.Forms.Label labelColorCombo;
     }
 }
 

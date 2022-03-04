@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ProjectDemo_1.Properties;
-using System.Threading;
 
 namespace ProjectDemo_1
 {
@@ -36,14 +35,13 @@ namespace ProjectDemo_1
         private int combo, red, orange, green, blue, purple;
         // 是否有新增 combo
         private bool addComboFlag = false;
-        // 多執行緒
-        Thread myThread;
         // 關卡秒數
         private const int LEVEL_TIME = 180;
         private int time = LEVEL_TIME;
         private int timeCount;
         // 設定玩家、怪物物件
         private Player myPlayer;
+        private const int PLAYER_HP = 5000;
         private Monster myMonster;
         private const int MONSTER_MAX = 200;
         private int monsterCount;
@@ -62,7 +60,7 @@ namespace ProjectDemo_1
             SetObject();
         }
 
-        private void pictureBox_MouseUp(object sender, MouseEventArgs e)
+        private async void pictureBox_MouseUp(object sender, MouseEventArgs e)
         {
             PictureBox p = (PictureBox)sender;
 
@@ -91,10 +89,12 @@ namespace ProjectDemo_1
 
                 while (RemoveBead())
                 {
+                    await PutTaskDelay();
+
                     DropBead();
                     BeadGroup();
 
-                    Thread.Sleep(300);
+                    await PutTaskDelay();
                 }
 
                 DisplayBeadInfo();
@@ -275,6 +275,9 @@ namespace ProjectDemo_1
                 labelTimer.Text = "時間到！, 你贏了！";
 
                 timerMain.Stop();
+
+                buttonStop.Enabled = false;
+                buttonRestart.Enabled = true;
             }
             else
             {
@@ -309,6 +312,9 @@ namespace ProjectDemo_1
                             labelTimer.Text = "你輸了！";
 
                             timerMain.Stop();
+
+                            buttonStop.Enabled = false;
+                            buttonRestart.Enabled = true;
                         }
 
                         labelHP.Text = "HP: " + myPlayer.HP;
@@ -344,7 +350,9 @@ namespace ProjectDemo_1
             timeCount = 0;
             time = LEVEL_TIME;
 
-            myPlayer = new Player("Hsu", 10000);
+            labelTimer.Text = "關卡時間：" + time;
+
+            myPlayer = new Player("Hsu", PLAYER_HP);
 
             labelHP.Text = "HP: " + myPlayer.HP;
 
@@ -468,12 +476,13 @@ namespace ProjectDemo_1
         // 顯示珠子資訊
         private void DisplayBeadInfo()
         {
-            labelCombo.Text = "Combo: " + combo + "\n\n" + 
-                               "Red: " + red + "\n" +
-                               "Orange: " + orange + "\n" +
-                               "Green: " + green + "\n" +
-                               "Blue: " + blue + "\n" +
-                               "Purple: " + purple;
+            labelCombo.Text = "Combo: " + combo;
+
+            labelColorCombo.Text = "Red: " + red + "\n" +
+                                   "Orange: " + orange + "\n" +
+                                   "Green: " + green + "\n" +
+                                   "Blue: " + blue + "\n" +
+                                   "Purple: " + purple;
         }
 
         // 找到移動後的珠子的位置
@@ -639,6 +648,9 @@ namespace ProjectDemo_1
                 if (comboAddFlag) 
                 {
                     combo++;
+
+                    labelCombo.Text = "Combo: " + combo;
+
                     addComboFlag = true;
 
                     switch (tempP.Image.Tag)
@@ -661,7 +673,6 @@ namespace ProjectDemo_1
                     }
 
                     GC.Collect();
-                    Thread.Sleep(300);
                 }
             }
 
@@ -691,8 +702,6 @@ namespace ProjectDemo_1
                                 Point tempP = numberGrid[k, j].Location;
                                 numberGrid[k, j].Location = numberGrid[k + 1, j].Location;
                                 numberGrid[k + 1, j].Location = tempP;
-
-                                //Thread.Sleep(75);
                             }
                             else 
                             {
@@ -727,6 +736,12 @@ namespace ProjectDemo_1
             combo = 0;
             red = 0; orange = 0; green = 0; blue = 0; purple = 0;
         }
-        
+
+        // 延遲時間
+        async Task PutTaskDelay()
+        {
+            await Task.Delay(500);
+        }
+
     }
 }
