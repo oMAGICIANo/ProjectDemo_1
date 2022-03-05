@@ -41,6 +41,10 @@ namespace ProjectDemo_1
             this.buttonStop = new System.Windows.Forms.Button();
             this.buttonRestart = new System.Windows.Forms.Button();
             this.labelColorCombo = new System.Windows.Forms.Label();
+            this.pictureBoxHP = new System.Windows.Forms.PictureBox();
+            this.pictureBoxTime = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxHP)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTime)).BeginInit();
             this.SuspendLayout();
             // 
             // panelGrid
@@ -82,12 +86,12 @@ namespace ProjectDemo_1
             // labelTimer
             // 
             this.labelTimer.AutoSize = true;
-            this.labelTimer.Font = new System.Drawing.Font("Microsoft JhengHei UI", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelTimer.Font = new System.Drawing.Font("Microsoft JhengHei UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelTimer.Location = new System.Drawing.Point(628, 17);
             this.labelTimer.Name = "labelTimer";
-            this.labelTimer.Size = new System.Drawing.Size(205, 47);
+            this.labelTimer.Size = new System.Drawing.Size(133, 30);
             this.labelTimer.TabIndex = 5;
-            this.labelTimer.Text = "關卡剩餘：";
+            this.labelTimer.Text = "關卡時間：";
             // 
             // timerMain
             // 
@@ -97,8 +101,9 @@ namespace ProjectDemo_1
             // labelHP
             // 
             this.labelHP.AutoSize = true;
+            this.labelHP.BackColor = System.Drawing.Color.Transparent;
             this.labelHP.Font = new System.Drawing.Font("Microsoft JhengHei UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelHP.Location = new System.Drawing.Point(628, 93);
+            this.labelHP.Location = new System.Drawing.Point(628, 86);
             this.labelHP.Name = "labelHP";
             this.labelHP.Size = new System.Drawing.Size(71, 30);
             this.labelHP.TabIndex = 7;
@@ -144,6 +149,24 @@ namespace ProjectDemo_1
             this.labelColorCombo.TabIndex = 10;
             this.labelColorCombo.Text = "labelColorCombo";
             // 
+            // pictureBoxHP
+            // 
+            this.pictureBoxHP.BackColor = System.Drawing.Color.Red;
+            this.pictureBoxHP.Location = new System.Drawing.Point(628, 119);
+            this.pictureBoxHP.Name = "pictureBoxHP";
+            this.pictureBoxHP.Size = new System.Drawing.Size(940, 25);
+            this.pictureBoxHP.TabIndex = 11;
+            this.pictureBoxHP.TabStop = false;
+            // 
+            // pictureBoxTime
+            // 
+            this.pictureBoxTime.BackColor = System.Drawing.Color.Gold;
+            this.pictureBoxTime.Location = new System.Drawing.Point(628, 50);
+            this.pictureBoxTime.Name = "pictureBoxTime";
+            this.pictureBoxTime.Size = new System.Drawing.Size(940, 25);
+            this.pictureBoxTime.TabIndex = 12;
+            this.pictureBoxTime.TabStop = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -151,11 +174,13 @@ namespace ProjectDemo_1
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1584, 661);
+            this.Controls.Add(this.pictureBoxTime);
+            this.Controls.Add(this.labelHP);
+            this.Controls.Add(this.pictureBoxHP);
             this.Controls.Add(this.labelColorCombo);
             this.Controls.Add(this.buttonRestart);
             this.Controls.Add(this.buttonStop);
             this.Controls.Add(this.buttonStart);
-            this.Controls.Add(this.labelHP);
             this.Controls.Add(this.labelTimer);
             this.Controls.Add(this.panelFight);
             this.Controls.Add(this.labelCombo);
@@ -168,6 +193,8 @@ namespace ProjectDemo_1
             this.Text = "Project Demo 1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxHP)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTime)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -185,6 +212,8 @@ namespace ProjectDemo_1
         private System.Windows.Forms.Button buttonStop;
         private System.Windows.Forms.Button buttonRestart;
         private System.Windows.Forms.Label labelColorCombo;
+        private System.Windows.Forms.PictureBox pictureBoxHP;
+        private System.Windows.Forms.PictureBox pictureBoxTime;
     }
 }
 

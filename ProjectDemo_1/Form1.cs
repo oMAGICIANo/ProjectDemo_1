@@ -36,17 +36,17 @@ namespace ProjectDemo_1
         // 是否有新增 combo
         private bool addComboFlag = false;
         // 關卡秒數
-        private const int LEVEL_TIME = 180;
+        private const int LEVEL_TIME = 60;
         private int time = LEVEL_TIME;
         private int timeCount;
         // 設定玩家、怪物物件
         private Player myPlayer;
         private const int PLAYER_HP = 5000;
-        private Monster myMonster;
         private const int MONSTER_MAX = 200;
         private int monsterCount;
         private PictureBox[] monster = new PictureBox[MONSTER_MAX];
-      
+        private const int DAMAGE = 100;
+
         public Form1()
         {
             InitializeComponent();
@@ -84,6 +84,7 @@ namespace ProjectDemo_1
                 }
 
                 FindBeadPoint();
+                EnabledTurnBead(false);
                 BeadGroup();
                 ResetComboCount();
 
@@ -99,6 +100,7 @@ namespace ProjectDemo_1
 
                 DisplayBeadInfo();
                 RemoveMonster();
+                EnabledTurnBead(true);
             }
         }
 
@@ -211,7 +213,7 @@ namespace ProjectDemo_1
         }
 
         // 攻擊怪
-        private void RemoveMonster()
+        private async void RemoveMonster()
         {
             int redCount = 0;
             int orangeCount = 0;
@@ -223,6 +225,9 @@ namespace ProjectDemo_1
             {
                 if (red > redCount && red > 0 && monster[i].Visible && monster[i].Image.Tag.ToString() == "1")
                 {
+                    monster[i].Image = Resources.explosion;
+                    await PutTaskDelay();
+
                     monster[i].Visible = false;
                     monster[i].Dispose();
                     redCount++;
@@ -230,6 +235,9 @@ namespace ProjectDemo_1
 
                 if (orange > orangeCount && orange > 0 && monster[i].Visible && monster[i].Image.Tag.ToString() == "2")
                 {
+                    monster[i].Image = Resources.explosion;
+                    await PutTaskDelay();
+
                     monster[i].Visible = false;
                     monster[i].Dispose();
                     orangeCount++;
@@ -237,6 +245,9 @@ namespace ProjectDemo_1
 
                 if (green > greenCount && green > 0 && monster[i].Visible && monster[i].Image.Tag.ToString() == "3")
                 {
+                    monster[i].Image = Resources.explosion;
+                    await PutTaskDelay();
+
                     monster[i].Visible = false;
                     monster[i].Dispose();
                     greenCount++;
@@ -244,6 +255,9 @@ namespace ProjectDemo_1
 
                 if (blue > blueCount && blue > 0 && monster[i].Visible && monster[i].Image.Tag.ToString() == "4")
                 {
+                    monster[i].Image = Resources.explosion;
+                    await PutTaskDelay();
+
                     monster[i].Visible = false;
                     monster[i].Dispose();
                     blueCount++;
@@ -251,6 +265,9 @@ namespace ProjectDemo_1
 
                 if (purple > purpleCount && purple > 0 && monster[i].Visible && monster[i].Image.Tag.ToString() == "5")
                 {
+                    monster[i].Image = Resources.explosion;
+                    await PutTaskDelay();
+
                     monster[i].Visible = false;
                     monster[i].Dispose();
                     purpleCount++;
@@ -265,14 +282,26 @@ namespace ProjectDemo_1
             {
                 monsterCount = 0;
 
-                labelTimer.Text = "關卡時間：" + time;
-                labelHP.Text = "HP: " + myPlayer.HP;
+                labelTimer.Text = "Time：" + time + " / " + LEVEL_TIME;
+                float pictureboxTime = (940f / LEVEL_TIME) * time;
+                pictureBoxTime.Size = new Size((int)pictureboxTime, 25);
+
+                labelHP.Text = "HP：" + myPlayer.HP + " / " + PLAYER_HP;
+                float pictureboxHP = (940f / PLAYER_HP) * myPlayer.HP;
+                pictureBoxHP.Size = new Size((int)pictureboxHP, 25);
 
                 time--;
             }
-            else if (time < 0)
+            else if (time <= 0)
             {
                 labelTimer.Text = "時間到！, 你贏了！";
+
+                float pictureboxTime = (940f / LEVEL_TIME) * time;
+                pictureBoxTime.Size = new Size((int)pictureboxTime, 25);
+
+                labelHP.Text = "HP：" + myPlayer.HP + " / " + PLAYER_HP;
+                float pictureboxHP = (940f / PLAYER_HP) * myPlayer.HP;
+                pictureBoxHP.Size = new Size((int)pictureboxHP, 25);
 
                 timerMain.Stop();
 
@@ -281,11 +310,15 @@ namespace ProjectDemo_1
             }
             else
             {
-                labelTimer.Text = "關卡時間：" + time;
+                labelTimer.Text = "Time：" + time + " / " + LEVEL_TIME;
+
+                float pictureboxTime = (940f / LEVEL_TIME) * time;
+
+                pictureBoxTime.Size = new Size((int)pictureboxTime, 25);
 
                 if (timeCount >= 100)
                 { 
-                    timeCount = 0;
+                    timeCount = 1;
 
                     Level_1(monsterCount);
 
@@ -305,7 +338,11 @@ namespace ProjectDemo_1
                         monster[i].Visible = false;
                         monster[i].Dispose();
 
-                        myPlayer.HP -= 100;
+                        myPlayer.HP -= DAMAGE;
+
+                        float pictureboxHP = (940f / PLAYER_HP) * myPlayer.HP;
+
+                        pictureBoxHP.Size = new Size((int)pictureboxHP, 25);
 
                         if (myPlayer.HP <= 0)
                         {
@@ -317,7 +354,7 @@ namespace ProjectDemo_1
                             buttonRestart.Enabled = true;
                         }
 
-                        labelHP.Text = "HP: " + myPlayer.HP;
+                        labelHP.Text = "HP：" + myPlayer.HP + " / " + PLAYER_HP;
                     }
                 }
             }
@@ -347,14 +384,19 @@ namespace ProjectDemo_1
 
             //Form.CheckForIllegalCrossThreadCalls = false;
 
-            timeCount = 0;
+            timeCount = 1;
             time = LEVEL_TIME;
 
-            labelTimer.Text = "關卡時間：" + time;
+            labelTimer.Text = "Time：" + time + " / " + LEVEL_TIME;
+            float pictureboxTime = (940f / LEVEL_TIME) * time;
+            pictureBoxTime.Size = new Size((int)pictureboxTime, 25);
 
             myPlayer = new Player("Hsu", PLAYER_HP);
 
-            labelHP.Text = "HP: " + myPlayer.HP;
+            labelHP.Text = "HP：" + myPlayer.HP + " / " + PLAYER_HP;
+            float pictureboxHP = (940f / PLAYER_HP) * myPlayer.HP;
+            pictureBoxHP.Size = new Size((int)pictureboxHP, 25);
+
 
             for (int i = 0; i < monster.Length; i++)
             {
@@ -741,6 +783,25 @@ namespace ProjectDemo_1
         async Task PutTaskDelay()
         {
             await Task.Delay(500);
+        }
+
+        //  開關是否可轉珠
+        private void EnabledTurnBead(bool flag)
+        {
+            for (int i = 0; i < ROW; i++)
+            {
+                for (int j = 0; j < COLUMN; j++)
+                {
+                    if (flag)
+                    {
+                        numberGrid[i, j].Enabled = true;
+                    }
+                    else
+                    {
+                        numberGrid[i, j].Enabled = false;
+                    }
+                }
+            }
         }
 
     }
