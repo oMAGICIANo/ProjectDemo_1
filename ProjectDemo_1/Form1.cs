@@ -36,16 +36,15 @@ namespace ProjectDemo_1
         // 是否有新增 combo
         private bool addComboFlag = false;
         // 關卡秒數
-        private const int LEVEL_TIME = 60;
-        private int time = LEVEL_TIME;
-        private int timeCount;
+        private int time;
         // 設定玩家、怪物物件
         private Player myPlayer;
-        private const int PLAYER_HP = 5000;
+        private const int PLAYER_HP = 1000000;
         private const int MONSTER_MAX = 200;
         private int monsterCount;
         private PictureBox[] monster = new PictureBox[MONSTER_MAX];
         private const int DAMAGE = 100;
+        private int speed;
 
         public Form1()
         {
@@ -58,6 +57,8 @@ namespace ProjectDemo_1
             DisplayBeadInfo();
 
             SetObject();
+            FindBeadPoint();
+            EnabledTurnBead(false);
         }
 
         private async void pictureBox_MouseUp(object sender, MouseEventArgs e)
@@ -231,6 +232,8 @@ namespace ProjectDemo_1
                     monster[i].Visible = false;
                     monster[i].Dispose();
                     redCount++;
+
+                    myPlayer.Score += 100;
                 }
 
                 if (orange > orangeCount && orange > 0 && monster[i].Visible && monster[i].Image.Tag.ToString() == "2")
@@ -241,6 +244,8 @@ namespace ProjectDemo_1
                     monster[i].Visible = false;
                     monster[i].Dispose();
                     orangeCount++;
+
+                    myPlayer.Score += 100;
                 }
 
                 if (green > greenCount && green > 0 && monster[i].Visible && monster[i].Image.Tag.ToString() == "3")
@@ -251,6 +256,8 @@ namespace ProjectDemo_1
                     monster[i].Visible = false;
                     monster[i].Dispose();
                     greenCount++;
+
+                    myPlayer.Score += 100;
                 }
 
                 if (blue > blueCount && blue > 0 && monster[i].Visible && monster[i].Image.Tag.ToString() == "4")
@@ -261,6 +268,8 @@ namespace ProjectDemo_1
                     monster[i].Visible = false;
                     monster[i].Dispose();
                     blueCount++;
+
+                    myPlayer.Score += 100;
                 }
 
                 if (purple > purpleCount && purple > 0 && monster[i].Visible && monster[i].Image.Tag.ToString() == "5")
@@ -271,6 +280,8 @@ namespace ProjectDemo_1
                     monster[i].Visible = false;
                     monster[i].Dispose();
                     purpleCount++;
+
+                    myPlayer.Score += 100;
                 }
             }
         }
@@ -278,58 +289,44 @@ namespace ProjectDemo_1
         // 計時器
         private void timerMain_Tick(object sender, EventArgs e)
         {
-            if (time == LEVEL_TIME)
+            if (time == 0)
             {
                 monsterCount = 0;
+                speed = 1;
 
-                labelTimer.Text = "Time：" + time + " / " + LEVEL_TIME;
-                float pictureboxTime = (940f / LEVEL_TIME) * time;
-                pictureBoxTime.Size = new Size((int)pictureboxTime, 25);
-
-                labelHP.Text = "HP：" + myPlayer.HP + " / " + PLAYER_HP;
-                float pictureboxHP = (940f / PLAYER_HP) * myPlayer.HP;
-                pictureBoxHP.Size = new Size((int)pictureboxHP, 25);
-
-                time--;
-            }
-            else if (time <= 0)
-            {
-                labelTimer.Text = "時間到！, 你贏了！";
-
-                float pictureboxTime = (940f / LEVEL_TIME) * time;
-                pictureBoxTime.Size = new Size((int)pictureboxTime, 25);
+                labelGamePoint.Text = "Score：" + myPlayer.Score;
+                labelSpeed.Text = "Speed：" + speed;
 
                 labelHP.Text = "HP：" + myPlayer.HP + " / " + PLAYER_HP;
                 float pictureboxHP = (940f / PLAYER_HP) * myPlayer.HP;
                 pictureBoxHP.Size = new Size((int)pictureboxHP, 25);
 
-                timerMain.Stop();
-
-                buttonStop.Enabled = false;
-                buttonRestart.Enabled = true;
+                time++;
             }
             else
             {
-                labelTimer.Text = "Time：" + time + " / " + LEVEL_TIME;
-
-                float pictureboxTime = (940f / LEVEL_TIME) * time;
-
-                pictureBoxTime.Size = new Size((int)pictureboxTime, 25);
-
-                if (timeCount >= 100)
-                { 
-                    timeCount = 1;
-
+                if (time % 20 == 0)
+                {
                     Level_1(monsterCount);
 
-                    time--;
-                } 
+                    if (time > 100)
+                    {
+                        time = 1;
+
+                        if (speed < 10)
+                        { 
+                            speed += 1;
+
+                            labelSpeed.Text = "Speed：" + speed;
+                        }
+                    }
+                }
 
                 for (int i = 0; i < monster.Length; i++)
                 {
                     if (monster[i].Visible)
                     {
-                        monster[i].Location = new Point(monster[i].Location.X - 1,
+                        monster[i].Location = new Point(monster[i].Location.X - speed,
                                                         monster[i].Location.Y);
                     }
 
@@ -341,25 +338,33 @@ namespace ProjectDemo_1
                         myPlayer.HP -= DAMAGE;
 
                         float pictureboxHP = (940f / PLAYER_HP) * myPlayer.HP;
-
                         pictureBoxHP.Size = new Size((int)pictureboxHP, 25);
 
                         if (myPlayer.HP <= 0)
                         {
-                            labelTimer.Text = "你輸了！";
-
                             timerMain.Stop();
+                            panelGrid.Controls.Clear();
+                            panelFight.Controls.Clear();
 
                             buttonStop.Enabled = false;
                             buttonRestart.Enabled = true;
+
+                            labelHP.Text = "HP：" + myPlayer.HP + " / " + PLAYER_HP;
+
+                            MessageBox.Show("Score：" + myPlayer.Score, 
+                                            "分數",
+                                            MessageBoxButtons.OK,
+                                            MessageBoxIcon.Information);
                         }
 
                         labelHP.Text = "HP：" + myPlayer.HP + " / " + PLAYER_HP;
                     }
                 }
-            }
 
-            timeCount++;
+                labelGamePoint.Text = "Score：" + myPlayer.Score;
+
+                time++;
+            }
         }
 
         // 關卡 1
@@ -384,19 +389,18 @@ namespace ProjectDemo_1
 
             //Form.CheckForIllegalCrossThreadCalls = false;
 
-            timeCount = 1;
-            time = LEVEL_TIME;
+            time = 0;
+            speed = 0;
 
-            labelTimer.Text = "Time：" + time + " / " + LEVEL_TIME;
-            float pictureboxTime = (940f / LEVEL_TIME) * time;
-            pictureBoxTime.Size = new Size((int)pictureboxTime, 25);
+            myPlayer = new Player("Hsu", PLAYER_HP, 0);
 
-            myPlayer = new Player("Hsu", PLAYER_HP);
+            labelGamePoint.Text = "Score：" + myPlayer.Score;
 
             labelHP.Text = "HP：" + myPlayer.HP + " / " + PLAYER_HP;
             float pictureboxHP = (940f / PLAYER_HP) * myPlayer.HP;
             pictureBoxHP.Size = new Size((int)pictureboxHP, 25);
 
+            labelSpeed.Text = "Speed：" + speed;
 
             for (int i = 0; i < monster.Length; i++)
             {
@@ -407,7 +411,7 @@ namespace ProjectDemo_1
                 int randomPoint = myRandom.Next(1, 5);
 
                 monster[i].Location = new Point(900, randomPoint * 100);
-                monster[i].Size = new Size(50, 50);
+                monster[i].Size = new Size(60, 60);
                 monster[i].SizeMode = PictureBoxSizeMode.Zoom;
 
                 System.Drawing.Drawing2D.GraphicsPath path = new System.Drawing.Drawing2D.GraphicsPath();
@@ -455,8 +459,11 @@ namespace ProjectDemo_1
             buttonRestart.Enabled = false;
 
             timerMain.Start();
+
+            EnabledTurnBead(true);
         }
 
+        // 暫停遊戲
         private void buttonStop_Click(object sender, EventArgs e)
         {
             buttonStart.Enabled = true;
@@ -464,14 +471,20 @@ namespace ProjectDemo_1
             buttonRestart.Enabled = true;
 
             timerMain.Stop();
+
+            EnabledTurnBead(false);
         }
 
+        // 重新開始
         private void buttonRestart_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < monster.Length; i++)
             {
                 monster[i].Dispose();
             }
+
+            panelGrid.Controls.Clear();
+            InitGrid();
 
             SetObject();
 
@@ -481,6 +494,8 @@ namespace ProjectDemo_1
 
             timerMain.Start();
 
+            FindBeadPoint();
+            EnabledTurnBead(true);
         }
 
         // 隨機珠子顏色

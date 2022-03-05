@@ -8,17 +8,20 @@ namespace ProjectDemo_1
     {
         private string name;
         private int hp;
+        private int score;
 
         public Player()
         {
             name = "Unknown";
             hp = 1;
+            score = 0;
         }
 
-        public Player(string name, int hp)
+        public Player(string name, int hp, int score)
         {
             this.name = name;
             this.hp = hp;
+            this.score = score;
         }
 
         public int HP
@@ -30,6 +33,26 @@ namespace ProjectDemo_1
             set 
             {
                 this.hp = value;
+            }
+        }
+
+        public string Name
+        {
+            get
+            {
+                return this.name;
+            }
+        }
+
+        public int Score
+        {
+            get
+            {
+                return this.score;            
+            }
+            set 
+            {
+                this.score = value;
             }
         }
     }

@@ -34,7 +34,7 @@ namespace ProjectDemo_1
             this.buttonReset = new System.Windows.Forms.Button();
             this.labelCombo = new System.Windows.Forms.Label();
             this.panelFight = new System.Windows.Forms.Panel();
-            this.labelTimer = new System.Windows.Forms.Label();
+            this.labelGamePoint = new System.Windows.Forms.Label();
             this.timerMain = new System.Windows.Forms.Timer(this.components);
             this.labelHP = new System.Windows.Forms.Label();
             this.buttonStart = new System.Windows.Forms.Button();
@@ -42,9 +42,8 @@ namespace ProjectDemo_1
             this.buttonRestart = new System.Windows.Forms.Button();
             this.labelColorCombo = new System.Windows.Forms.Label();
             this.pictureBoxHP = new System.Windows.Forms.PictureBox();
-            this.pictureBoxTime = new System.Windows.Forms.PictureBox();
+            this.labelSpeed = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxHP)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTime)).BeginInit();
             this.SuspendLayout();
             // 
             // panelGrid
@@ -83,19 +82,18 @@ namespace ProjectDemo_1
             this.panelFight.Size = new System.Drawing.Size(940, 500);
             this.panelFight.TabIndex = 4;
             // 
-            // labelTimer
+            // labelGamePoint
             // 
-            this.labelTimer.AutoSize = true;
-            this.labelTimer.Font = new System.Drawing.Font("Microsoft JhengHei UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelTimer.Location = new System.Drawing.Point(628, 17);
-            this.labelTimer.Name = "labelTimer";
-            this.labelTimer.Size = new System.Drawing.Size(133, 30);
-            this.labelTimer.TabIndex = 5;
-            this.labelTimer.Text = "關卡時間：";
+            this.labelGamePoint.AutoSize = true;
+            this.labelGamePoint.Font = new System.Drawing.Font("Microsoft JhengHei UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelGamePoint.Location = new System.Drawing.Point(628, 38);
+            this.labelGamePoint.Name = "labelGamePoint";
+            this.labelGamePoint.Size = new System.Drawing.Size(101, 30);
+            this.labelGamePoint.TabIndex = 5;
+            this.labelGamePoint.Text = "Score：";
             // 
             // timerMain
             // 
-            this.timerMain.Interval = 10;
             this.timerMain.Tick += new System.EventHandler(this.timerMain_Tick);
             // 
             // labelHP
@@ -158,14 +156,15 @@ namespace ProjectDemo_1
             this.pictureBoxHP.TabIndex = 11;
             this.pictureBoxHP.TabStop = false;
             // 
-            // pictureBoxTime
+            // labelSpeed
             // 
-            this.pictureBoxTime.BackColor = System.Drawing.Color.Gold;
-            this.pictureBoxTime.Location = new System.Drawing.Point(628, 50);
-            this.pictureBoxTime.Name = "pictureBoxTime";
-            this.pictureBoxTime.Size = new System.Drawing.Size(940, 25);
-            this.pictureBoxTime.TabIndex = 12;
-            this.pictureBoxTime.TabStop = false;
+            this.labelSpeed.AutoSize = true;
+            this.labelSpeed.Font = new System.Drawing.Font("Microsoft JhengHei UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelSpeed.Location = new System.Drawing.Point(1422, 75);
+            this.labelSpeed.Name = "labelSpeed";
+            this.labelSpeed.Size = new System.Drawing.Size(109, 30);
+            this.labelSpeed.TabIndex = 12;
+            this.labelSpeed.Text = "Speed：";
             // 
             // Form1
             // 
@@ -174,14 +173,14 @@ namespace ProjectDemo_1
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1584, 661);
-            this.Controls.Add(this.pictureBoxTime);
+            this.Controls.Add(this.labelSpeed);
             this.Controls.Add(this.labelHP);
             this.Controls.Add(this.pictureBoxHP);
             this.Controls.Add(this.labelColorCombo);
             this.Controls.Add(this.buttonRestart);
             this.Controls.Add(this.buttonStop);
             this.Controls.Add(this.buttonStart);
-            this.Controls.Add(this.labelTimer);
+            this.Controls.Add(this.labelGamePoint);
             this.Controls.Add(this.panelFight);
             this.Controls.Add(this.labelCombo);
             this.Controls.Add(this.buttonReset);
@@ -194,7 +193,6 @@ namespace ProjectDemo_1
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxHP)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTime)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -205,7 +203,7 @@ namespace ProjectDemo_1
         private System.Windows.Forms.Button buttonReset;
         private System.Windows.Forms.Label labelCombo;
         private System.Windows.Forms.Panel panelFight;
-        private System.Windows.Forms.Label labelTimer;
+        private System.Windows.Forms.Label labelGamePoint;
         private System.Windows.Forms.Timer timerMain;
         private System.Windows.Forms.Label labelHP;
         private System.Windows.Forms.Button buttonStart;
@@ -213,7 +211,7 @@ namespace ProjectDemo_1
         private System.Windows.Forms.Button buttonRestart;
         private System.Windows.Forms.Label labelColorCombo;
         private System.Windows.Forms.PictureBox pictureBoxHP;
-        private System.Windows.Forms.PictureBox pictureBoxTime;
+        private System.Windows.Forms.Label labelSpeed;
     }
 }
 
