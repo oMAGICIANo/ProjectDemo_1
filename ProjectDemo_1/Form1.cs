@@ -18,7 +18,7 @@ namespace ProjectDemo_1
         // 設定珠子寬度、高度
         private const int WIDTH = 100, HEIGHT = 100;
         // 換珠子感應範圍
-        private const int RANGE = 35;
+        private const int RANGE = 40;
         // 初始化珠子
         private PictureBox[,] beadGrid = new PictureBox[ROW, COLUMN];
         // 校正珠子位置
@@ -37,14 +37,19 @@ namespace ProjectDemo_1
         private bool addComboFlag = false;
         // 關卡秒數
         private int time;
+        // 生怪秒數
+        private int monsterTime;
+        // 升級速度
+        private const int SPEED_TIME = 300;
         // 設定玩家、怪物物件
         private Player myPlayer;
         private const int PLAYER_HP = 1000000;
-        private const int MONSTER_MAX = 200;
+        private const int MONSTER_MAX = 500;
         private int monsterCount;
         private PictureBox[] monster = new PictureBox[MONSTER_MAX];
         private const int DAMAGE = 100;
         private int speed;
+        private const int SPEED_MAX = 15;
 
         public Form1()
         {
@@ -293,6 +298,7 @@ namespace ProjectDemo_1
             {
                 monsterCount = 0;
                 speed = 1;
+                monsterTime = 20;
 
                 labelGamePoint.Text = "Score：" + myPlayer.Score;
                 labelSpeed.Text = "Speed：" + speed;
@@ -305,15 +311,28 @@ namespace ProjectDemo_1
             }
             else
             {
-                if (time % 20 == 0)
+                if (speed == 5)
+                {
+                    monsterTime = 15;
+                }
+                if (speed == 10)
+                {
+                    monsterTime = 10;
+                }
+                if (speed == 15)
+                {
+                    monsterTime = 5;
+                }
+
+                if (time % monsterTime == 0)
                 {
                     Level_1(monsterCount);
 
-                    if (time > 100)
+                    if (time > SPEED_TIME)
                     {
                         time = 1;
 
-                        if (speed < 10)
+                        if (speed < SPEED_MAX)
                         { 
                             speed += 1;
 

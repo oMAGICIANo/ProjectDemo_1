@@ -56,7 +56,7 @@ namespace ProjectDemo_1
             // 
             // buttonReset
             // 
-            this.buttonReset.Location = new System.Drawing.Point(535, 17);
+            this.buttonReset.Location = new System.Drawing.Point(12, 17);
             this.buttonReset.Name = "buttonReset";
             this.buttonReset.Size = new System.Drawing.Size(75, 23);
             this.buttonReset.TabIndex = 2;
@@ -68,7 +68,7 @@ namespace ProjectDemo_1
             // 
             this.labelCombo.AutoSize = true;
             this.labelCombo.Font = new System.Drawing.Font("Microsoft JhengHei UI", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelCombo.Location = new System.Drawing.Point(297, 75);
+            this.labelCombo.Location = new System.Drawing.Point(378, 80);
             this.labelCombo.Name = "labelCombo";
             this.labelCombo.Size = new System.Drawing.Size(232, 47);
             this.labelCombo.TabIndex = 3;
@@ -109,7 +109,7 @@ namespace ProjectDemo_1
             // 
             // buttonStart
             // 
-            this.buttonStart.Location = new System.Drawing.Point(535, 46);
+            this.buttonStart.Location = new System.Drawing.Point(12, 46);
             this.buttonStart.Name = "buttonStart";
             this.buttonStart.Size = new System.Drawing.Size(75, 23);
             this.buttonStart.TabIndex = 8;
@@ -119,7 +119,7 @@ namespace ProjectDemo_1
             // 
             // buttonStop
             // 
-            this.buttonStop.Location = new System.Drawing.Point(535, 75);
+            this.buttonStop.Location = new System.Drawing.Point(12, 75);
             this.buttonStop.Name = "buttonStop";
             this.buttonStop.Size = new System.Drawing.Size(75, 23);
             this.buttonStop.TabIndex = 9;
@@ -129,7 +129,7 @@ namespace ProjectDemo_1
             // 
             // buttonRestart
             // 
-            this.buttonRestart.Location = new System.Drawing.Point(535, 104);
+            this.buttonRestart.Location = new System.Drawing.Point(12, 104);
             this.buttonRestart.Name = "buttonRestart";
             this.buttonRestart.Size = new System.Drawing.Size(75, 23);
             this.buttonRestart.TabIndex = 9;
@@ -141,7 +141,7 @@ namespace ProjectDemo_1
             // 
             this.labelColorCombo.AutoSize = true;
             this.labelColorCombo.Font = new System.Drawing.Font("Microsoft JhengHei UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelColorCombo.Location = new System.Drawing.Point(12, 9);
+            this.labelColorCombo.Location = new System.Drawing.Point(93, 17);
             this.labelColorCombo.Name = "labelColorCombo";
             this.labelColorCombo.Size = new System.Drawing.Size(169, 24);
             this.labelColorCombo.TabIndex = 10;
