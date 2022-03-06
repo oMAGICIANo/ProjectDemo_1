@@ -40,7 +40,6 @@ namespace ProjectDemo_1
             this.buttonStart = new System.Windows.Forms.Button();
             this.buttonStop = new System.Windows.Forms.Button();
             this.buttonRestart = new System.Windows.Forms.Button();
-            this.labelColorCombo = new System.Windows.Forms.Label();
             this.pictureBoxHP = new System.Windows.Forms.PictureBox();
             this.labelSpeed = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxHP)).BeginInit();
@@ -67,26 +66,26 @@ namespace ProjectDemo_1
             // labelCombo
             // 
             this.labelCombo.AutoSize = true;
-            this.labelCombo.Font = new System.Drawing.Font("Microsoft JhengHei UI", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelCombo.Location = new System.Drawing.Point(378, 80);
+            this.labelCombo.Font = new System.Drawing.Font("Microsoft JhengHei UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelCombo.Location = new System.Drawing.Point(460, 77);
             this.labelCombo.Name = "labelCombo";
-            this.labelCombo.Size = new System.Drawing.Size(232, 47);
+            this.labelCombo.Size = new System.Drawing.Size(150, 30);
             this.labelCombo.TabIndex = 3;
             this.labelCombo.Text = "labelCombo";
             // 
             // panelFight
             // 
             this.panelFight.BackColor = System.Drawing.Color.Silver;
-            this.panelFight.Location = new System.Drawing.Point(628, 150);
+            this.panelFight.Location = new System.Drawing.Point(628, 12);
             this.panelFight.Name = "panelFight";
-            this.panelFight.Size = new System.Drawing.Size(940, 500);
+            this.panelFight.Size = new System.Drawing.Size(940, 638);
             this.panelFight.TabIndex = 4;
             // 
             // labelGamePoint
             // 
             this.labelGamePoint.AutoSize = true;
             this.labelGamePoint.Font = new System.Drawing.Font("Microsoft JhengHei UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelGamePoint.Location = new System.Drawing.Point(628, 38);
+            this.labelGamePoint.Location = new System.Drawing.Point(13, 52);
             this.labelGamePoint.Name = "labelGamePoint";
             this.labelGamePoint.Size = new System.Drawing.Size(101, 30);
             this.labelGamePoint.TabIndex = 5;
@@ -101,7 +100,7 @@ namespace ProjectDemo_1
             this.labelHP.AutoSize = true;
             this.labelHP.BackColor = System.Drawing.Color.Transparent;
             this.labelHP.Font = new System.Drawing.Font("Microsoft JhengHei UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelHP.Location = new System.Drawing.Point(628, 86);
+            this.labelHP.Location = new System.Drawing.Point(10, 86);
             this.labelHP.Name = "labelHP";
             this.labelHP.Size = new System.Drawing.Size(71, 30);
             this.labelHP.TabIndex = 7;
@@ -109,7 +108,7 @@ namespace ProjectDemo_1
             // 
             // buttonStart
             // 
-            this.buttonStart.Location = new System.Drawing.Point(12, 46);
+            this.buttonStart.Location = new System.Drawing.Point(93, 17);
             this.buttonStart.Name = "buttonStart";
             this.buttonStart.Size = new System.Drawing.Size(75, 23);
             this.buttonStart.TabIndex = 8;
@@ -119,7 +118,7 @@ namespace ProjectDemo_1
             // 
             // buttonStop
             // 
-            this.buttonStop.Location = new System.Drawing.Point(12, 75);
+            this.buttonStop.Location = new System.Drawing.Point(174, 17);
             this.buttonStop.Name = "buttonStop";
             this.buttonStop.Size = new System.Drawing.Size(75, 23);
             this.buttonStop.TabIndex = 9;
@@ -129,7 +128,7 @@ namespace ProjectDemo_1
             // 
             // buttonRestart
             // 
-            this.buttonRestart.Location = new System.Drawing.Point(12, 104);
+            this.buttonRestart.Location = new System.Drawing.Point(255, 17);
             this.buttonRestart.Name = "buttonRestart";
             this.buttonRestart.Size = new System.Drawing.Size(75, 23);
             this.buttonRestart.TabIndex = 9;
@@ -137,22 +136,12 @@ namespace ProjectDemo_1
             this.buttonRestart.UseVisualStyleBackColor = true;
             this.buttonRestart.Click += new System.EventHandler(this.buttonRestart_Click);
             // 
-            // labelColorCombo
-            // 
-            this.labelColorCombo.AutoSize = true;
-            this.labelColorCombo.Font = new System.Drawing.Font("Microsoft JhengHei UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelColorCombo.Location = new System.Drawing.Point(93, 17);
-            this.labelColorCombo.Name = "labelColorCombo";
-            this.labelColorCombo.Size = new System.Drawing.Size(169, 24);
-            this.labelColorCombo.TabIndex = 10;
-            this.labelColorCombo.Text = "labelColorCombo";
-            // 
             // pictureBoxHP
             // 
             this.pictureBoxHP.BackColor = System.Drawing.Color.Red;
-            this.pictureBoxHP.Location = new System.Drawing.Point(628, 119);
+            this.pictureBoxHP.Location = new System.Drawing.Point(10, 119);
             this.pictureBoxHP.Name = "pictureBoxHP";
-            this.pictureBoxHP.Size = new System.Drawing.Size(940, 25);
+            this.pictureBoxHP.Size = new System.Drawing.Size(600, 25);
             this.pictureBoxHP.TabIndex = 11;
             this.pictureBoxHP.TabStop = false;
             // 
@@ -160,7 +149,7 @@ namespace ProjectDemo_1
             // 
             this.labelSpeed.AutoSize = true;
             this.labelSpeed.Font = new System.Drawing.Font("Microsoft JhengHei UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelSpeed.Location = new System.Drawing.Point(1422, 75);
+            this.labelSpeed.Location = new System.Drawing.Point(460, 47);
             this.labelSpeed.Name = "labelSpeed";
             this.labelSpeed.Size = new System.Drawing.Size(109, 30);
             this.labelSpeed.TabIndex = 12;
@@ -176,7 +165,6 @@ namespace ProjectDemo_1
             this.Controls.Add(this.labelSpeed);
             this.Controls.Add(this.labelHP);
             this.Controls.Add(this.pictureBoxHP);
-            this.Controls.Add(this.labelColorCombo);
             this.Controls.Add(this.buttonRestart);
             this.Controls.Add(this.buttonStop);
             this.Controls.Add(this.buttonStart);
@@ -209,7 +197,6 @@ namespace ProjectDemo_1
         private System.Windows.Forms.Button buttonStart;
         private System.Windows.Forms.Button buttonStop;
         private System.Windows.Forms.Button buttonRestart;
-        private System.Windows.Forms.Label labelColorCombo;
         private System.Windows.Forms.PictureBox pictureBoxHP;
         private System.Windows.Forms.Label labelSpeed;
     }

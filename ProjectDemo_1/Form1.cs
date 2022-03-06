@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ProjectDemo_1.Properties;
+using System.Media;
 
 namespace ProjectDemo_1
 {
@@ -32,7 +33,7 @@ namespace ProjectDemo_1
         // 是否有移動珠子
         private int moveCount = 0;
         // 記錄消除珠子數量、種類
-        private int combo, red, orange, green, blue, purple;
+        private int combo, red, orange, green, white, ban;
         // 是否有新增 combo
         private bool addComboFlag = false;
         // 關卡秒數
@@ -43,7 +44,7 @@ namespace ProjectDemo_1
         private const int SPEED_TIME = 300;
         // 設定玩家、怪物物件
         private Player myPlayer;
-        private const int PLAYER_HP = 1000000;
+        private const int PLAYER_HP = 10000;
         private const int MONSTER_MAX = 500;
         private int monsterCount;
         private PictureBox[] monster = new PictureBox[MONSTER_MAX];
@@ -105,6 +106,7 @@ namespace ProjectDemo_1
                 }
 
                 DisplayBeadInfo();
+                TurnSkill();
                 RemoveMonster();
                 EnabledTurnBead(true);
             }
@@ -224,8 +226,6 @@ namespace ProjectDemo_1
             int redCount = 0;
             int orangeCount = 0;
             int greenCount = 0;
-            int blueCount = 0;
-            int purpleCount = 0;
 
             for (int i = 0; i < monster.Length; i++)
             {
@@ -264,30 +264,6 @@ namespace ProjectDemo_1
 
                     myPlayer.Score += 100;
                 }
-
-                if (blue > blueCount && blue > 0 && monster[i].Visible && monster[i].Image.Tag.ToString() == "4")
-                {
-                    monster[i].Image = Resources.explosion;
-                    await PutTaskDelay();
-
-                    monster[i].Visible = false;
-                    monster[i].Dispose();
-                    blueCount++;
-
-                    myPlayer.Score += 100;
-                }
-
-                if (purple > purpleCount && purple > 0 && monster[i].Visible && monster[i].Image.Tag.ToString() == "5")
-                {
-                    monster[i].Image = Resources.explosion;
-                    await PutTaskDelay();
-
-                    monster[i].Visible = false;
-                    monster[i].Dispose();
-                    purpleCount++;
-
-                    myPlayer.Score += 100;
-                }
             }
         }
 
@@ -297,14 +273,14 @@ namespace ProjectDemo_1
             if (time == 0)
             {
                 monsterCount = 0;
-                speed = 1;
+                speed = 5;
                 monsterTime = 20;
 
                 labelGamePoint.Text = "Score：" + myPlayer.Score;
                 labelSpeed.Text = "Speed：" + speed;
 
                 labelHP.Text = "HP：" + myPlayer.HP + " / " + PLAYER_HP;
-                float pictureboxHP = (940f / PLAYER_HP) * myPlayer.HP;
+                float pictureboxHP = (600f / PLAYER_HP) * myPlayer.HP;
                 pictureBoxHP.Size = new Size((int)pictureboxHP, 25);
 
                 time++;
@@ -356,7 +332,7 @@ namespace ProjectDemo_1
 
                         myPlayer.HP -= DAMAGE;
 
-                        float pictureboxHP = (940f / PLAYER_HP) * myPlayer.HP;
+                        float pictureboxHP = (600f / PLAYER_HP) * myPlayer.HP;
                         pictureBoxHP.Size = new Size((int)pictureboxHP, 25);
 
                         if (myPlayer.HP <= 0)
@@ -416,7 +392,7 @@ namespace ProjectDemo_1
             labelGamePoint.Text = "Score：" + myPlayer.Score;
 
             labelHP.Text = "HP：" + myPlayer.HP + " / " + PLAYER_HP;
-            float pictureboxHP = (940f / PLAYER_HP) * myPlayer.HP;
+            float pictureboxHP = (600f / PLAYER_HP) * myPlayer.HP;
             pictureBoxHP.Size = new Size((int)pictureboxHP, 25);
 
             labelSpeed.Text = "Speed：" + speed;
@@ -427,7 +403,7 @@ namespace ProjectDemo_1
                 monster[i].Name = "M" + i.ToString();
 
                 Random myRandom = new Random();
-                int randomPoint = myRandom.Next(1, 5);
+                int randomPoint = myRandom.Next(1, 6);
 
                 monster[i].Location = new Point(900, randomPoint * 100);
                 monster[i].Size = new Size(60, 60);
@@ -438,7 +414,7 @@ namespace ProjectDemo_1
                 Region reg = new Region(path);
                 monster[i].Region = reg;
 
-                int randomImage = myRandom.Next(0, 5);
+                int randomImage = myRandom.Next(0, 3);
 
                 switch (randomImage)
                 {
@@ -453,14 +429,6 @@ namespace ProjectDemo_1
                     case 2:
                         monster[i].Image = Resources.green_bead;
                         monster[i].Image.Tag = "3";
-                        break;
-                    case 3:
-                        monster[i].Image = Resources.blue_bead;
-                        monster[i].Image.Tag = "4";
-                        break;
-                    case 4:
-                        monster[i].Image = Resources.purple_bead;
-                        monster[i].Image.Tag = "5";
                         break;
                 }
 
@@ -522,28 +490,36 @@ namespace ProjectDemo_1
         {
             Random myRandom = new Random();
 
-            int imageIndex = myRandom.Next(0, 5);
+            int imageIndex = myRandom.Next(0, 13);
 
             switch (imageIndex)
             {
                 case 0:
+                case 1:
+                case 2:
                     p.Image = Resources.red_bead;
                     p.Image.Tag = "1";
                     break;
-                case 1:
+                case 3:
+                case 4:
+                case 5:
                     p.Image = Resources.orange_bead;
                     p.Image.Tag = "2";
                     break;
-                case 2:
+                case 6:
+                case 7:
+                case 8:
                     p.Image = Resources.green_bead;
                     p.Image.Tag = "3";
                     break;
-                case 3:
-                    p.Image = Resources.blue_bead;
+                case 9:
+                case 10:
+                    p.Image = Resources.white_bead;
                     p.Image.Tag = "4";
                     break;
-                case 4:
-                    p.Image = Resources.purple_bead;
+                case 11:
+                case 12:
+                    p.Image = Resources.ban_bead;
                     p.Image.Tag = "5";
                     break;
             }
@@ -552,13 +528,7 @@ namespace ProjectDemo_1
         // 顯示珠子資訊
         private void DisplayBeadInfo()
         {
-            labelCombo.Text = "Combo: " + combo;
-
-            labelColorCombo.Text = "Red: " + red + "\n" +
-                                   "Orange: " + orange + "\n" +
-                                   "Green: " + green + "\n" +
-                                   "Blue: " + blue + "\n" +
-                                   "Purple: " + purple;
+            labelCombo.Text = "Combo：" + combo;
         }
 
         // 找到移動後的珠子的位置
@@ -725,7 +695,7 @@ namespace ProjectDemo_1
                 {
                     combo++;
 
-                    labelCombo.Text = "Combo: " + combo;
+                    labelCombo.Text = "Combo：" + combo;
 
                     addComboFlag = true;
 
@@ -741,10 +711,10 @@ namespace ProjectDemo_1
                             green++;
                             break;
                         case "4":
-                            blue++;
+                            white++;
                             break;
                         case "5":
-                            purple++;
+                            ban++;
                             break;
                     }
 
@@ -810,7 +780,7 @@ namespace ProjectDemo_1
         private void ResetComboCount()
         {
             combo = 0;
-            red = 0; orange = 0; green = 0; blue = 0; purple = 0;
+            red = 0; orange = 0; green = 0; white = 0;
         }
 
         // 延遲時間
@@ -836,6 +806,24 @@ namespace ProjectDemo_1
                     }
                 }
             }
+        }
+
+        // 觸發技能
+        private void TurnSkill()
+        {
+            // 回血
+            if ((myPlayer.HP + white * 500) > PLAYER_HP)
+            {
+                myPlayer.HP = PLAYER_HP;
+            }
+            else
+            {
+                myPlayer.HP += white * 500;
+            }
+
+            labelHP.Text = "HP：" + myPlayer.HP + " / " + PLAYER_HP;
+            float pictureboxHP = (600f / PLAYER_HP) * myPlayer.HP;
+            pictureBoxHP.Size = new Size((int)pictureboxHP, 25);
         }
 
     }
