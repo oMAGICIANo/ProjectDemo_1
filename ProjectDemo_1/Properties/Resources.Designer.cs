@@ -93,16 +93,6 @@ namespace ProjectDemo_1.Properties {
         /// <summary>
         ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
         /// </summary>
-        internal static System.Drawing.Bitmap blue_bead1 {
-            get {
-                object obj = ResourceManager.GetObject("blue_bead1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
-        /// </summary>
         internal static System.Drawing.Bitmap explosion {
             get {
                 object obj = ResourceManager.GetObject("explosion", resourceCulture);
@@ -123,9 +113,9 @@ namespace ProjectDemo_1.Properties {
         /// <summary>
         ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
         /// </summary>
-        internal static System.Drawing.Bitmap green_bead1 {
+        internal static System.Drawing.Bitmap grid {
             get {
-                object obj = ResourceManager.GetObject("green_bead1", resourceCulture);
+                object obj = ResourceManager.GetObject("grid", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -161,29 +151,9 @@ namespace ProjectDemo_1.Properties {
         /// <summary>
         ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
         /// </summary>
-        internal static System.Drawing.Bitmap orange_bead1 {
-            get {
-                object obj = ResourceManager.GetObject("orange_bead1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
-        /// </summary>
         internal static System.Drawing.Bitmap purple_bead {
             get {
                 object obj = ResourceManager.GetObject("purple_bead", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
-        /// </summary>
-        internal static System.Drawing.Bitmap purple_bead1 {
-            get {
-                object obj = ResourceManager.GetObject("purple_bead1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -201,9 +171,9 @@ namespace ProjectDemo_1.Properties {
         /// <summary>
         ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
         /// </summary>
-        internal static System.Drawing.Bitmap red_bead1 {
+        internal static System.Drawing.Bitmap start {
             get {
-                object obj = ResourceManager.GetObject("red_bead1", resourceCulture);
+                object obj = ResourceManager.GetObject("start", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -214,16 +184,6 @@ namespace ProjectDemo_1.Properties {
         internal static System.Drawing.Bitmap white_bead {
             get {
                 object obj = ResourceManager.GetObject("white_bead", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
-        /// </summary>
-        internal static System.Drawing.Bitmap white_bead1 {
-            get {
-                object obj = ResourceManager.GetObject("white_bead1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

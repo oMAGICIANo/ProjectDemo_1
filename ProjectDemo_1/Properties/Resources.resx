@@ -118,8 +118,11 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="orange_bead" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\orange_bead.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="grid" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\grid.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="blue_bead" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\blue_bead.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="purple_bead" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\purple_bead.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -130,43 +133,28 @@
   <data name="green_bead" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\green_bead.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="blue_bead" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\blue_bead.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="explosion" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\explosion.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="background" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\background1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="mixkit_8_bit_bomb_explosion_2811" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\mixkit-8-bit-bomb-explosion-2811.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ban_bead" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ban_bead.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="white_bead" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\white_bead.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="blue_bead1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\blue_bead.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="green_bead1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\green_bead.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="orange_bead1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\orange_bead.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="purple_bead1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\purple_bead.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="red_bead1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\red_bead.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="white_bead1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\white_bead.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="explosion" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\explosion.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="mixkit_8_bit_bomb_explosion_2811" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\mixkit-8-bit-bomb-explosion-2811.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="orange_bead" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\orange_bead.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="mixkit_explosion_in_battle_2809" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\mixkit-explosion-in-battle-2809.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="ban_bead" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ban_bead.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="start" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\start.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

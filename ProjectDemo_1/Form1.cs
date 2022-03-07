@@ -45,12 +45,13 @@ namespace ProjectDemo_1
         // 設定玩家、怪物物件
         private Player myPlayer;
         private const int PLAYER_HP = 10000;
+        private const int PICTUREBOX_WIDTH = 940;
         private const int MONSTER_MAX = 500;
         private int monsterCount;
         private PictureBox[] monster = new PictureBox[MONSTER_MAX];
         private const int DAMAGE = 100;
         private int speed;
-        private const int SPEED_MAX = 15;
+        private const int SPEED_MAX = 20;
 
         public Form1()
         {
@@ -65,6 +66,26 @@ namespace ProjectDemo_1
             SetObject();
             FindBeadPoint();
             EnabledTurnBead(false);
+
+            SetLayout();
+        }
+
+        private void SetLayout()
+        {
+            System.Drawing.Drawing2D.GraphicsPath path = new System.Drawing.Drawing2D.GraphicsPath();
+            path.AddEllipse(pictureBoxStart.ClientRectangle);
+            Region reg = new Region(path);
+            pictureBoxStart.Region = reg;
+
+            path.AddEllipse(pictureBoxStop.ClientRectangle);
+            pictureBoxStop.Region = reg;
+
+            path.AddEllipse(pictureBoxRestart.ClientRectangle);
+            pictureBoxRestart.Region = reg;
+
+            pictureBoxStart.Click += new System.EventHandler(this.buttonStart_Click);
+            pictureBoxStop.Click += new System.EventHandler(this.buttonStop_Click);
+            pictureBoxRestart.Click += new System.EventHandler(this.buttonRestart_Click);
         }
 
         private async void pictureBox_MouseUp(object sender, MouseEventArgs e)
@@ -174,14 +195,6 @@ namespace ProjectDemo_1
             moveCount = 0;
         }
 
-        // 重新生成版面
-        private void buttonReset_Click(object sender, EventArgs e)
-        {
-            panelGrid.Controls.Clear();
-
-            InitGrid();
-        }
-
         // 初始化版面
         private void InitGrid()
         {
@@ -280,7 +293,7 @@ namespace ProjectDemo_1
                 labelSpeed.Text = "Speed：" + speed;
 
                 labelHP.Text = "HP：" + myPlayer.HP + " / " + PLAYER_HP;
-                float pictureboxHP = (600f / PLAYER_HP) * myPlayer.HP;
+                float pictureboxHP = ((float)PICTUREBOX_WIDTH / PLAYER_HP) * myPlayer.HP;
                 pictureBoxHP.Size = new Size((int)pictureboxHP, 25);
 
                 time++;
@@ -332,17 +345,17 @@ namespace ProjectDemo_1
 
                         myPlayer.HP -= DAMAGE;
 
-                        float pictureboxHP = (600f / PLAYER_HP) * myPlayer.HP;
+                        float pictureboxHP = ((float)PICTUREBOX_WIDTH / PLAYER_HP) * myPlayer.HP;
                         pictureBoxHP.Size = new Size((int)pictureboxHP, 25);
 
                         if (myPlayer.HP <= 0)
                         {
                             timerMain.Stop();
                             panelGrid.Controls.Clear();
-                            panelFight.Controls.Clear();
+                            //panelFight.Controls.Clear();
 
-                            buttonStop.Enabled = false;
-                            buttonRestart.Enabled = true;
+                            pictureBoxStop.Visible = false;
+                            pictureBoxRestart.Visible = true;
 
                             labelHP.Text = "HP：" + myPlayer.HP + " / " + PLAYER_HP;
 
@@ -378,9 +391,8 @@ namespace ProjectDemo_1
         // 設定物件
         private void SetObject()
         {
-            buttonReset.Enabled = false;
-            buttonStop.Enabled = false;
-            buttonRestart.Enabled = false;
+            pictureBoxStop.Visible = false;
+            pictureBoxRestart.Visible = false;
 
             //Form.CheckForIllegalCrossThreadCalls = false;
 
@@ -392,7 +404,7 @@ namespace ProjectDemo_1
             labelGamePoint.Text = "Score：" + myPlayer.Score;
 
             labelHP.Text = "HP：" + myPlayer.HP + " / " + PLAYER_HP;
-            float pictureboxHP = (600f / PLAYER_HP) * myPlayer.HP;
+            float pictureboxHP = ((float)PICTUREBOX_WIDTH / PLAYER_HP) * myPlayer.HP;
             pictureBoxHP.Size = new Size((int)pictureboxHP, 25);
 
             labelSpeed.Text = "Speed：" + speed;
@@ -403,7 +415,7 @@ namespace ProjectDemo_1
                 monster[i].Name = "M" + i.ToString();
 
                 Random myRandom = new Random();
-                int randomPoint = myRandom.Next(1, 6);
+                int randomPoint = myRandom.Next(1, 4);
 
                 monster[i].Location = new Point(900, randomPoint * 100);
                 monster[i].Size = new Size(60, 60);
@@ -441,9 +453,9 @@ namespace ProjectDemo_1
         // 開始遊戲
         private void buttonStart_Click(object sender, EventArgs e)
         {
-            buttonStart.Enabled = false;
-            buttonStop.Enabled = true;
-            buttonRestart.Enabled = false;
+            pictureBoxStart.Visible = false;
+            pictureBoxStop.Visible = true;
+            pictureBoxRestart.Visible = false;
 
             timerMain.Start();
 
@@ -453,9 +465,9 @@ namespace ProjectDemo_1
         // 暫停遊戲
         private void buttonStop_Click(object sender, EventArgs e)
         {
-            buttonStart.Enabled = true;
-            buttonStop.Enabled = false;
-            buttonRestart.Enabled = true;
+            pictureBoxStart.Visible = true;
+            pictureBoxStop.Visible = false;
+            pictureBoxRestart.Visible = true;
 
             timerMain.Stop();
 
@@ -475,9 +487,9 @@ namespace ProjectDemo_1
 
             SetObject();
 
-            buttonStart.Enabled = false;
-            buttonStop.Enabled = true;
-            buttonRestart.Enabled = false;
+            pictureBoxStart.Visible = false;
+            pictureBoxStop.Visible = true;
+            pictureBoxRestart.Visible = false;
 
             timerMain.Start();
 
@@ -811,19 +823,22 @@ namespace ProjectDemo_1
         // 觸發技能
         private void TurnSkill()
         {
-            // 回血
-            if ((myPlayer.HP + white * 500) > PLAYER_HP)
+            if (myPlayer.HP <= 0)
             {
-                myPlayer.HP = PLAYER_HP;
-            }
-            else
-            {
-                myPlayer.HP += white * 500;
-            }
+                // 回血
+                if ((myPlayer.HP + white * 500) > PLAYER_HP)
+                {
+                    myPlayer.HP = PLAYER_HP;
+                }
+                else
+                {
+                    myPlayer.HP += white * 500;
+                }
 
-            labelHP.Text = "HP：" + myPlayer.HP + " / " + PLAYER_HP;
-            float pictureboxHP = (600f / PLAYER_HP) * myPlayer.HP;
-            pictureBoxHP.Size = new Size((int)pictureboxHP, 25);
+                labelHP.Text = "HP：" + myPlayer.HP + " / " + PLAYER_HP;
+                float pictureboxHP = ((float)PICTUREBOX_WIDTH / PLAYER_HP) * myPlayer.HP;
+                pictureBoxHP.Size = new Size((int)pictureboxHP, 25);
+            }
         }
 
     }
