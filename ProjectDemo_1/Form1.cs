@@ -46,13 +46,13 @@ namespace ProjectDemo_1
         private Player myPlayer;
         private const int PLAYER_HP = 10000;
         private const int PICTUREBOX_WIDTH = 940;
-        private const int MONSTER_MAX = 700;
+        private const int MONSTER_MAX = 100;
         private int monsterCount;
         private PictureBox[] monster = new PictureBox[MONSTER_MAX];
         private const int DAMAGE = 100;
         private int speed;
-        private const int SPEED_MAX = 30;
-        private const int SPEED_START = 1;
+        private const int SPEED_MAX = 50;
+        private const int SPEED_START = 5;
         // 核彈、凍結特效
         private PictureBox pictureBoxBomb, pictureBoxIce;
         // 回復力
@@ -69,6 +69,8 @@ namespace ProjectDemo_1
             DisplayBeadInfo();
 
             SetObject();
+            SetMonster();
+
             FindBeadPoint();
             EnabledTurnBead(false);
 
@@ -368,18 +370,38 @@ namespace ProjectDemo_1
 
                 if (time % monsterTime == 0)
                 {
+                    if (monsterCount >= MONSTER_MAX)
+                    {
+                        for (int i = 0; i <= monster.Length; i++)
+                        {
+                            if (i == monster.Length)
+                            {
+                                monsterCount = 0;
+
+                                SetMonster();
+
+                                if (speed < SPEED_MAX)
+                                {
+                                    speed += 1;
+
+                                    labelSpeed.Text = "Speed：" + speed;
+                                }
+                            }
+                            else
+                            {
+                                if (monster[i].Visible)
+                                {
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
                     Level_1(monsterCount);
 
                     if (time > SPEED_TIME)
                     {
                         time = 1;
-
-                        if (speed < SPEED_MAX)
-                        { 
-                            speed += 1;
-
-                            labelSpeed.Text = "Speed：" + speed;
-                        }
                     }
                 }
 
@@ -469,7 +491,10 @@ namespace ProjectDemo_1
             pictureBoxHP.Size = new Size((int)pictureboxHP, 25);
 
             labelSpeed.Text = "Speed：" + speed;
+        }
 
+        private void SetMonster()
+        {
             for (int i = 0; i < monster.Length; i++)
             {
                 monster[i] = new PictureBox();
@@ -547,6 +572,7 @@ namespace ProjectDemo_1
             InitGrid();
 
             SetObject();
+            SetMonster();
 
             pictureBoxStart.Visible = false;
             pictureBoxStop.Visible = true;
