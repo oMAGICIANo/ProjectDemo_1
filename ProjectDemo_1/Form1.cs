@@ -33,7 +33,7 @@ namespace ProjectDemo_1
         // 是否有移動珠子
         private int moveCount = 0;
         // 記錄消除珠子數量、種類
-        private int combo, red, orange, green, white, ban;
+        private int combo, red, orange, green, white, ice, nuclear;
         // 是否有新增 combo
         private bool addComboFlag = false;
         // 關卡秒數
@@ -46,12 +46,17 @@ namespace ProjectDemo_1
         private Player myPlayer;
         private const int PLAYER_HP = 10000;
         private const int PICTUREBOX_WIDTH = 940;
-        private const int MONSTER_MAX = 500;
+        private const int MONSTER_MAX = 700;
         private int monsterCount;
         private PictureBox[] monster = new PictureBox[MONSTER_MAX];
         private const int DAMAGE = 100;
         private int speed;
-        private const int SPEED_MAX = 20;
+        private const int SPEED_MAX = 30;
+        private const int SPEED_START = 1;
+        // 核彈、凍結特效
+        private PictureBox pictureBoxBomb, pictureBoxIce;
+        // 回復力
+        private const int RESILIENCE = 500; 
 
         public Form1()
         {
@@ -118,12 +123,12 @@ namespace ProjectDemo_1
 
                 while (RemoveBead())
                 {
-                    await PutTaskDelay();
+                    await PutTaskDelay500();
 
                     DropBead();
                     BeadGroup();
 
-                    await PutTaskDelay();
+                    await PutTaskDelay500();
                 }
 
                 DisplayBeadInfo();
@@ -240,42 +245,86 @@ namespace ProjectDemo_1
             int orangeCount = 0;
             int greenCount = 0;
 
-            for (int i = 0; i < monster.Length; i++)
+            if (nuclear > 0)
             {
-                if (red > redCount && red > 0 && monster[i].Visible && monster[i].Image.Tag.ToString() == "1")
+                pictureBoxBomb = new PictureBox();
+                pictureBoxBomb.Location = new Point(250, 75);
+                pictureBoxBomb.Image = Resources.nuclear_bomb;
+                pictureBoxBomb.Size = new Size(400, 400);
+                pictureBoxBomb.SizeMode = PictureBoxSizeMode.Zoom;
+                pictureBoxBomb.Name = "Bomb";
+
+                panelFight.Controls.Add(pictureBoxBomb);
+
+                await PutTaskDelay1000();
+
+                pictureBoxBomb.Image = Resources.boom;
+
+                for (int i = 0; i < monster.Length; i++)
                 {
-                    monster[i].Image = Resources.explosion;
-                    await PutTaskDelay();
-
-                    monster[i].Visible = false;
-                    monster[i].Dispose();
-                    redCount++;
-
-                    myPlayer.Score += 100;
+                    if (monster[i].Visible)
+                    {
+                        monster[i].Image = Resources.explosion;
+                    }
                 }
 
-                if (orange > orangeCount && orange > 0 && monster[i].Visible && monster[i].Image.Tag.ToString() == "2")
+                await PutTaskDelay1000();
+
+                for (int i = 0; i < monster.Length; i++)
                 {
-                    monster[i].Image = Resources.explosion;
-                    await PutTaskDelay();
+                    if (monster[i].Visible)
+                    {
+                        monster[i].Visible = false;
+                        monster[i].Dispose();
 
-                    monster[i].Visible = false;
-                    monster[i].Dispose();
-                    orangeCount++;
-
-                    myPlayer.Score += 100;
+                        myPlayer.Score += 100;
+                    }
                 }
 
-                if (green > greenCount && green > 0 && monster[i].Visible && monster[i].Image.Tag.ToString() == "3")
+                pictureBoxBomb.Dispose();
+            } 
+            else
+            {
+                for (int i = 0; i < monster.Length; i++)
                 {
-                    monster[i].Image = Resources.explosion;
-                    await PutTaskDelay();
+                    if (nuclear <= 0)
+                    {
+                        if (red > redCount && red > 0 && monster[i].Visible && monster[i].Image.Tag.ToString() == "1")
+                        {
+                            monster[i].Image = Resources.explosion;
+                            await PutTaskDelay500();
 
-                    monster[i].Visible = false;
-                    monster[i].Dispose();
-                    greenCount++;
+                            monster[i].Visible = false;
+                            monster[i].Dispose();
+                            redCount++;
 
-                    myPlayer.Score += 100;
+                            myPlayer.Score += 100;
+                        }
+
+                        if (orange > orangeCount && orange > 0 && monster[i].Visible && monster[i].Image.Tag.ToString() == "2")
+                        {
+                            monster[i].Image = Resources.explosion;
+                            await PutTaskDelay500();
+
+                            monster[i].Visible = false;
+                            monster[i].Dispose();
+                            orangeCount++;
+
+                            myPlayer.Score += 100;
+                        }
+
+                        if (green > greenCount && green > 0 && monster[i].Visible && monster[i].Image.Tag.ToString() == "3")
+                        {
+                            monster[i].Image = Resources.explosion;
+                            await PutTaskDelay500();
+
+                            monster[i].Visible = false;
+                            monster[i].Dispose();
+                            greenCount++;
+
+                            myPlayer.Score += 100;
+                        }
+                    }
                 }
             }
         }
@@ -286,7 +335,7 @@ namespace ProjectDemo_1
             if (time == 0)
             {
                 monsterCount = 0;
-                speed = 5;
+                speed = SPEED_START;
                 monsterTime = 20;
 
                 labelGamePoint.Text = "Score：" + myPlayer.Score;
@@ -311,6 +360,10 @@ namespace ProjectDemo_1
                 if (speed == 15)
                 {
                     monsterTime = 5;
+                }
+                if (speed == 20)
+                {
+                    monsterTime = 3;
                 }
 
                 if (time % monsterTime == 0)
@@ -353,6 +406,14 @@ namespace ProjectDemo_1
                             timerMain.Stop();
                             panelGrid.Controls.Clear();
                             //panelFight.Controls.Clear();
+
+                            for (int j = 0; j < monster.Length; j++)
+                            {
+                                if (monster[i].Visible)
+                                {
+                                    monster[i].Dispose();
+                                }
+                            }
 
                             pictureBoxStop.Visible = false;
                             pictureBoxRestart.Visible = true;
@@ -502,37 +563,49 @@ namespace ProjectDemo_1
         {
             Random myRandom = new Random();
 
-            int imageIndex = myRandom.Next(0, 13);
+            int imageIndex = myRandom.Next(0, 22);
 
             switch (imageIndex)
             {
                 case 0:
                 case 1:
                 case 2:
+                case 3:
+                case 4:
                     p.Image = Resources.red_bead;
                     p.Image.Tag = "1";
                     break;
-                case 3:
-                case 4:
                 case 5:
-                    p.Image = Resources.orange_bead;
-                    p.Image.Tag = "2";
-                    break;
                 case 6:
                 case 7:
                 case 8:
+                case 9:
+                    p.Image = Resources.orange_bead;
+                    p.Image.Tag = "2";
+                    break;
+                case 10:
+                case 11:
+                case 12:
+                case 13:
+                case 14:
                     p.Image = Resources.green_bead;
                     p.Image.Tag = "3";
                     break;
-                case 9:
-                case 10:
+                case 15:
+                case 16:
+                case 17:
+                case 18:
+                case 19:
                     p.Image = Resources.white_bead;
                     p.Image.Tag = "4";
                     break;
-                case 11:
-                case 12:
-                    p.Image = Resources.ban_bead;
+                case 20:
+                    p.Image = Resources.ice_bead;
                     p.Image.Tag = "5";
+                    break;
+                case 21:
+                    p.Image = Resources.nuclear_bead;
+                    p.Image.Tag = "6";
                     break;
             }
         }
@@ -726,7 +799,10 @@ namespace ProjectDemo_1
                             white++;
                             break;
                         case "5":
-                            ban++;
+                            ice++;
+                            break;
+                        case "6":
+                            nuclear++;
                             break;
                     }
 
@@ -792,13 +868,18 @@ namespace ProjectDemo_1
         private void ResetComboCount()
         {
             combo = 0;
-            red = 0; orange = 0; green = 0; white = 0;
+            red = 0; orange = 0; green = 0; white = 0; ice = 0; nuclear = 0;
         }
 
         // 延遲時間
-        async Task PutTaskDelay()
+        async Task PutTaskDelay500()
         {
             await Task.Delay(500);
+        }
+
+        async Task PutTaskDelay1000()
+        {
+            await Task.Delay(1000);
         }
 
         //  開關是否可轉珠
@@ -821,23 +902,44 @@ namespace ProjectDemo_1
         }
 
         // 觸發技能
-        private void TurnSkill()
+        private async void TurnSkill()
         {
-            if (myPlayer.HP <= 0)
+            // 回血
+            if (myPlayer.HP > 0)
             {
-                // 回血
-                if ((myPlayer.HP + white * 500) > PLAYER_HP)
+                if ((myPlayer.HP + white * RESILIENCE) > PLAYER_HP)
                 {
                     myPlayer.HP = PLAYER_HP;
                 }
                 else
                 {
-                    myPlayer.HP += white * 500;
+                    myPlayer.HP += white * RESILIENCE;
                 }
 
                 labelHP.Text = "HP：" + myPlayer.HP + " / " + PLAYER_HP;
                 float pictureboxHP = ((float)PICTUREBOX_WIDTH / PLAYER_HP) * myPlayer.HP;
                 pictureBoxHP.Size = new Size((int)pictureboxHP, 25);
+            }
+
+            // 凍結
+            if (ice > 0 && nuclear <= 0)
+            {
+                pictureBoxIce = new PictureBox();
+                pictureBoxIce.Location = new Point(250, 50);
+                pictureBoxIce.Image = Resources.ice;
+                pictureBoxIce.Size = new Size(400, 400);
+                pictureBoxIce.SizeMode = PictureBoxSizeMode.Zoom;
+                pictureBoxIce.Name = "Bomb";
+
+                panelFight.Controls.Add(pictureBoxIce);
+
+                timerMain.Stop();
+
+                for (int i = 0; i < 3; i++)
+                    await PutTaskDelay1000();
+
+                pictureBoxIce.Dispose();
+                timerMain.Start();
             }
         }
 

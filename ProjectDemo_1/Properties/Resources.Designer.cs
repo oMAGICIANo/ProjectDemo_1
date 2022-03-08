@@ -73,9 +73,9 @@ namespace ProjectDemo_1.Properties {
         /// <summary>
         ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
         /// </summary>
-        internal static System.Drawing.Bitmap ban_bead {
+        internal static System.Drawing.Bitmap blue_bead {
             get {
-                object obj = ResourceManager.GetObject("ban_bead", resourceCulture);
+                object obj = ResourceManager.GetObject("blue_bead", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -83,9 +83,9 @@ namespace ProjectDemo_1.Properties {
         /// <summary>
         ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
         /// </summary>
-        internal static System.Drawing.Bitmap blue_bead {
+        internal static System.Drawing.Bitmap boom {
             get {
-                object obj = ResourceManager.GetObject("blue_bead", resourceCulture);
+                object obj = ResourceManager.GetObject("boom", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -121,6 +121,26 @@ namespace ProjectDemo_1.Properties {
         }
         
         /// <summary>
+        ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
+        /// </summary>
+        internal static System.Drawing.Bitmap ice {
+            get {
+                object obj = ResourceManager.GetObject("ice", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
+        /// </summary>
+        internal static System.Drawing.Bitmap ice_bead {
+            get {
+                object obj = ResourceManager.GetObject("ice_bead", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   查詢類似 System.IO.MemoryStream 的類型 System.IO.UnmanagedMemoryStream 當地語系化資源。
         /// </summary>
         internal static System.IO.UnmanagedMemoryStream mixkit_8_bit_bomb_explosion_2811 {
@@ -135,6 +155,26 @@ namespace ProjectDemo_1.Properties {
         internal static System.IO.UnmanagedMemoryStream mixkit_explosion_in_battle_2809 {
             get {
                 return ResourceManager.GetStream("mixkit_explosion_in_battle_2809", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
+        /// </summary>
+        internal static System.Drawing.Bitmap nuclear_bead {
+            get {
+                object obj = ResourceManager.GetObject("nuclear_bead", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
+        /// </summary>
+        internal static System.Drawing.Bitmap nuclear_bomb {
+            get {
+                object obj = ResourceManager.GetObject("nuclear_bomb", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -164,16 +204,6 @@ namespace ProjectDemo_1.Properties {
         internal static System.Drawing.Bitmap red_bead {
             get {
                 object obj = ResourceManager.GetObject("red_bead", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
-        /// </summary>
-        internal static System.Drawing.Bitmap start {
-            get {
-                object obj = ResourceManager.GetObject("start", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
