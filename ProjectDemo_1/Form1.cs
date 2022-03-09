@@ -43,16 +43,19 @@ namespace ProjectDemo_1
         // 升級速度
         private const int SPEED_TIME = 300;
         // 設定玩家、怪物物件
+        private const int MONSTER_MAX = 50;
         private Player myPlayer;
-        private const int PLAYER_HP = 1000000;
+        private Monster[] myMonster = new Monster[MONSTER_MAX];
+        private Label[] labelMonsterHP = new Label[MONSTER_MAX];
+        private const int PLAYER_HP = 10000;
         private const int PICTUREBOX_WIDTH = 940;
-        private const int MONSTER_MAX = 100;
+        private const int LABEL_HP_WIDTH = 40;
         private int monsterCount;
         private PictureBox[] monster = new PictureBox[MONSTER_MAX];
         private const int DAMAGE = 100;
         private int speed;
         private const int SPEED_MAX = 50;
-        private const int SPEED_START = 5;
+        private const int SPEED_START = 1;
         // 核彈、凍結特效
         private PictureBox pictureBoxBomb, pictureBoxIce;
         // 回復力
@@ -265,7 +268,25 @@ namespace ProjectDemo_1
                 {
                     if (monster[i].Visible)
                     {
-                        monster[i].Image = Resources.explosion;
+                        myMonster[i].HP -= 10000;
+
+                        if (myMonster[i].HP < 0)
+                        {
+                            labelMonsterHP[i].Text = "0";
+                            float labelHP = ((float)LABEL_HP_WIDTH / 500) * 0;
+                            labelMonsterHP[i].Size = new Size((int)labelHP, 10);
+                        }
+                        else
+                        { 
+                            labelMonsterHP[i].Text = myMonster[i].HP.ToString();
+                            float labelHP = ((float)LABEL_HP_WIDTH / 500) * myMonster[i].HP;
+                            labelMonsterHP[i].Size = new Size((int)labelHP, 10);
+                        }
+
+                        if (myMonster[i].HP <= 0)
+                        {
+                            monster[i].Image = Resources.explosion;
+                        }
                     }
                 }
 
@@ -275,10 +296,16 @@ namespace ProjectDemo_1
                 {
                     if (monster[i].Visible)
                     {
-                        monster[i].Visible = false;
-                        monster[i].Dispose();
+                        if (myMonster[i].HP <= 0)
+                        { 
+                            monster[i].Visible = false;
+                            monster[i].Dispose();
 
-                        myPlayer.Score += 100;
+                            labelMonsterHP[i].Visible = false;
+                            labelMonsterHP[i].Dispose();
+
+                            myPlayer.Score += 100;
+                        }
                     }
                 }
 
@@ -292,26 +319,76 @@ namespace ProjectDemo_1
                     {
                         if (bullet > bulletCount && bullet > 0 && monster[i].Visible && monster[i].Image.Tag.ToString() == "1")
                         {
-                            monster[i].Image = Resources.explosion;
-                            await PutTaskDelay(500);
+                            myMonster[i].HP -= 100;
 
-                            monster[i].Visible = false;
-                            monster[i].Dispose();
+                            if (myMonster[i].HP < 0)
+                            {
+                                labelMonsterHP[i].Text = "0";
+                                float labelHP = ((float)LABEL_HP_WIDTH / 500) * 0;
+                                labelMonsterHP[i].Size = new Size((int)labelHP, 10);
+                            }
+                            else
+                            {
+                                labelMonsterHP[i].Text = myMonster[i].HP.ToString();
+                                float labelHP = ((float)LABEL_HP_WIDTH / 500) * myMonster[i].HP;
+                                labelMonsterHP[i].Size = new Size((int)labelHP, 10);
+                            }
+
+                            if (myMonster[i].HP <= 0)
+                            {
+                                monster[i].Image = Resources.explosion;
+                                await PutTaskDelay(500);
+
+                                monster[i].Visible = false;
+                                monster[i].Dispose();
+
+                                labelMonsterHP[i].Visible = false;
+                                labelMonsterHP[i].Dispose();
+
+                                myPlayer.Score += 100;
+                            }
+
                             bulletCount++;
-
-                            myPlayer.Score += 100;
                         }
+                    }
+                }
 
+                for (int i = 0; i < monster.Length; i++)
+                {
+                    if (nuclear <= 0)
+                    {
                         if (bomb > bombCount && bomb > 0 && monster[i].Visible && monster[i].Image.Tag.ToString() == "1")
                         {
-                            monster[i].Image = Resources.explosion;
-                            await PutTaskDelay(500);
+                            myMonster[i].HP -= 300;
 
-                            monster[i].Visible = false;
-                            monster[i].Dispose();
+                            if (myMonster[i].HP < 0)
+                            {
+                                labelMonsterHP[i].Text = "0";
+                                float labelHP = ((float)LABEL_HP_WIDTH / 500) * 0;
+                                labelMonsterHP[i].Size = new Size((int)labelHP, 10);
+                            }
+                            else
+                            {
+                                labelMonsterHP[i].Text = myMonster[i].HP.ToString();
+                                float labelHP = ((float)LABEL_HP_WIDTH / 500) * myMonster[i].HP;
+                                labelMonsterHP[i].Size = new Size((int)labelHP, 10);
+                            }
+
+                            if (myMonster[i].HP <= 0)
+                            {
+                                monster[i].Image = Resources.explosion;
+                                await PutTaskDelay(500);
+
+                                monster[i].Visible = false;
+                                monster[i].Dispose();
+
+                                labelMonsterHP[i].Visible = false;
+                                labelMonsterHP[i].Dispose();
+
+                                myPlayer.Score += 100;
+                            }
+
                             bombCount++;
-
-                            myPlayer.Score += 100;
                         }
                     }
                 }
@@ -398,12 +475,17 @@ namespace ProjectDemo_1
                     {
                         monster[i].Location = new Point(monster[i].Location.X - speed,
                                                         monster[i].Location.Y);
+                        labelMonsterHP[i].Location = new Point(labelMonsterHP[i].Location.X - speed,
+                                                               labelMonsterHP[i].Location.Y);
                     }
 
                     if (monster[i].Location.X < 10 && monster[i].Visible)
                     {
                         monster[i].Visible = false;
                         monster[i].Dispose();
+
+                        labelMonsterHP[i].Visible = false;
+                        labelMonsterHP[i].Dispose();
 
                         myPlayer.HP -= DAMAGE;
 
@@ -418,9 +500,10 @@ namespace ProjectDemo_1
 
                             for (int j = 0; j < monster.Length; j++)
                             {
-                                if (monster[i].Visible)
+                                if (monster[j].Visible)
                                 {
-                                    monster[i].Dispose();
+                                    monster[j].Dispose();
+                                    labelMonsterHP[j].Dispose();
                                 }
                             }
 
@@ -452,7 +535,12 @@ namespace ProjectDemo_1
             {
                 monster[number].Visible = true;
                 monster[number].BringToFront();
+
+                labelMonsterHP[number].Visible = true;
+                labelMonsterHP[number].BringToFront();
+
                 panelFight.Controls.Add(monster[number]);
+                panelFight.Controls.Add(labelMonsterHP[number]);
 
                 monsterCount++;
             }
@@ -484,15 +572,30 @@ namespace ProjectDemo_1
         {
             for (int i = 0; i < monster.Length; i++)
             {
+                Random myRandom = new Random();
+
+                //int randomHP = myRandom.Next(300, 501);
+
+                myMonster[i] = new Monster("M" + i.ToString(), "Doma", 500);
+
+                labelMonsterHP[i] = new Label();
+
                 monster[i] = new PictureBox();
                 monster[i].Name = "M" + i.ToString();
 
-                Random myRandom = new Random();
                 int randomPoint = myRandom.Next(1, 4);
 
                 monster[i].Location = new Point(900, randomPoint * 100);
                 monster[i].Size = new Size(60, 60);
                 monster[i].SizeMode = PictureBoxSizeMode.Zoom;
+
+                labelMonsterHP[i].Location = new Point(915, randomPoint * 100 + 60);
+                labelMonsterHP[i].Size = new Size(LABEL_HP_WIDTH, 10);
+                labelMonsterHP[i].ForeColor = Color.Black;
+                labelMonsterHP[i].BackColor = Color.Red;
+                labelMonsterHP[i].Font = new System.Drawing.Font("Arial", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+
+                labelMonsterHP[i].Text = myMonster[i].HP.ToString();
 
                 System.Drawing.Drawing2D.GraphicsPath path = new System.Drawing.Drawing2D.GraphicsPath();
                 path.AddEllipse(monster[i].ClientRectangle);
@@ -510,6 +613,7 @@ namespace ProjectDemo_1
                 }
 
                 monster[i].Visible = false;
+                labelMonsterHP[i].Visible = false;
             }
 
             GC.Collect();
@@ -545,6 +649,7 @@ namespace ProjectDemo_1
             for (int i = 0; i < monster.Length; i++)
             {
                 monster[i].Dispose();
+                labelMonsterHP[i].Dispose();
             }
 
             panelGrid.Controls.Clear();
@@ -568,43 +673,32 @@ namespace ProjectDemo_1
         {
             Random myRandom = new Random();
 
-            int imageIndex = myRandom.Next(0, 18);
+            int imageIndex = myRandom.Next(0, 100);
 
-            switch (imageIndex)
+            if (0 <= imageIndex && imageIndex < 24)
             {
-                case 0:
-                case 1:
-                case 2:
-                case 3:
-                case 4:
-                case 5:
-                    p.Image = Resources.bullet;
-                    p.Image.Tag = "1";
-                    break;
-                case 6:
-                case 7:
-                case 8:
-                case 9:
-                case 10:
-                    p.Image = Resources.bomb_bead;
-                    p.Image.Tag = "2";
-                    break;
-                case 11:
-                case 12:
-                case 13:
-                case 14:
-                case 15:
-                    p.Image = Resources.white_bead;
-                    p.Image.Tag = "3";
-                    break;
-                case 16:
-                    p.Image = Resources.ice_bead;
-                    p.Image.Tag = "4";
-                    break;
-                case 17:
-                    p.Image = Resources.nuclear_bead;
-                    p.Image.Tag = "5";
-                    break;
+                p.Image = Resources.bullet;
+                p.Image.Tag = "1";
+            }
+            else if (24 <= imageIndex && imageIndex < 48)
+            {
+                p.Image = Resources.bomb_bead;
+                p.Image.Tag = "2";
+            }
+            else if (48 <= imageIndex && imageIndex < 72)
+            {
+                p.Image = Resources.white_bead;
+                p.Image.Tag = "3";
+            }
+            else if (72 <= imageIndex && imageIndex < 96)
+            {
+                p.Image = Resources.ice_bead;
+                p.Image.Tag = "4";
+            }
+            else 
+            {
+                p.Image = Resources.nuclear_bead;
+                p.Image.Tag = "5";
             }
         }
 

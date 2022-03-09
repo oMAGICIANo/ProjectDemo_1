@@ -61,10 +61,10 @@ namespace ProjectDemo_1
             // labelCombo
             // 
             this.labelCombo.AutoSize = true;
-            this.labelCombo.Font = new System.Drawing.Font("Microsoft JhengHei UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelCombo.Font = new System.Drawing.Font("Arial Narrow", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelCombo.Location = new System.Drawing.Point(3, 411);
             this.labelCombo.Name = "labelCombo";
-            this.labelCombo.Size = new System.Drawing.Size(150, 30);
+            this.labelCombo.Size = new System.Drawing.Size(117, 29);
             this.labelCombo.TabIndex = 3;
             this.labelCombo.Text = "labelCombo";
             // 
@@ -87,10 +87,10 @@ namespace ProjectDemo_1
             // labelSpeed
             // 
             this.labelSpeed.AutoSize = true;
-            this.labelSpeed.Font = new System.Drawing.Font("Microsoft JhengHei UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelSpeed.Font = new System.Drawing.Font("Arial Narrow", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelSpeed.Location = new System.Drawing.Point(3, 0);
             this.labelSpeed.Name = "labelSpeed";
-            this.labelSpeed.Size = new System.Drawing.Size(109, 30);
+            this.labelSpeed.Size = new System.Drawing.Size(94, 29);
             this.labelSpeed.TabIndex = 12;
             this.labelSpeed.Text = "Speed：";
             // 
@@ -107,20 +107,20 @@ namespace ProjectDemo_1
             // 
             this.labelHP.AutoSize = true;
             this.labelHP.BackColor = System.Drawing.Color.Transparent;
-            this.labelHP.Font = new System.Drawing.Font("Microsoft JhengHei UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelHP.Font = new System.Drawing.Font("Arial Narrow", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelHP.Location = new System.Drawing.Point(3, 441);
             this.labelHP.Name = "labelHP";
-            this.labelHP.Size = new System.Drawing.Size(71, 30);
+            this.labelHP.Size = new System.Drawing.Size(61, 29);
             this.labelHP.TabIndex = 7;
             this.labelHP.Text = "HP: 0";
             // 
             // labelGamePoint
             // 
             this.labelGamePoint.AutoSize = true;
-            this.labelGamePoint.Font = new System.Drawing.Font("Microsoft JhengHei UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelGamePoint.Font = new System.Drawing.Font("Arial Narrow", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelGamePoint.Location = new System.Drawing.Point(3, 30);
             this.labelGamePoint.Name = "labelGamePoint";
-            this.labelGamePoint.Size = new System.Drawing.Size(101, 30);
+            this.labelGamePoint.Size = new System.Drawing.Size(89, 29);
             this.labelGamePoint.TabIndex = 5;
             this.labelGamePoint.Text = "Score：";
             // 

@@ -24,6 +24,33 @@ namespace ProjectDemo_1
             this.hp = hp;
         }
 
+        public string Name
+        {
+            get 
+            {
+                return this.name;
+            }
+        }
+
+        public string Type
+        {
+            get
+            {
+                return this.type;
+            }
+        }
+
+        public int HP
+        {
+            get
+            {
+                return this.hp;
+            }
+            set
+            {
+                this.hp = value;
+            }
+        }
 
     }
 }
