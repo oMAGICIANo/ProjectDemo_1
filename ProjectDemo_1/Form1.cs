@@ -33,7 +33,7 @@ namespace ProjectDemo_1
         // 是否有移動珠子
         private int moveCount = 0;
         // 記錄消除珠子數量、種類
-        private int combo, red, orange, green, white, ice, nuclear;
+        private int combo, bullet, bomb, white, ice, nuclear;
         // 是否有新增 combo
         private bool addComboFlag = false;
         // 關卡秒數
@@ -44,7 +44,7 @@ namespace ProjectDemo_1
         private const int SPEED_TIME = 300;
         // 設定玩家、怪物物件
         private Player myPlayer;
-        private const int PLAYER_HP = 10000;
+        private const int PLAYER_HP = 1000000;
         private const int PICTUREBOX_WIDTH = 940;
         private const int MONSTER_MAX = 100;
         private int monsterCount;
@@ -125,12 +125,12 @@ namespace ProjectDemo_1
 
                 while (RemoveBead())
                 {
-                    await PutTaskDelay500();
+                    await PutTaskDelay(500);
 
                     DropBead();
                     BeadGroup();
 
-                    await PutTaskDelay500();
+                    await PutTaskDelay(500);
                 }
 
                 DisplayBeadInfo();
@@ -243,9 +243,8 @@ namespace ProjectDemo_1
         // 攻擊怪
         private async void RemoveMonster()
         {
-            int redCount = 0;
-            int orangeCount = 0;
-            int greenCount = 0;
+            int bombCount = 0;
+            int bulletCount = 0;
 
             if (nuclear > 0)
             {
@@ -258,7 +257,7 @@ namespace ProjectDemo_1
 
                 panelFight.Controls.Add(pictureBoxBomb);
 
-                await PutTaskDelay1000();
+                await PutTaskDelay(1000);
 
                 pictureBoxBomb.Image = Resources.boom;
 
@@ -270,7 +269,7 @@ namespace ProjectDemo_1
                     }
                 }
 
-                await PutTaskDelay1000();
+                await PutTaskDelay(1000);
 
                 for (int i = 0; i < monster.Length; i++)
                 {
@@ -291,38 +290,26 @@ namespace ProjectDemo_1
                 {
                     if (nuclear <= 0)
                     {
-                        if (red > redCount && red > 0 && monster[i].Visible && monster[i].Image.Tag.ToString() == "1")
+                        if (bullet > bulletCount && bullet > 0 && monster[i].Visible && monster[i].Image.Tag.ToString() == "1")
                         {
                             monster[i].Image = Resources.explosion;
-                            await PutTaskDelay500();
+                            await PutTaskDelay(500);
 
                             monster[i].Visible = false;
                             monster[i].Dispose();
-                            redCount++;
+                            bulletCount++;
 
                             myPlayer.Score += 100;
                         }
 
-                        if (orange > orangeCount && orange > 0 && monster[i].Visible && monster[i].Image.Tag.ToString() == "2")
+                        if (bomb > bombCount && bomb > 0 && monster[i].Visible && monster[i].Image.Tag.ToString() == "1")
                         {
                             monster[i].Image = Resources.explosion;
-                            await PutTaskDelay500();
+                            await PutTaskDelay(500);
 
                             monster[i].Visible = false;
                             monster[i].Dispose();
-                            orangeCount++;
-
-                            myPlayer.Score += 100;
-                        }
-
-                        if (green > greenCount && green > 0 && monster[i].Visible && monster[i].Image.Tag.ToString() == "3")
-                        {
-                            monster[i].Image = Resources.explosion;
-                            await PutTaskDelay500();
-
-                            monster[i].Visible = false;
-                            monster[i].Dispose();
-                            greenCount++;
+                            bombCount++;
 
                             myPlayer.Score += 100;
                         }
@@ -512,21 +499,13 @@ namespace ProjectDemo_1
                 Region reg = new Region(path);
                 monster[i].Region = reg;
 
-                int randomImage = myRandom.Next(0, 3);
+                int randomImage = myRandom.Next(0, 1);
 
                 switch (randomImage)
                 {
                     case 0:
-                        monster[i].Image = Resources.red_bead;
+                        monster[i].Image = Resources.monster;
                         monster[i].Image.Tag = "1";
-                        break;
-                    case 1:
-                        monster[i].Image = Resources.orange_bead;
-                        monster[i].Image.Tag = "2";
-                        break;
-                    case 2:
-                        monster[i].Image = Resources.green_bead;
-                        monster[i].Image.Tag = "3";
                         break;
                 }
 
@@ -589,7 +568,7 @@ namespace ProjectDemo_1
         {
             Random myRandom = new Random();
 
-            int imageIndex = myRandom.Next(0, 22);
+            int imageIndex = myRandom.Next(0, 18);
 
             switch (imageIndex)
             {
@@ -598,40 +577,33 @@ namespace ProjectDemo_1
                 case 2:
                 case 3:
                 case 4:
-                    p.Image = Resources.red_bead;
+                case 5:
+                    p.Image = Resources.bullet;
                     p.Image.Tag = "1";
                     break;
-                case 5:
                 case 6:
                 case 7:
                 case 8:
                 case 9:
-                    p.Image = Resources.orange_bead;
+                case 10:
+                    p.Image = Resources.bomb_bead;
                     p.Image.Tag = "2";
                     break;
-                case 10:
                 case 11:
                 case 12:
                 case 13:
                 case 14:
-                    p.Image = Resources.green_bead;
+                case 15:
+                    p.Image = Resources.white_bead;
                     p.Image.Tag = "3";
                     break;
-                case 15:
                 case 16:
-                case 17:
-                case 18:
-                case 19:
-                    p.Image = Resources.white_bead;
+                    p.Image = Resources.ice_bead;
                     p.Image.Tag = "4";
                     break;
-                case 20:
-                    p.Image = Resources.ice_bead;
-                    p.Image.Tag = "5";
-                    break;
-                case 21:
+                case 17:
                     p.Image = Resources.nuclear_bead;
-                    p.Image.Tag = "6";
+                    p.Image.Tag = "5";
                     break;
             }
         }
@@ -813,21 +785,18 @@ namespace ProjectDemo_1
                     switch (tempP.Image.Tag)
                     {
                         case "1":
-                            red++;
+                            bullet++;
                             break;
                         case "2":
-                            orange++;
+                            bomb++;
                             break;
                         case "3":
-                            green++;
-                            break;
-                        case "4":
                             white++;
                             break;
-                        case "5":
+                        case "4":
                             ice++;
                             break;
-                        case "6":
+                        case "5":
                             nuclear++;
                             break;
                     }
@@ -894,18 +863,13 @@ namespace ProjectDemo_1
         private void ResetComboCount()
         {
             combo = 0;
-            red = 0; orange = 0; green = 0; white = 0; ice = 0; nuclear = 0;
+            bullet = 0; bomb = 0; white = 0; ice = 0; nuclear = 0;
         }
 
         // 延遲時間
-        async Task PutTaskDelay500()
+        async Task PutTaskDelay(int ms)
         {
-            await Task.Delay(500);
-        }
-
-        async Task PutTaskDelay1000()
-        {
-            await Task.Delay(1000);
+            await Task.Delay(ms);
         }
 
         //  開關是否可轉珠
@@ -961,8 +925,7 @@ namespace ProjectDemo_1
 
                 timerMain.Stop();
 
-                for (int i = 0; i < 3; i++)
-                    await PutTaskDelay1000();
+                await PutTaskDelay(3000);
 
                 pictureBoxIce.Dispose();
                 timerMain.Start();
