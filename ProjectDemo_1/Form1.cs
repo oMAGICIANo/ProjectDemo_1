@@ -43,7 +43,7 @@ namespace ProjectDemo_1
         // 升級速度
         private const int SPEED_TIME = 300;
         // 設定玩家、怪物物件
-        private const int MONSTER_MAX = 50;
+        private const int MONSTER_MAX = 20;
         private Player myPlayer;
         private Monster[] myMonster = new Monster[MONSTER_MAX];
         private Label[] labelMonsterHP = new Label[MONSTER_MAX];
@@ -56,10 +56,11 @@ namespace ProjectDemo_1
         private int speed;
         private const int SPEED_MAX = 50;
         private const int SPEED_START = 1;
+        private const int DOMA_HP = 500;
         // 核彈、凍結特效
         private PictureBox pictureBoxBomb, pictureBoxIce;
         // 回復力
-        private const int RESILIENCE = 500; 
+        private const int RESILIENCE = 100; 
 
         public Form1()
         {
@@ -78,8 +79,11 @@ namespace ProjectDemo_1
             EnabledTurnBead(false);
 
             SetLayout();
+
+            EnabledButton(true);
         }
 
+        // 設定遊戲中的介面
         private void SetLayout()
         {
             System.Drawing.Drawing2D.GraphicsPath path = new System.Drawing.Drawing2D.GraphicsPath();
@@ -121,6 +125,7 @@ namespace ProjectDemo_1
                     }
                 }
 
+                EnabledButton(false);
                 FindBeadPoint();
                 EnabledTurnBead(false);
                 BeadGroup();
@@ -140,6 +145,7 @@ namespace ProjectDemo_1
                 TurnSkill();
                 RemoveMonster();
                 EnabledTurnBead(true);
+                EnabledButton(true);
             }
         }
 
@@ -243,7 +249,7 @@ namespace ProjectDemo_1
             
         }
 
-        // 攻擊怪
+        // 攻擊怪物
         private async void RemoveMonster()
         {
             int bombCount = 0;
@@ -273,13 +279,13 @@ namespace ProjectDemo_1
                         if (myMonster[i].HP < 0)
                         {
                             labelMonsterHP[i].Text = "0";
-                            float labelHP = ((float)LABEL_HP_WIDTH / 500) * 0;
+                            float labelHP = ((float)LABEL_HP_WIDTH / DOMA_HP) * 0;
                             labelMonsterHP[i].Size = new Size((int)labelHP, 10);
                         }
                         else
                         { 
                             labelMonsterHP[i].Text = myMonster[i].HP.ToString();
-                            float labelHP = ((float)LABEL_HP_WIDTH / 500) * myMonster[i].HP;
+                            float labelHP = ((float)LABEL_HP_WIDTH / DOMA_HP) * myMonster[i].HP;
                             labelMonsterHP[i].Size = new Size((int)labelHP, 10);
                         }
 
@@ -317,20 +323,20 @@ namespace ProjectDemo_1
                 {
                     if (nuclear <= 0)
                     {
-                        if (bullet > bulletCount && bullet > 0 && monster[i].Visible && monster[i].Image.Tag.ToString() == "1")
+                        if (bullet > bulletCount && bullet > 0 && monster[i].Visible)
                         {
                             myMonster[i].HP -= 100;
 
                             if (myMonster[i].HP < 0)
                             {
                                 labelMonsterHP[i].Text = "0";
-                                float labelHP = ((float)LABEL_HP_WIDTH / 500) * 0;
+                                float labelHP = ((float)LABEL_HP_WIDTH / DOMA_HP) * 0;
                                 labelMonsterHP[i].Size = new Size((int)labelHP, 10);
                             }
                             else
                             {
                                 labelMonsterHP[i].Text = myMonster[i].HP.ToString();
-                                float labelHP = ((float)LABEL_HP_WIDTH / 500) * myMonster[i].HP;
+                                float labelHP = ((float)LABEL_HP_WIDTH / DOMA_HP) * myMonster[i].HP;
                                 labelMonsterHP[i].Size = new Size((int)labelHP, 10);
                             }
 
@@ -357,20 +363,20 @@ namespace ProjectDemo_1
                 {
                     if (nuclear <= 0)
                     {
-                        if (bomb > bombCount && bomb > 0 && monster[i].Visible && monster[i].Image.Tag.ToString() == "1")
+                        if (bomb > bombCount && bomb > 0 && monster[i].Visible)
                         {
                             myMonster[i].HP -= 300;
 
                             if (myMonster[i].HP < 0)
                             {
                                 labelMonsterHP[i].Text = "0";
-                                float labelHP = ((float)LABEL_HP_WIDTH / 500) * 0;
+                                float labelHP = ((float)LABEL_HP_WIDTH / DOMA_HP) * 0;
                                 labelMonsterHP[i].Size = new Size((int)labelHP, 10);
                             }
                             else
                             {
                                 labelMonsterHP[i].Text = myMonster[i].HP.ToString();
-                                float labelHP = ((float)LABEL_HP_WIDTH / 500) * myMonster[i].HP;
+                                float labelHP = ((float)LABEL_HP_WIDTH / DOMA_HP) * myMonster[i].HP;
                                 labelMonsterHP[i].Size = new Size((int)labelHP, 10);
                             }
 
@@ -568,6 +574,7 @@ namespace ProjectDemo_1
             labelSpeed.Text = "Speed：" + speed;
         }
 
+        // 設定怪物生成
         private void SetMonster()
         {
             for (int i = 0; i < monster.Length; i++)
@@ -576,7 +583,7 @@ namespace ProjectDemo_1
 
                 //int randomHP = myRandom.Next(300, 501);
 
-                myMonster[i] = new Monster("M" + i.ToString(), "Doma", 500);
+                myMonster[i] = new Monster("M" + i.ToString(), "Doma", DOMA_HP);
 
                 labelMonsterHP[i] = new Label();
 
@@ -675,22 +682,22 @@ namespace ProjectDemo_1
 
             int imageIndex = myRandom.Next(0, 100);
 
-            if (0 <= imageIndex && imageIndex < 24)
+            if (0 <= imageIndex && imageIndex < 40)
             {
                 p.Image = Resources.bullet;
                 p.Image.Tag = "1";
             }
-            else if (24 <= imageIndex && imageIndex < 48)
+            else if (40 <= imageIndex && imageIndex < 70)
             {
                 p.Image = Resources.bomb_bead;
                 p.Image.Tag = "2";
             }
-            else if (48 <= imageIndex && imageIndex < 72)
+            else if (70 <= imageIndex && imageIndex < 95)
             {
                 p.Image = Resources.white_bead;
                 p.Image.Tag = "3";
             }
-            else if (72 <= imageIndex && imageIndex < 96)
+            else if (95 <= imageIndex && imageIndex < 98)
             {
                 p.Image = Resources.ice_bead;
                 p.Image.Tag = "4";
@@ -842,6 +849,19 @@ namespace ProjectDemo_1
                     {
                         if (beadGroup[i, j] == n && beadGroup[i, j + 1] == n && beadGroup[i, j + 2] == n)
                         {
+                            if (numberGrid[i, j].Visible)
+                            {
+                                TotalBead(numberGrid[i, j].Image.Tag.ToString());
+                            }
+                            if (numberGrid[i, j + 1].Visible)
+                            {
+                                TotalBead(numberGrid[i, j + 1].Image.Tag.ToString());
+                            }
+                            if (numberGrid[i, j + 2].Visible)
+                            {
+                                TotalBead(numberGrid[i, j + 2].Image.Tag.ToString());
+                            }
+
                             numberGrid[i, j].Visible = false;
                             numberGrid[i, j + 1].Visible = false;
                             numberGrid[i, j + 2].Visible = false;
@@ -858,6 +878,19 @@ namespace ProjectDemo_1
                     {
                         if (beadGroup[i, j] == n && beadGroup[i + 1, j] == n && beadGroup[i + 2, j] == n)
                         {
+                            if (numberGrid[i, j].Visible)
+                            {
+                                TotalBead(numberGrid[i, j].Image.Tag.ToString());
+                            }
+                            if (numberGrid[i + 1, j].Visible)
+                            {
+                                TotalBead(numberGrid[i + 1, j].Image.Tag.ToString());
+                            }
+                            if (numberGrid[i + 2, j].Visible)
+                            {
+                                TotalBead(numberGrid[i + 2, j].Image.Tag.ToString());
+                            }
+
                             numberGrid[i, j].Visible = false;
                             numberGrid[i + 1, j].Visible = false;
                             numberGrid[i + 2, j].Visible = false;
@@ -876,25 +909,6 @@ namespace ProjectDemo_1
 
                     addComboFlag = true;
 
-                    switch (tempP.Image.Tag)
-                    {
-                        case "1":
-                            bullet++;
-                            break;
-                        case "2":
-                            bomb++;
-                            break;
-                        case "3":
-                            white++;
-                            break;
-                        case "4":
-                            ice++;
-                            break;
-                        case "5":
-                            nuclear++;
-                            break;
-                    }
-
                     GC.Collect();
                 }
             }
@@ -906,6 +920,29 @@ namespace ProjectDemo_1
             else
             {
                 return false;
+            }
+        }
+
+        // 加總各珠子的數量
+        private void TotalBead(string imageTag)
+        {
+            switch (imageTag)
+            {
+                case "1":
+                    bullet++;
+                    break;
+                case "2":
+                    bomb++;
+                    break;
+                case "3":
+                    white++;
+                    break;
+                case "4":
+                    ice++;
+                    break;
+                case "5":
+                    nuclear++;
+                    break;
             }
         }
 
@@ -983,6 +1020,14 @@ namespace ProjectDemo_1
                     }
                 }
             }
+        }
+
+        // 開關選項鈕
+        private void EnabledButton(bool flag)
+        {
+            pictureBoxRestart.Enabled = flag;
+            pictureBoxStart.Enabled = flag;
+            pictureBoxStop.Enabled = flag;
         }
 
         // 觸發技能
