@@ -103,9 +103,9 @@ namespace ProjectDemo_1.Properties {
         /// <summary>
         ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
         /// </summary>
-        internal static System.Drawing.Bitmap bullet {
+        internal static System.Drawing.Bitmap bullet_bead {
             get {
-                object obj = ResourceManager.GetObject("bullet", resourceCulture);
+                object obj = ResourceManager.GetObject("bullet_bead", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -191,6 +191,16 @@ namespace ProjectDemo_1.Properties {
         /// <summary>
         ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
         /// </summary>
+        internal static System.Drawing.Bitmap monster_infected {
+            get {
+                object obj = ResourceManager.GetObject("monster_infected", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
+        /// </summary>
         internal static System.Drawing.Bitmap nuclear_bead {
             get {
                 object obj = ResourceManager.GetObject("nuclear_bead", resourceCulture);
@@ -234,6 +244,26 @@ namespace ProjectDemo_1.Properties {
         internal static System.Drawing.Bitmap red_bead {
             get {
                 object obj = ResourceManager.GetObject("red_bead", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
+        /// </summary>
+        internal static System.Drawing.Bitmap virus {
+            get {
+                object obj = ResourceManager.GetObject("virus", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
+        /// </summary>
+        internal static System.Drawing.Bitmap virus_bead {
+            get {
+                object obj = ResourceManager.GetObject("virus_bead", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

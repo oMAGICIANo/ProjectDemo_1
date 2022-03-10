@@ -33,7 +33,7 @@ namespace ProjectDemo_1
         // 是否有移動珠子
         private int moveCount = 0;
         // 記錄消除珠子數量、種類
-        private int combo, bullet, bomb, white, ice, nuclear;
+        private int combo, bullet, bomb, white, ice, nuclear, virus;
         // 是否有新增 combo
         private bool addComboFlag = false;
         // 關卡秒數
@@ -58,7 +58,7 @@ namespace ProjectDemo_1
         private const int SPEED_START = 1;
         private const int DOMA_HP = 500;
         // 核彈、凍結特效
-        private PictureBox pictureBoxBomb, pictureBoxIce;
+        private PictureBox pictureBoxBomb, pictureBoxIce, pictureBoxVirus;
         // 回復力
         private const int RESILIENCE = 100; 
 
@@ -255,6 +255,7 @@ namespace ProjectDemo_1
             int bombCount = 0;
             int bulletCount = 0;
 
+            // 核彈攻擊
             if (nuclear > 0)
             {
                 pictureBoxBomb = new PictureBox();
@@ -262,7 +263,7 @@ namespace ProjectDemo_1
                 pictureBoxBomb.Image = Resources.nuclear_bomb;
                 pictureBoxBomb.Size = new Size(400, 400);
                 pictureBoxBomb.SizeMode = PictureBoxSizeMode.Zoom;
-                pictureBoxBomb.Name = "Bomb";
+                pictureBoxBomb.Name = "NuclearBomb";
 
                 panelFight.Controls.Add(pictureBoxBomb);
 
@@ -319,6 +320,48 @@ namespace ProjectDemo_1
             } 
             else
             {
+                // 病毒攻擊
+                for (int i = 0; i < monster.Length; i++)
+                {
+                    if (nuclear <= 0)
+                    {
+                        if (virus > 0 && monster[i].Visible)
+                        {
+                            myMonster[i].Infected = true;
+
+                            monster[i].Image = Resources.monster_infected;
+
+                            if (myMonster[i].HP < 0)
+                            {
+                                labelMonsterHP[i].Text = "0";
+                                float labelHP = ((float)LABEL_HP_WIDTH / DOMA_HP) * 0;
+                                labelMonsterHP[i].Size = new Size((int)labelHP, 10);
+                            }
+                            else
+                            {
+                                labelMonsterHP[i].Text = myMonster[i].HP.ToString();
+                                float labelHP = ((float)LABEL_HP_WIDTH / DOMA_HP) * myMonster[i].HP;
+                                labelMonsterHP[i].Size = new Size((int)labelHP, 10);
+                            }
+
+                            if (myMonster[i].HP <= 0)
+                            {
+                                monster[i].Image = Resources.explosion;
+                                await PutTaskDelay(500);
+
+                                monster[i].Visible = false;
+                                monster[i].Dispose();
+
+                                labelMonsterHP[i].Visible = false;
+                                labelMonsterHP[i].Dispose();
+
+                                myPlayer.Score += 100;
+                            }
+                        }
+                    }
+                }
+
+                // 子彈攻擊
                 for (int i = 0; i < monster.Length; i++)
                 {
                     if (nuclear <= 0)
@@ -359,6 +402,7 @@ namespace ProjectDemo_1
                     }
                 }
 
+                // 炸彈攻擊
                 for (int i = 0; i < monster.Length; i++)
                 {
                     if (nuclear <= 0)
@@ -438,6 +482,7 @@ namespace ProjectDemo_1
                     monsterTime = 3;
                 }
 
+                // 生怪
                 if (time % monsterTime == 0)
                 {
                     if (monsterCount >= MONSTER_MAX)
@@ -472,6 +517,45 @@ namespace ProjectDemo_1
                     if (time > SPEED_TIME)
                     {
                         time = 1;
+                    }
+                }
+
+                // 有染疫的怪物每秒扣血
+                if (time % 10 == 0)
+                {
+                    for (int i = 0; i < monster.Length; i++)
+                    {
+                        if (myMonster[i].Infected && monster[i].Visible)
+                        {
+                            myMonster[i].HP -= 50;
+
+                            if (myMonster[i].HP < 0)
+                            {
+                                labelMonsterHP[i].Text = "0";
+                                float labelHP = ((float)LABEL_HP_WIDTH / DOMA_HP) * 0;
+                                labelMonsterHP[i].Size = new Size((int)labelHP, 10);
+                            }
+                            else
+                            {
+                                labelMonsterHP[i].Text = myMonster[i].HP.ToString();
+                                float labelHP = ((float)LABEL_HP_WIDTH / DOMA_HP) * myMonster[i].HP;
+                                labelMonsterHP[i].Size = new Size((int)labelHP, 10);
+                            }
+
+                            if (myMonster[i].HP <= 0)
+                            {
+                                monster[i].Image = Resources.explosion;
+                                //await PutTaskDelay(500);
+
+                                monster[i].Visible = false;
+                                monster[i].Dispose();
+
+                                labelMonsterHP[i].Visible = false;
+                                labelMonsterHP[i].Dispose();
+
+                                myPlayer.Score += 100;
+                            }
+                        }
                     }
                 }
 
@@ -583,7 +667,7 @@ namespace ProjectDemo_1
 
                 //int randomHP = myRandom.Next(300, 501);
 
-                myMonster[i] = new Monster("M" + i.ToString(), "Doma", DOMA_HP);
+                myMonster[i] = new Monster("M" + i.ToString(), "Doma", DOMA_HP, false);
 
                 labelMonsterHP[i] = new Label();
 
@@ -684,7 +768,7 @@ namespace ProjectDemo_1
 
             if (0 <= imageIndex && imageIndex < 40)
             {
-                p.Image = Resources.bullet;
+                p.Image = Resources.bullet_bead;
                 p.Image.Tag = "1";
             }
             else if (40 <= imageIndex && imageIndex < 70)
@@ -697,15 +781,20 @@ namespace ProjectDemo_1
                 p.Image = Resources.white_bead;
                 p.Image.Tag = "3";
             }
-            else if (95 <= imageIndex && imageIndex < 98)
+            else if (95 <= imageIndex && imageIndex < 97)
             {
                 p.Image = Resources.ice_bead;
                 p.Image.Tag = "4";
             }
-            else 
+            else if (97 <= imageIndex && imageIndex < 98)
             {
                 p.Image = Resources.nuclear_bead;
                 p.Image.Tag = "5";
+            }
+            else
+            {
+                p.Image = Resources.virus_bead;
+                p.Image.Tag = "6";
             }
         }
 
@@ -943,6 +1032,9 @@ namespace ProjectDemo_1
                 case "5":
                     nuclear++;
                     break;
+                case "6":
+                    virus++;
+                    break;
             }
         }
 
@@ -994,7 +1086,7 @@ namespace ProjectDemo_1
         private void ResetComboCount()
         {
             combo = 0;
-            bullet = 0; bomb = 0; white = 0; ice = 0; nuclear = 0;
+            bullet = 0; bomb = 0; white = 0; ice = 0; nuclear = 0; virus = 0;
         }
 
         // 延遲時間
@@ -1058,7 +1150,7 @@ namespace ProjectDemo_1
                 pictureBoxIce.Image = Resources.ice;
                 pictureBoxIce.Size = new Size(400, 400);
                 pictureBoxIce.SizeMode = PictureBoxSizeMode.Zoom;
-                pictureBoxIce.Name = "Bomb";
+                pictureBoxIce.Name = "Ice";
 
                 panelFight.Controls.Add(pictureBoxIce);
 
@@ -1068,6 +1160,23 @@ namespace ProjectDemo_1
 
                 pictureBoxIce.Dispose();
                 timerMain.Start();
+            }
+
+            // 病毒
+            if (virus > 0 && nuclear <= 0)
+            {
+                pictureBoxVirus = new PictureBox();
+                pictureBoxVirus.Location = new Point(250, 50);
+                pictureBoxVirus.Image = Resources.virus;
+                pictureBoxVirus.Size = new Size(400, 400);
+                pictureBoxVirus.SizeMode = PictureBoxSizeMode.Zoom;
+                pictureBoxVirus.Name = "Virus";
+
+                panelFight.Controls.Add(pictureBoxVirus);
+
+                await PutTaskDelay(1000);
+
+                pictureBoxVirus.Dispose();
             }
         }
 
