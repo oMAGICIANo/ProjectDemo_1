@@ -43,7 +43,7 @@ namespace ProjectDemo_1
         // 升級速度
         private const int SPEED_TIME = 300;
         // 設定玩家、怪物物件
-        private const int MONSTER_MAX = 20;
+        private const int MONSTER_MAX = 100;
         private Player myPlayer;
         private Monster[] myMonster = new Monster[MONSTER_MAX];
         private Label[] labelMonsterHP = new Label[MONSTER_MAX];
@@ -56,7 +56,8 @@ namespace ProjectDemo_1
         private int speed;
         private const int SPEED_MAX = 50;
         private const int SPEED_START = 1;
-        private const int DOMA_HP = 500;
+        private const int DOMA_HP = 300, GIANT_HP = 1000, FIRE_HP = 500;
+        private const int DOMA_POWER = 100, GIANT_POWER = 1000, FIRE_POWER = 3000;
         // 核彈、凍結特效
         private PictureBox pictureBoxBomb, pictureBoxIce, pictureBoxVirus;
         // 回復力
@@ -280,13 +281,13 @@ namespace ProjectDemo_1
                         if (myMonster[i].HP < 0)
                         {
                             labelMonsterHP[i].Text = "0";
-                            float labelHP = ((float)LABEL_HP_WIDTH / DOMA_HP) * 0;
+                            float labelHP = ((float)LABEL_HP_WIDTH / myMonster[i].HP_Max) * 0;
                             labelMonsterHP[i].Size = new Size((int)labelHP, 10);
                         }
                         else
                         { 
                             labelMonsterHP[i].Text = myMonster[i].HP.ToString();
-                            float labelHP = ((float)LABEL_HP_WIDTH / DOMA_HP) * myMonster[i].HP;
+                            float labelHP = ((float)LABEL_HP_WIDTH / myMonster[i].HP_Max) * myMonster[i].HP;
                             labelMonsterHP[i].Size = new Size((int)labelHP, 10);
                         }
 
@@ -329,18 +330,29 @@ namespace ProjectDemo_1
                         {
                             myMonster[i].Infected = true;
 
-                            monster[i].Image = Resources.monster_infected;
+                            if (myMonster[i].Type == "Doma")
+                            {
+                                monster[i].Image = Resources.doma_infected;
+                            }
+                            else if (myMonster[i].Type == "Giant")
+                            {
+                                monster[i].Image = Resources.giant_infected;
+                            }
+                            else
+                            {
+                                monster[i].Image = Resources.fire_infected;
+                            }
 
                             if (myMonster[i].HP < 0)
                             {
                                 labelMonsterHP[i].Text = "0";
-                                float labelHP = ((float)LABEL_HP_WIDTH / DOMA_HP) * 0;
+                                float labelHP = ((float)LABEL_HP_WIDTH / myMonster[i].HP_Max) * 0;
                                 labelMonsterHP[i].Size = new Size((int)labelHP, 10);
                             }
                             else
                             {
                                 labelMonsterHP[i].Text = myMonster[i].HP.ToString();
-                                float labelHP = ((float)LABEL_HP_WIDTH / DOMA_HP) * myMonster[i].HP;
+                                float labelHP = ((float)LABEL_HP_WIDTH / myMonster[i].HP_Max) * myMonster[i].HP;
                                 labelMonsterHP[i].Size = new Size((int)labelHP, 10);
                             }
 
@@ -362,83 +374,89 @@ namespace ProjectDemo_1
                 }
 
                 // 子彈攻擊
-                for (int i = 0; i < monster.Length; i++)
+                for (int j = 0; j < 900; j++)
                 {
-                    if (nuclear <= 0)
+                    for (int i = 0; i < monster.Length; i++)
                     {
-                        if (bullet > bulletCount && bullet > 0 && monster[i].Visible)
+                        if (nuclear <= 0)
                         {
-                            myMonster[i].HP -= 100;
-
-                            if (myMonster[i].HP < 0)
+                            if (bullet > bulletCount && bullet > 0 && monster[i].Visible && monster[i].Location.X == j)
                             {
-                                labelMonsterHP[i].Text = "0";
-                                float labelHP = ((float)LABEL_HP_WIDTH / DOMA_HP) * 0;
-                                labelMonsterHP[i].Size = new Size((int)labelHP, 10);
+                                myMonster[i].HP -= 100;
+
+                                if (myMonster[i].HP < 0)
+                                {
+                                    labelMonsterHP[i].Text = "0";
+                                    float labelHP = ((float)LABEL_HP_WIDTH / myMonster[i].HP_Max) * 0;
+                                    labelMonsterHP[i].Size = new Size((int)labelHP, 10);
+                                }
+                                else
+                                {
+                                    labelMonsterHP[i].Text = myMonster[i].HP.ToString();
+                                    float labelHP = ((float)LABEL_HP_WIDTH / myMonster[i].HP_Max) * myMonster[i].HP;
+                                    labelMonsterHP[i].Size = new Size((int)labelHP, 10);
+                                }
+
+                                if (myMonster[i].HP <= 0)
+                                {
+                                    monster[i].Image = Resources.explosion;
+                                    await PutTaskDelay(500);
+
+                                    monster[i].Visible = false;
+                                    monster[i].Dispose();
+
+                                    labelMonsterHP[i].Visible = false;
+                                    labelMonsterHP[i].Dispose();
+
+                                    myPlayer.Score += 100;
+                                }
+
+                                bulletCount++;
                             }
-                            else
-                            {
-                                labelMonsterHP[i].Text = myMonster[i].HP.ToString();
-                                float labelHP = ((float)LABEL_HP_WIDTH / DOMA_HP) * myMonster[i].HP;
-                                labelMonsterHP[i].Size = new Size((int)labelHP, 10);
-                            }
-
-                            if (myMonster[i].HP <= 0)
-                            {
-                                monster[i].Image = Resources.explosion;
-                                await PutTaskDelay(500);
-
-                                monster[i].Visible = false;
-                                monster[i].Dispose();
-
-                                labelMonsterHP[i].Visible = false;
-                                labelMonsterHP[i].Dispose();
-
-                                myPlayer.Score += 100;
-                            }
-
-                            bulletCount++;
                         }
                     }
                 }
 
                 // 炸彈攻擊
-                for (int i = 0; i < monster.Length; i++)
+                for (int j = 0; j < 900; j++)
                 {
-                    if (nuclear <= 0)
+                    for (int i = 0; i < monster.Length; i++)
                     {
-                        if (bomb > bombCount && bomb > 0 && monster[i].Visible)
+                        if (nuclear <= 0)
                         {
-                            myMonster[i].HP -= 300;
-
-                            if (myMonster[i].HP < 0)
+                            if (bomb > bombCount && bomb > 0 && monster[i].Visible && monster[i].Location.X == j)
                             {
-                                labelMonsterHP[i].Text = "0";
-                                float labelHP = ((float)LABEL_HP_WIDTH / DOMA_HP) * 0;
-                                labelMonsterHP[i].Size = new Size((int)labelHP, 10);
+                                myMonster[i].HP -= 300;
+
+                                if (myMonster[i].HP < 0)
+                                {
+                                    labelMonsterHP[i].Text = "0";
+                                    float labelHP = ((float)LABEL_HP_WIDTH / myMonster[i].HP_Max) * 0;
+                                    labelMonsterHP[i].Size = new Size((int)labelHP, 10);
+                                }
+                                else
+                                {
+                                    labelMonsterHP[i].Text = myMonster[i].HP.ToString();
+                                    float labelHP = ((float)LABEL_HP_WIDTH / myMonster[i].HP_Max) * myMonster[i].HP;
+                                    labelMonsterHP[i].Size = new Size((int)labelHP, 10);
+                                }
+
+                                if (myMonster[i].HP <= 0)
+                                {
+                                    monster[i].Image = Resources.explosion;
+                                    await PutTaskDelay(500);
+
+                                    monster[i].Visible = false;
+                                    monster[i].Dispose();
+
+                                    labelMonsterHP[i].Visible = false;
+                                    labelMonsterHP[i].Dispose();
+
+                                    myPlayer.Score += 100;
+                                }
+
+                                bombCount++;
                             }
-                            else
-                            {
-                                labelMonsterHP[i].Text = myMonster[i].HP.ToString();
-                                float labelHP = ((float)LABEL_HP_WIDTH / DOMA_HP) * myMonster[i].HP;
-                                labelMonsterHP[i].Size = new Size((int)labelHP, 10);
-                            }
-
-                            if (myMonster[i].HP <= 0)
-                            {
-                                monster[i].Image = Resources.explosion;
-                                await PutTaskDelay(500);
-
-                                monster[i].Visible = false;
-                                monster[i].Dispose();
-
-                                labelMonsterHP[i].Visible = false;
-                                labelMonsterHP[i].Dispose();
-
-                                myPlayer.Score += 100;
-                            }
-
-                            bombCount++;
                         }
                     }
                 }
@@ -532,13 +550,13 @@ namespace ProjectDemo_1
                             if (myMonster[i].HP < 0)
                             {
                                 labelMonsterHP[i].Text = "0";
-                                float labelHP = ((float)LABEL_HP_WIDTH / DOMA_HP) * 0;
+                                float labelHP = ((float)LABEL_HP_WIDTH / myMonster[i].HP_Max) * 0;
                                 labelMonsterHP[i].Size = new Size((int)labelHP, 10);
                             }
                             else
                             {
                                 labelMonsterHP[i].Text = myMonster[i].HP.ToString();
-                                float labelHP = ((float)LABEL_HP_WIDTH / DOMA_HP) * myMonster[i].HP;
+                                float labelHP = ((float)LABEL_HP_WIDTH / myMonster[i].HP_Max) * myMonster[i].HP;
                                 labelMonsterHP[i].Size = new Size((int)labelHP, 10);
                             }
 
@@ -563,9 +581,9 @@ namespace ProjectDemo_1
                 {
                     if (monster[i].Visible)
                     {
-                        monster[i].Location = new Point(monster[i].Location.X - speed,
+                        monster[i].Location = new Point(monster[i].Location.X - myMonster[i].Speed * speed,
                                                         monster[i].Location.Y);
-                        labelMonsterHP[i].Location = new Point(labelMonsterHP[i].Location.X - speed,
+                        labelMonsterHP[i].Location = new Point(labelMonsterHP[i].Location.X - myMonster[i].Speed * speed,
                                                                labelMonsterHP[i].Location.Y);
                     }
 
@@ -577,7 +595,7 @@ namespace ProjectDemo_1
                         labelMonsterHP[i].Visible = false;
                         labelMonsterHP[i].Dispose();
 
-                        myPlayer.HP -= DAMAGE;
+                        myPlayer.HP -= myMonster[i].Power;
 
                         float pictureboxHP = ((float)PICTUREBOX_WIDTH / PLAYER_HP) * myPlayer.HP;
                         pictureBoxHP.Size = new Size((int)pictureboxHP, 25);
@@ -667,8 +685,6 @@ namespace ProjectDemo_1
 
                 //int randomHP = myRandom.Next(300, 501);
 
-                myMonster[i] = new Monster("M" + i.ToString(), "Doma", DOMA_HP, false);
-
                 labelMonsterHP[i] = new Label();
 
                 monster[i] = new PictureBox();
@@ -686,22 +702,36 @@ namespace ProjectDemo_1
                 labelMonsterHP[i].BackColor = Color.Red;
                 labelMonsterHP[i].Font = new System.Drawing.Font("Arial", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 
-                labelMonsterHP[i].Text = myMonster[i].HP.ToString();
-
                 System.Drawing.Drawing2D.GraphicsPath path = new System.Drawing.Drawing2D.GraphicsPath();
                 path.AddEllipse(monster[i].ClientRectangle);
                 Region reg = new Region(path);
                 monster[i].Region = reg;
 
-                int randomImage = myRandom.Next(0, 1);
+                int randomImage = myRandom.Next(0, 3);
 
                 switch (randomImage)
                 {
                     case 0:
-                        monster[i].Image = Resources.monster;
+                        myMonster[i] = new Monster("M" + i.ToString(), "Doma", DOMA_HP, false, DOMA_POWER);
+
+                        monster[i].Image = Resources.doma;
                         monster[i].Image.Tag = "1";
                         break;
+                    case 1:
+                        myMonster[i] = new Monster("M" + i.ToString(), "Giant", GIANT_HP, false, GIANT_POWER);
+
+                        monster[i].Image = Resources.giant;
+                        monster[i].Image.Tag = "2";
+                        break;
+                    case 2:
+                        myMonster[i] = new Monster("M" + i.ToString(), "Fire", FIRE_HP, false, FIRE_POWER);
+
+                        monster[i].Image = Resources.fire;
+                        monster[i].Image.Tag = "3";
+                        break;
                 }
+
+                labelMonsterHP[i].Text = myMonster[i].HP.ToString();
 
                 monster[i].Visible = false;
                 labelMonsterHP[i].Visible = false;

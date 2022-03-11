@@ -10,6 +10,9 @@ namespace ProjectDemo_1
         private string type;
         private int hp;
         private bool infected;
+        private int hpMax;
+        private int power;
+        private int speed;
 
         public Monster()
         {
@@ -17,14 +20,32 @@ namespace ProjectDemo_1
             type = "None";
             hp = 1;
             infected = false;
+            hpMax = 1;
+            power = 1;
+            speed = 1;
         }
 
-        public Monster(string name, string type, int hp, bool infected)
+        public Monster(string name, string type, int hp, bool infected, int power)
         {
             this.name = name;
             this.type = type;
             this.hp = hp;
+            this.hpMax = hp;
             this.infected = infected;
+            this.power = power;
+
+            if (type == "Doma")
+            {
+                this.speed = 3;
+            }
+            else if (type == "Giant")
+            {
+                this.speed = 1;
+            }
+            else 
+            {
+                this.speed = 5;    
+            }
         }
 
         public string Name
@@ -67,5 +88,28 @@ namespace ProjectDemo_1
             }
         }
 
+        public int HP_Max
+        {
+            get
+            {
+                return this.hpMax;
+            }
+        }
+
+        public int Power
+        {
+            get
+            {
+                return this.power;
+            }
+        }
+
+        public int Speed
+        {
+            get
+            {
+                return this.speed;
+            }
+        }
     }
 }
