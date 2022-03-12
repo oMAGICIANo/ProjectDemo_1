@@ -47,7 +47,7 @@ namespace ProjectDemo_1
         private Player myPlayer;
         private Monster[] myMonster = new Monster[MONSTER_MAX];
         private Label[] labelMonsterHP = new Label[MONSTER_MAX];
-        private const int PLAYER_HP = 10000;
+        private const int PLAYER_HP = 1000000;
         private const int PICTUREBOX_WIDTH = 940;
         private const int LABEL_HP_WIDTH = 40;
         private int monsterCount;
@@ -98,9 +98,13 @@ namespace ProjectDemo_1
             path.AddEllipse(pictureBoxRestart.ClientRectangle);
             pictureBoxRestart.Region = reg;
 
+            path.AddEllipse(pictureBoxAuto.ClientRectangle);
+            pictureBoxAuto.Region = reg;
+
             pictureBoxStart.Click += new System.EventHandler(this.buttonStart_Click);
             pictureBoxStop.Click += new System.EventHandler(this.buttonStop_Click);
             pictureBoxRestart.Click += new System.EventHandler(this.buttonRestart_Click);
+            pictureBoxAuto.Click += new System.EventHandler(this.buttonBoxAuto_Click);
         }
 
         private async void pictureBox_MouseUp(object sender, MouseEventArgs e)
@@ -659,6 +663,7 @@ namespace ProjectDemo_1
         {
             pictureBoxStop.Visible = false;
             pictureBoxRestart.Visible = false;
+            pictureBoxAuto.Visible = false;
 
             //Form.CheckForIllegalCrossThreadCalls = false;
 
@@ -746,10 +751,23 @@ namespace ProjectDemo_1
             pictureBoxStart.Visible = false;
             pictureBoxStop.Visible = true;
             pictureBoxRestart.Visible = false;
+            pictureBoxAuto.Visible = true;
 
             timerMain.Start();
 
             EnabledTurnBead(true);
+        }
+
+        // 自動轉珠
+        private void buttonBoxAuto_Click(object sender, EventArgs e)
+        {
+            // 停止手動控制轉珠
+            // 從第一個珠子開始到第30顆珠子，看哪一顆起手轉珠可以最少步完成
+            // 
+
+
+            // 自動轉珠完成
+            // 開啟手動控制轉珠
         }
 
         // 暫停遊戲
@@ -758,6 +776,7 @@ namespace ProjectDemo_1
             pictureBoxStart.Visible = true;
             pictureBoxStop.Visible = false;
             pictureBoxRestart.Visible = true;
+            pictureBoxAuto.Visible = false;
 
             timerMain.Stop();
 
@@ -782,6 +801,7 @@ namespace ProjectDemo_1
             pictureBoxStart.Visible = false;
             pictureBoxStop.Visible = true;
             pictureBoxRestart.Visible = false;
+            pictureBoxAuto.Visible = true;
 
             timerMain.Start();
 
@@ -1150,6 +1170,7 @@ namespace ProjectDemo_1
             pictureBoxRestart.Enabled = flag;
             pictureBoxStart.Enabled = flag;
             pictureBoxStop.Enabled = flag;
+            pictureBoxAuto.Enabled = flag;
         }
 
         // 觸發技能

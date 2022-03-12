@@ -42,11 +42,13 @@ namespace ProjectDemo_1
             this.pictureBoxStop = new System.Windows.Forms.PictureBox();
             this.pictureBoxStart = new System.Windows.Forms.PictureBox();
             this.timerMain = new System.Windows.Forms.Timer(this.components);
+            this.pictureBoxAuto = new System.Windows.Forms.PictureBox();
             this.panelFight.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxHP)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxRestart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStop)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStart)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAuto)).BeginInit();
             this.SuspendLayout();
             // 
             // panelGrid
@@ -71,6 +73,7 @@ namespace ProjectDemo_1
             // panelFight
             // 
             this.panelFight.BackColor = System.Drawing.Color.LemonChiffon;
+            this.panelFight.Controls.Add(this.pictureBoxAuto);
             this.panelFight.Controls.Add(this.labelSpeed);
             this.panelFight.Controls.Add(this.pictureBoxHP);
             this.panelFight.Controls.Add(this.labelHP);
@@ -158,6 +161,17 @@ namespace ProjectDemo_1
             // 
             this.timerMain.Tick += new System.EventHandler(this.timerMain_Tick);
             // 
+            // pictureBoxAuto
+            // 
+            this.pictureBoxAuto.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxAuto.Image")));
+            this.pictureBoxAuto.Location = new System.Drawing.Point(622, 0);
+            this.pictureBoxAuto.Name = "pictureBoxAuto";
+            this.pictureBoxAuto.Size = new System.Drawing.Size(75, 75);
+            this.pictureBoxAuto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxAuto.TabIndex = 13;
+            this.pictureBoxAuto.TabStop = false;
+            this.pictureBoxAuto.Click += new System.EventHandler(this.buttonBoxAuto_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -180,6 +194,7 @@ namespace ProjectDemo_1
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxRestart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStop)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStart)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAuto)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -196,6 +211,7 @@ namespace ProjectDemo_1
         private System.Windows.Forms.PictureBox pictureBoxStart;
         private System.Windows.Forms.PictureBox pictureBoxStop;
         private System.Windows.Forms.PictureBox pictureBoxRestart;
+        private System.Windows.Forms.PictureBox pictureBoxAuto;
     }
 }
 
