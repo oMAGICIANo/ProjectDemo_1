@@ -34,6 +34,7 @@ namespace ProjectDemo_1
             this.panelGrid = new System.Windows.Forms.Panel();
             this.labelCombo = new System.Windows.Forms.Label();
             this.panelFight = new System.Windows.Forms.Panel();
+            this.pictureBoxAuto = new System.Windows.Forms.PictureBox();
             this.labelSpeed = new System.Windows.Forms.Label();
             this.pictureBoxHP = new System.Windows.Forms.PictureBox();
             this.labelHP = new System.Windows.Forms.Label();
@@ -42,13 +43,13 @@ namespace ProjectDemo_1
             this.pictureBoxStop = new System.Windows.Forms.PictureBox();
             this.pictureBoxStart = new System.Windows.Forms.PictureBox();
             this.timerMain = new System.Windows.Forms.Timer(this.components);
-            this.pictureBoxAuto = new System.Windows.Forms.PictureBox();
+            this.timerAuto = new System.Windows.Forms.Timer(this.components);
             this.panelFight.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAuto)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxHP)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxRestart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStop)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStart)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAuto)).BeginInit();
             this.SuspendLayout();
             // 
             // panelGrid
@@ -63,10 +64,10 @@ namespace ProjectDemo_1
             // labelCombo
             // 
             this.labelCombo.AutoSize = true;
-            this.labelCombo.Font = new System.Drawing.Font("Arial Narrow", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelCombo.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelCombo.Location = new System.Drawing.Point(3, 411);
             this.labelCombo.Name = "labelCombo";
-            this.labelCombo.Size = new System.Drawing.Size(117, 29);
+            this.labelCombo.Size = new System.Drawing.Size(145, 29);
             this.labelCombo.TabIndex = 3;
             this.labelCombo.Text = "labelCombo";
             // 
@@ -87,13 +88,24 @@ namespace ProjectDemo_1
             this.panelFight.Size = new System.Drawing.Size(940, 500);
             this.panelFight.TabIndex = 4;
             // 
+            // pictureBoxAuto
+            // 
+            this.pictureBoxAuto.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxAuto.Image")));
+            this.pictureBoxAuto.Location = new System.Drawing.Point(622, 0);
+            this.pictureBoxAuto.Name = "pictureBoxAuto";
+            this.pictureBoxAuto.Size = new System.Drawing.Size(75, 75);
+            this.pictureBoxAuto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxAuto.TabIndex = 13;
+            this.pictureBoxAuto.TabStop = false;
+            this.pictureBoxAuto.Click += new System.EventHandler(this.buttonBoxAuto_Click);
+            // 
             // labelSpeed
             // 
             this.labelSpeed.AutoSize = true;
-            this.labelSpeed.Font = new System.Drawing.Font("Arial Narrow", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelSpeed.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelSpeed.Location = new System.Drawing.Point(3, 0);
             this.labelSpeed.Name = "labelSpeed";
-            this.labelSpeed.Size = new System.Drawing.Size(94, 29);
+            this.labelSpeed.Size = new System.Drawing.Size(109, 29);
             this.labelSpeed.TabIndex = 12;
             this.labelSpeed.Text = "Speed：";
             // 
@@ -110,20 +122,20 @@ namespace ProjectDemo_1
             // 
             this.labelHP.AutoSize = true;
             this.labelHP.BackColor = System.Drawing.Color.Transparent;
-            this.labelHP.Font = new System.Drawing.Font("Arial Narrow", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelHP.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelHP.Location = new System.Drawing.Point(3, 441);
             this.labelHP.Name = "labelHP";
-            this.labelHP.Size = new System.Drawing.Size(61, 29);
+            this.labelHP.Size = new System.Drawing.Size(71, 29);
             this.labelHP.TabIndex = 7;
             this.labelHP.Text = "HP: 0";
             // 
             // labelGamePoint
             // 
             this.labelGamePoint.AutoSize = true;
-            this.labelGamePoint.Font = new System.Drawing.Font("Arial Narrow", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelGamePoint.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelGamePoint.Location = new System.Drawing.Point(3, 30);
             this.labelGamePoint.Name = "labelGamePoint";
-            this.labelGamePoint.Size = new System.Drawing.Size(89, 29);
+            this.labelGamePoint.Size = new System.Drawing.Size(101, 29);
             this.labelGamePoint.TabIndex = 5;
             this.labelGamePoint.Text = "Score：";
             // 
@@ -161,16 +173,10 @@ namespace ProjectDemo_1
             // 
             this.timerMain.Tick += new System.EventHandler(this.timerMain_Tick);
             // 
-            // pictureBoxAuto
+            // timerAuto
             // 
-            this.pictureBoxAuto.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxAuto.Image")));
-            this.pictureBoxAuto.Location = new System.Drawing.Point(622, 0);
-            this.pictureBoxAuto.Name = "pictureBoxAuto";
-            this.pictureBoxAuto.Size = new System.Drawing.Size(75, 75);
-            this.pictureBoxAuto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBoxAuto.TabIndex = 13;
-            this.pictureBoxAuto.TabStop = false;
-            this.pictureBoxAuto.Click += new System.EventHandler(this.buttonBoxAuto_Click);
+            this.timerAuto.Interval = 250;
+            this.timerAuto.Tick += new System.EventHandler(this.timerAuto_Tick);
             // 
             // Form1
             // 
@@ -190,11 +196,11 @@ namespace ProjectDemo_1
             this.Load += new System.EventHandler(this.Form1_Load);
             this.panelFight.ResumeLayout(false);
             this.panelFight.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAuto)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxHP)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxRestart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStop)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStart)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAuto)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -212,6 +218,7 @@ namespace ProjectDemo_1
         private System.Windows.Forms.PictureBox pictureBoxStop;
         private System.Windows.Forms.PictureBox pictureBoxRestart;
         private System.Windows.Forms.PictureBox pictureBoxAuto;
+        private System.Windows.Forms.Timer timerAuto;
     }
 }
 

@@ -61,7 +61,14 @@ namespace ProjectDemo_1
         // 核彈、凍結特效
         private PictureBox pictureBoxBomb, pictureBoxIce, pictureBoxVirus;
         // 回復力
-        private const int RESILIENCE = 100; 
+        private const int RESILIENCE = 100;
+        // 起手珠
+        private PictureBox startBead;
+        private int autoStartX, autoStartY;
+        // 自動轉珠路徑
+        private string autoPath = "";
+        // 移動步數
+        private int stepCount = 0;
 
         public Form1()
         {
@@ -761,13 +768,86 @@ namespace ProjectDemo_1
         // 自動轉珠
         private void buttonBoxAuto_Click(object sender, EventArgs e)
         {
-            // 停止手動控制轉珠
-            // 從第一個珠子開始到第30顆珠子，看哪一顆起手轉珠可以最少步完成
+            // 開始
+            EnabledTurnBead(false);
+
+            // 找左下角珠子當起手珠
+            startBead = new PictureBox();
+            startBead = beadGrid[4, 0];
+            startBead.Image = Resources.red_bead;
+            startBead.BringToFront();
+
+            autoStartX = startBead.Location.X;
+            autoStartY = startBead.Location.Y;
+
+            // 產生自動轉珠路徑
+            autoPath = GeneratePath();
+            autoPath = "NNNNESSSSENNNNESSSSENNNNESSSSWWWWW";
+            stepCount = 0;
+
+            // 開啟自動轉珠計時器
+            timerAuto.Start();
+
+            // 結束
+            EnabledTurnBead(true);
+        }
+
+        private string GeneratePath()
+        {
             // 
 
+            return "";
+        }
 
-            // 自動轉珠完成
-            // 開啟手動控制轉珠
+        // 自動轉珠 計時器
+        private void timerAuto_Tick(object sender, EventArgs e)
+        {
+            string tempPath = autoPath.Substring(stepCount, 1);
+
+            switch (tempPath)
+            {
+                case "N":
+                    startBead.Location = new Point(startBead.Location.X, startBead.Location.Y - 100);
+                    break;
+                case "S":
+                    startBead.Location = new Point(startBead.Location.X, startBead.Location.Y + 100);
+                    break;
+                case "W":
+                    startBead.Location = new Point(startBead.Location.X - 100, startBead.Location.Y);
+                    break;
+                case "E":
+                    startBead.Location = new Point(startBead.Location.X + 100, startBead.Location.Y);
+                    break;
+            }
+
+            AutoChange();
+            FindBeadPoint();
+
+            stepCount++;
+
+            if (stepCount == autoPath.Length)
+            {
+                timerAuto.Stop();
+            }
+            
+
+        }
+
+        // 自動轉珠 交換
+        private void AutoChange()
+        {
+            for (int i = 0; i < ROW; i++)
+            {
+                for (int j = 0; j < COLUMN; j++)
+                {
+                    if (beadGrid[i, j].Location == startBead.Location && beadGrid[i, j].Name != startBead.Name)
+                    {
+                        beadGrid[i, j].Location = new Point(autoStartX, autoStartY);
+                        autoStartX = startBead.Location.X;
+                        autoStartY = startBead.Location.Y;
+                    }
+                }
+            }
         }
 
         // 暫停遊戲
