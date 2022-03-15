@@ -47,7 +47,7 @@ namespace ProjectDemo_1
         private Player myPlayer;
         private Monster[] myMonster = new Monster[MONSTER_MAX];
         private Label[] labelMonsterHP = new Label[MONSTER_MAX];
-        private const int PLAYER_HP = 1000000;
+        private const int PLAYER_HP = 1000;
         private const int PICTUREBOX_WIDTH = 940;
         private const int LABEL_HP_WIDTH = 40;
         private int monsterCount;
@@ -69,6 +69,13 @@ namespace ProjectDemo_1
         private string autoPath = "";
         // 移動步數
         private int stepCount = 0;
+        // 計算各種珠子共有幾顆
+        int bulletCount = 0, bombCount = 0, whiteCount = 0, iceCount = 0, nuclearCount = 0, virusCount = 0;
+        // 要移動珠子的座標
+        int targetRow, targetColumn;
+        string targetImageTag;
+        // 到達位置的珠子
+        private bool[,] finishBead = new bool[ROW, COLUMN];
 
         public Form1()
         {
@@ -76,6 +83,12 @@ namespace ProjectDemo_1
         }
 
         private void Form1_Load(object sender, EventArgs e)
+        {
+            StartGame();
+        }
+
+        // 開始遊戲
+        private void StartGame()
         {
             InitGrid();
             DisplayBeadInfo();
@@ -611,6 +624,7 @@ namespace ProjectDemo_1
                         float pictureboxHP = ((float)PICTUREBOX_WIDTH / PLAYER_HP) * myPlayer.HP;
                         pictureBoxHP.Size = new Size((int)pictureboxHP, 25);
 
+                        // 玩家死亡
                         if (myPlayer.HP <= 0)
                         {
                             timerMain.Stop();
@@ -765,46 +779,68 @@ namespace ProjectDemo_1
             EnabledTurnBead(true);
         }
 
-        // 自動轉珠
+        // 自動轉珠 /// 向未完成 ///
         private void buttonBoxAuto_Click(object sender, EventArgs e)
         {
             // 開始
             EnabledTurnBead(false);
+            EnabledButton(false);
+            FindBeadPoint();
 
             // 找左下角珠子當起手珠
             startBead = new PictureBox();
-            startBead = beadGrid[4, 0];
-            startBead.Image = Resources.red_bead;
-            startBead.BringToFront();
+            startBead = numberGrid[4, 0];
 
             autoStartX = startBead.Location.X;
             autoStartY = startBead.Location.Y;
 
-            // 產生自動轉珠路徑
-            autoPath = GeneratePath();
-            autoPath = "NNNNESSSSENNNNESSSSENNNNESSSSWWWWW";
+            // 步數
             stepCount = 0;
+
+            // 查看版面珠子種類各有多少顆
+            bulletCount = 0; bombCount = 0; whiteCount = 0; iceCount = 0; nuclearCount = 0; virusCount = 0;
+
+            for (int i = 0; i < ROW; i++)
+            {
+                for (int j = 0; j < COLUMN; j++)
+                {
+                    switch (numberGrid[i, j].Image.Tag)
+                    {
+                        case "1":
+                            bulletCount++;
+                            break;
+                        case "2":
+                            bombCount++;
+                            break;
+                        case "3":
+                            whiteCount++;
+                            break;
+                        case "4":
+                            iceCount++;
+                            break;
+                        case "5":
+                            nuclearCount++;
+                            break;
+                        case "6":
+                            virusCount++;
+                            break;
+                    }
+                }
+            }
 
             // 開啟自動轉珠計時器
             timerAuto.Start();
 
             // 結束
-            EnabledTurnBead(true);
-        }
-
-        private string GeneratePath()
-        {
-            // 
-
-            return "";
+            
         }
 
         // 自動轉珠 計時器
         private void timerAuto_Tick(object sender, EventArgs e)
         {
-            string tempPath = autoPath.Substring(stepCount, 1);
+            string path = "E";
 
-            switch (tempPath)
+            switch (path)
             {
                 case "N":
                     startBead.Location = new Point(startBead.Location.X, startBead.Location.Y - 100);
@@ -825,12 +861,13 @@ namespace ProjectDemo_1
 
             stepCount++;
 
-            if (stepCount == autoPath.Length)
+            // 結束
+            if (stepCount == path.Length)
             {
                 timerAuto.Stop();
+                EnabledTurnBead(true);
+                EnabledButton(true);
             }
-            
-
         }
 
         // 自動轉珠 交換
@@ -894,6 +931,7 @@ namespace ProjectDemo_1
         {
             Random myRandom = new Random();
 
+            //int imageIndex = myRandom.Next(0, 6);
             int imageIndex = myRandom.Next(0, 100);
 
             if (0 <= imageIndex && imageIndex < 40)
@@ -926,6 +964,35 @@ namespace ProjectDemo_1
                 p.Image = Resources.virus_bead;
                 p.Image.Tag = "6";
             }
+
+            //switch (imageIndex)
+            //{
+            //    case 0:
+            //        p.Image = Resources.bullet_bead;
+            //        p.Image.Tag = "1";
+            //        break;
+            //    case 1:
+            //        p.Image = Resources.bomb_bead;
+            //        p.Image.Tag = "2";
+            //        break;
+            //    case 2:
+            //        p.Image = Resources.white_bead;
+            //        p.Image.Tag = "3";
+            //        break;
+            //    case 3:
+            //        p.Image = Resources.ice_bead;
+            //        p.Image.Tag = "4";
+            //        break;
+            //    case 4:
+            //        p.Image = Resources.nuclear_bead;
+            //        p.Image.Tag = "5";
+            //        break;
+            //    case 5:
+            //        p.Image = Resources.virus_bead;
+            //        p.Image.Tag = "6";
+            //        break;
+
+            //}
         }
 
         // 顯示珠子資訊
